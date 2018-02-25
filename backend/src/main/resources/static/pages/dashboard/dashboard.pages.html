@@ -1,0 +1,26 @@
+<h3>dashboard page</h3>
+<button type="button" class="btn btn-secondary" ng-click="ctrl.createIncident()">Create Incident</button>
+
+<div class="container">
+	<div class="row" ng-repeat="vehicle in ctrl.getAllVehicles()">
+		<div class="col">
+			{{vehicle.id}}
+		</div>
+		<div class="col">
+			{{vehicle.vehicleType}}
+		</div>
+		<div class="col">
+			{{vehicle.vehicleStatus}}
+		</div>
+		<div class="col">
+			{{vehicle.incident}}
+		</div>
+		<div class="col">
+			{{vehicle.arrivalTimeAtIncident | date : 'mediumTime'}}
+		</div>
+		<div class="col">
+			<select ng-model="selectedIncident" ng-change="ctrl.sendVehicleToIncident(vehicle.id, selectedIncident.id)" ng-options="incident.id for incident in ctrl.getAllIncidents()">
+			</select>
+		</div>
+	</div>
+</div>
