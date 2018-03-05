@@ -42,7 +42,7 @@ public class VehicleFactoryTest {
 	@Before
 	public void setup() {
 		when(locationFactory.createDefaultVehicleLocation()).thenReturn(location);
-		ambulance = vehicleFactory.createVehicle(VehicleType.AMBULANCE);
+		ambulance = vehicleFactory.createBasicAmbulance();
 	}
 
 	@Test

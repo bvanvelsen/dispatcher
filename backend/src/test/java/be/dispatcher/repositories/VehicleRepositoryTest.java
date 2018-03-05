@@ -23,7 +23,7 @@ public class VehicleRepositoryTest extends DispatcherSpringJunit4Test {
 
 	@Before
 	public void setup() {
-		ambulance = vehicleFactory.createVehicle(VehicleType.AMBULANCE);
+		ambulance = vehicleFactory.createBasicAmbulance();
 	}
 
 	@Test

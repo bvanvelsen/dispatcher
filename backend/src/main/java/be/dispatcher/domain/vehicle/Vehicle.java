@@ -15,7 +15,7 @@ import be.dispatcher.domain.vehicle.statushandlers.StatusHandler;
 import be.dispatcher.domain.vehicle.statushandlers.StatusHandlerFactory;
 
 @Configurable(preConstruction = true, autowire = Autowire.BY_TYPE)
-public class Vehicle implements Ticks {
+public abstract class Vehicle implements Ticks {
 
 	private static final StatusHandlerFactory STATUS_HANDLER_FACTORY = new StatusHandlerFactory();
 	private final String id;
@@ -26,9 +26,10 @@ public class Vehicle implements Ticks {
 	private Incident incident;
 	private Route route;
 
-	Vehicle(Integer speed, Location location, VehicleType vehicleType) {
+	Vehicle(Location location, VehicleType vehicleType) {
+		vehicleStatus = VehicleStatus.AT_BASE;
 		this.id = UUID.randomUUID().toString();
-		this.speed = speed;
+		this.speed = vehicleType.getSpeed();
 		this.location = location;
 		this.vehicleType = vehicleType;
 	}
@@ -69,10 +70,6 @@ public class Vehicle implements Ticks {
 		return location;
 	}
 
-	private void determineStatus() {
-		System.out.println(vehicleStatus);
-	}
-
 	public Route getRoute() {
 		return route;
 	}
@@ -94,7 +91,7 @@ public class Vehicle implements Ticks {
 	public void tick() {
 		Optional<StatusHandler> handlerOptional = STATUS_HANDLER_FACTORY.getStatusHandler(this);
 		handlerOptional.ifPresent(statusHandler -> statusHandler.handleStatus());
-		System.out.println(this);
+//		System.out.println(this);
 	}
 
 	public void goToIncident(Incident incident, Route route) {
@@ -107,4 +104,10 @@ public class Vehicle implements Ticks {
 		vehicleStatus = VehicleStatus.AT_INCIDENT;
 		this.route = null;
 	}
+
+	public boolean hasEmptySpaces() {
+		return false;
+	}
+
+	public abstract void performJobAtIncidentLocation();
 }

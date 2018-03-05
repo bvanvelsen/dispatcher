@@ -12,6 +12,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import be.dispatcher.domain.location.Location;
 import be.dispatcher.domain.location.LocationFactory;
+import be.dispatcher.domain.people.VictimFactory;
 import be.dispatcher.repositories.IncidentRepository;
 import be.dispatcher.world.World;
 
@@ -29,6 +30,9 @@ public class IncidentFactoryTest {
 
 	@Mock
 	private Location location;
+
+	@Mock
+	private VictimFactory victimFactory;
 
 	@InjectMocks
 	private IncidentFactory incidentFactory;

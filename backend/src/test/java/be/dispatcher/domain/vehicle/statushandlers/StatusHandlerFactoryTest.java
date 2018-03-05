@@ -5,22 +5,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Optional;
 
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import be.dispatcher.domain.location.LocationBuilder;
+import be.dispatcher.DispatcherSpringJunit4Test;
 import be.dispatcher.domain.vehicle.Vehicle;
-import be.dispatcher.domain.vehicle.VehicleBuilder;
+import be.dispatcher.domain.vehicle.VehicleFactory;
 import be.dispatcher.domain.vehicle.VehicleStatus;
-import be.dispatcher.domain.vehicle.VehicleType;
 
-public class StatusHandlerFactoryTest {
+public class StatusHandlerFactoryTest extends DispatcherSpringJunit4Test {
+
+	@Autowired
+	private VehicleFactory vehicleFactory;
 
 	@Test
 	public void expectRespondingStatusHandlerWhenVehicleRespondingToIncident() {
-		Vehicle vehicle = VehicleBuilder.aVehicle()
-				.withVehicleStatus(VehicleStatus.RESPONDING)
-				.withVehicleType(VehicleType.AMBULANCE)
-				.withLocation(LocationBuilder.aLocation().build())
-				.build();
+		Vehicle vehicle = vehicleFactory.createBasicAmbulance();
+		vehicle.setVehicleStatus(VehicleStatus.RESPONDING);
 		Optional<StatusHandler> statusHandler = new StatusHandlerFactory().getStatusHandler(vehicle);
 		assertThat(statusHandler.get()).isInstanceOf(RespondingStatusHandler.class);
 	}

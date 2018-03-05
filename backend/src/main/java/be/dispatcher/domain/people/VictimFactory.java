@@ -1,6 +1,5 @@
 package be.dispatcher.domain.people;
 
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -10,19 +9,23 @@ import org.springframework.stereotype.Component;
 public class VictimFactory {
 
 	@Value("${victim.maxhealth}")
-	private Long maxHealth;
-
+	private Double maxHealth;
 
 	@Value("${victim.lightwounded.minhealth}")
-	private Long lightWoundedMinhealth;
+	private Double lightWoundedMinhealth;
 
-	public Victim createLightWounedVictim() {
-		Victim victim = VictimBuilder.aVictim()
-				.withHealth(getBoundedNumber(lightWoundedMinhealth, maxHealth))
-				.build();
+	@Value("${victim.lightwounded.healthlosspertick}")
+	private Double healthLossPerTick;
+
+	private double getBoundedNumber(Double min, Double max) {
+		return ThreadLocalRandom.current().doubles(min, max).findFirst().getAsDouble();
 	}
 
-	private long getBoundedNumber(long min, long max) {
-		return ThreadLocalRandom.current().longs(min,max).findFirst().getAsLong();
+	public Victim createLightWounedVictim() {
+		return VictimBuilder.aVictim()
+				.withHealth(getBoundedNumber(lightWoundedMinhealth, maxHealth))
+				.withHealthLossPerTick(healthLossPerTick)
+				.withInjuryLevel(InjuryLevel.MINOR)
+				.build();
 	}
 }

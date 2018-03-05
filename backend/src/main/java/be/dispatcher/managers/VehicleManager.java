@@ -30,18 +30,21 @@ public class VehicleManager {
 	private IncidentRepository incidentRepository;
 
 	public Vehicle createVehicle(VehicleType vehicleType) {
-		return vehicleFactory.createVehicle(vehicleType);
+		if (VehicleType.AMBULANCE.equals(vehicleType)) {
+			return vehicleFactory.createBasicAmbulance();
+		}
+		return null;
 	}
 
-	public List<Vehicle> getAllVehicles() {
-		return vehicleRepository.getVehicles();
-	}
+		public List<Vehicle> getAllVehicles () {
+			return vehicleRepository.getVehicles();
+		}
 
-	public Vehicle sendVehicleToIncident(String vehicleId, String incidentId) {
-		Vehicle vehicle = vehicleRepository.getVehicleById(vehicleId);
-		Incident incident = incidentRepository.getIncidentById(incidentId);
-		Route route = timeManager.calculateRoute(vehicle.getSpeed(), vehicle.getLocation(), incident.getLocation());
-		vehicle.goToIncident(incident, route);
-		return vehicle;
+		public Vehicle sendVehicleToIncident (String vehicleId, String incidentId){
+			Vehicle vehicle = vehicleRepository.getVehicleById(vehicleId);
+			Incident incident = incidentRepository.getIncidentById(incidentId);
+			Route route = timeManager.calculateRoute(vehicle.getSpeed(), vehicle.getLocation(), incident.getLocation());
+			vehicle.goToIncident(incident, route);
+			return vehicle;
+		}
 	}
-}
