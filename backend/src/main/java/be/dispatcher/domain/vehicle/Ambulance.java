@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 import be.dispatcher.domain.location.Location;
 import be.dispatcher.domain.people.InjuryLevel;
 import be.dispatcher.domain.people.Victim;
-import be.dispatcher.managers.IncidentSceneManager;
+import be.dispatcher.managers.incidentscene.IncidentSceneManager;
 
 @Configurable(preConstruction = true, autowire = Autowire.BY_TYPE)
 public class Ambulance extends Vehicle implements MedicalVehicle {
@@ -40,12 +40,34 @@ public class Ambulance extends Vehicle implements MedicalVehicle {
 		return hasFreeSittingsPlaces() || hasFreeLayingPlaces();
 	}
 
-	private boolean hasFreeLayingPlaces() {
-		return layingVictims.size() < maxlayingPlaces;
+	@Override
+	public boolean hasFreeLayingPlaces() {
+		return freeLayingPlaces() > 0;
 	}
 
-	private boolean hasFreeSittingsPlaces() {
-		return sittingVictims.size() < maxSittingPlaces;
+	@Override
+	public boolean hasFreeSittingsPlaces() {
+		return freeSittingsPlaces() > 0;
+	}
+
+	@Override
+	public int freeLayingPlaces() {
+		return maxlayingPlaces - layingVictims.size();
+	}
+
+	@Override
+	public int freeSittingsPlaces() {
+		return maxSittingPlaces - sittingVictims.size();
+	}
+
+	@Override
+	public List<Victim> getLayingVictims() {
+		return layingVictims;
+	}
+
+	@Override
+	public List<Victim> getSittingVictims() {
+		return sittingVictims;
 	}
 
 	@Override
@@ -57,8 +79,19 @@ public class Ambulance extends Vehicle implements MedicalVehicle {
 		}
 	}
 
-	@Override
+	@Override //called in tick sequence
 	public void performJobAtIncidentLocation() {
+		checkIfThereAreTransportableVictimsAndFillVehicle();
+		treatVictimAndNotifyTransportableIfPossible();
+	}
+
+	private void checkIfThereAreTransportableVictimsAndFillVehicle() {
+		if (hasEmptySpaces()) {
+			incidentSceneManager.fillEmptySlotsWithStableVictims(this);
+		}
+	}
+
+	private void treatVictimAndNotifyTransportableIfPossible() {
 		Victim victim = incidentSceneManager.getVictimFor(this);
 		if (victim != null) {
 			treatVictim(victim);

@@ -9,6 +9,7 @@ import be.dispatcher.domain.people.Victim;
 public final class IncidentBuilder {
 	private Location location;
 	private List<Victim> victims = new ArrayList<>();
+	private List<Victim> stabilizedVictims = new ArrayList<>();
 
 	private IncidentBuilder() {
 	}
@@ -27,7 +28,14 @@ public final class IncidentBuilder {
 		return this;
 	}
 
+	public IncidentBuilder addStabilizedVictim(Victim victim) {
+		this.stabilizedVictims.add(victim);
+		return this;
+	}
+
 	public Incident build() {
-		return new Incident(location, victims);
+		Incident incident = new Incident(location, victims);
+		incident.getStabilizedVictims().addAll(stabilizedVictims);
+		return incident;
 	}
 }

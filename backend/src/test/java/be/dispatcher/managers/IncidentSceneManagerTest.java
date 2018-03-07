@@ -15,6 +15,7 @@ import be.dispatcher.domain.location.LocationBuilder;
 import be.dispatcher.domain.people.Victim;
 import be.dispatcher.domain.people.VictimBuilder;
 import be.dispatcher.domain.vehicle.Ambulance;
+import be.dispatcher.managers.incidentscene.IncidentSceneManager;
 
 @RunWith(MockitoJUnitRunner.class)
 public class IncidentSceneManagerTest {
@@ -27,6 +28,7 @@ public class IncidentSceneManagerTest {
 	private Incident incident;
 
 	private Victim victim;
+	private Victim victim2;
 
 	@Before
 	public void setup() {
@@ -36,11 +38,12 @@ public class IncidentSceneManagerTest {
 				.build();
 		ambulance = new Ambulance(location, 1,1,1.0);
 		victim = VictimBuilder.aVictim().withHealth(5d).build();
+		victim2 = VictimBuilder.aVictim().withHealth(25d).build();
 		incident = IncidentBuilder.anIncident()
 				.withLocation(location)
 				.addVictim(VictimBuilder.aVictim().withHealth(30d).build())
 				.addVictim(victim)
-				.addVictim(VictimBuilder.aVictim().withHealth(25d).build())
+				.addVictim(victim2)
 				.build();
 		ambulance.setIncident(incident);
 	}
@@ -57,13 +60,14 @@ public class IncidentSceneManagerTest {
 	}
 
 	@Test
-	public void expectVictimReadyForTransportRemocesItFromToBeTreatedVictimList() {
-		Victim victimFor = incidentSceneManager.getVictimFor(ambulance);
-		assertThat(victimFor).isNotNull();
+	public void expectVictimReadyForTransportRemovesItFromToBeTreatedVictimList() {
+		Victim victim = incidentSceneManager.getVictimFor(ambulance);
+		assertThat(victim).isEqualTo(this.victim);
 
 		incidentSceneManager.notifyVictimReadyForTransport(ambulance);
-		victimFor = incidentSceneManager.getVictimFor(ambulance);
+		Victim victim2 = incidentSceneManager.getVictimFor(ambulance);
 
-		assertThat(victimFor).isNull();
+		assertThat(victim2).isEqualTo(this.victim2);
+		assertThat(victim).isNotEqualTo(victim2);
 	}
 }

@@ -1,8 +1,10 @@
 package be.dispatcher.domain.incident;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -16,17 +18,18 @@ public class Incident implements Ticks {
 
 	private final String id;
 	private Location location;
-	private List<Victim> victims;
+	private List<Victim> unstabilizedVictims;
+	private List<Victim> stabilizedVictims = new ArrayList<>();
 
-	public Incident(Location location, List<Victim> victims) {
+	public Incident(Location location, List<Victim> unstabilizedVictims) {
 		this.id = UUID.randomUUID().toString();
 		this.location = location;
-		this.victims = victims;
+		this.unstabilizedVictims = unstabilizedVictims;
 	}
 
 	@Override
 	public void tick() {
-		victims.forEach(victim -> victim.tick());
+		unstabilizedVictims.forEach(victim -> victim.tick());
 	}
 
 	public String getId() {
@@ -37,8 +40,21 @@ public class Incident implements Ticks {
 		return location;
 	}
 
-	public List<Victim> getVictims() {
-		return victims;
+	public List<Victim> getUnstabilizedVictims() {
+		return unstabilizedVictims;
+	}
+
+	public boolean hasStabilizedVictims() {
+		return CollectionUtils.isNotEmpty(stabilizedVictims);
+	}
+
+	public List<Victim> getStabilizedVictims() {
+		return stabilizedVictims;
+	}
+
+	public void notifyVictimStabilized(Victim victim) {
+		unstabilizedVictims.remove(victim);
+		stabilizedVictims.add(victim);
 	}
 
 	@Override
@@ -46,7 +62,8 @@ public class Incident implements Ticks {
 		return new ToStringBuilder(this)
 				.append("id", id)
 				.append("location", location)
-				.append("victims", victims)
+				.append("unstabilizedVictims", unstabilizedVictims)
+				.append("stabilizedVictims", stabilizedVictims)
 				.toString();
 	}
 }

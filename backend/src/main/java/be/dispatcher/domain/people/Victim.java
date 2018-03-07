@@ -15,11 +15,13 @@ public class Victim implements Person {
 	private InjuryLevel injuryLevel;
 	private Vehicle vehicle;
 	private boolean transportable = false;
+	private boolean needsDoctor;
 
 	public Victim(Double health, Double healthLossPerTick, InjuryLevel injuryLevel) {
 		this.health = health;
 		this.healthLossPerTick = healthLossPerTick;
 		this.injuryLevel = injuryLevel;
+		needsDoctor = InjuryLevel.DEAD.equals(injuryLevel);
 	}
 
 	public double getMaxHealth() {
@@ -77,8 +79,10 @@ public class Victim implements Person {
 	}
 
 	public void treat(double healthGain) {
-		health += healthGain;
-		setHealthToMaxOfInjuryLevelIfCurrentHealthOverInjuryLevelMax();
+		if (!needsDoctor) {
+			health += healthGain;
+			setHealthToMaxOfInjuryLevelIfCurrentHealthOverInjuryLevelMax();
+		}
 	}
 
 	private void setHealthToMaxOfInjuryLevelIfCurrentHealthOverInjuryLevelMax() {
