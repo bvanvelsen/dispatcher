@@ -1,5 +1,7 @@
 package be.dispatcher.domain.location;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class Location {
@@ -34,5 +36,29 @@ public class Location {
 				.append("x", x)
 				.append("y", y)
 				.toString();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		Location location = (Location) o;
+
+		return new EqualsBuilder()
+				.append(x, location.x)
+				.append(y, location.y)
+				.isEquals();
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder(17, 37)
+				.append(x)
+				.append(y)
+				.toHashCode();
 	}
 }

@@ -17,24 +17,19 @@ public class World {
 
 	public void startWorldTicking() {
 		new Thread(() -> {
-			try {
-				while (true) {
+			while (true) {
+				try {
 					TimeUnit.SECONDS.sleep(1);
 					tickableObjects.forEach(Ticks::tick);
-//					System.out.println("the world ticked");
+					//					System.out.println("the world ticked");
+				} catch (final Exception e) {
+					e.printStackTrace();
 				}
-			} catch (final InterruptedException e) {
-				e.printStackTrace();
 			}
 		}).start();
 	}
 
 	public void addObjectToWorld(Ticks livingObject) {
 		tickableObjects.add(livingObject);
-	}
-
-	public void getObjectAndSetToStatus(String status) {
-		Vehicle vehicle = (Vehicle) tickableObjects.get(0);
-		vehicle.setVehicleStatus(VehicleStatus.valueOf(status));
 	}
 }

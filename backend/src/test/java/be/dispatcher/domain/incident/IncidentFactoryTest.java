@@ -41,7 +41,6 @@ public class IncidentFactoryTest {
 
 	@Before
 	public void setup() {
-		when(locationFactory.createIncidentLocation()).thenReturn(location);
 		incident = incidentFactory.createIncident();
 	}
 

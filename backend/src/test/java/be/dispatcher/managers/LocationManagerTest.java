@@ -6,9 +6,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import be.dispatcher.DispatcherSpringJunit4Test;
-import be.dispatcher.domain.Route;
 import be.dispatcher.domain.location.Location;
 import be.dispatcher.domain.location.LocationBuilder;
+import be.dispatcher.domain.route.Route;
 
 public class LocationManagerTest extends DispatcherSpringJunit4Test {
 
@@ -17,101 +17,71 @@ public class LocationManagerTest extends DispatcherSpringJunit4Test {
 
 	@Test
 	public void expectDistanceCorrectlyCalculatedOverXAxis() {
-		Location vehicleLocation = LocationBuilder.aLocation()
-				.withX(0)
-				.withY(0)
-				.build();
-		Location incidentLocation = LocationBuilder.aLocation()
-				.withX(1)
-				.withY(0)
-				.build();
+		Location vehicleLocation = buildLocation(0, 0);
+		Location incidentLocation = buildLocation(1, 0);
 
-		Route routeToIncident = locationManager.getRouteToIncident(vehicleLocation, incidentLocation);
-		assertThat(routeToIncident.getDistanceInKm()).isEqualTo(1);
+		Route routeToIncident = locationManager.getRouteBetweenLocations(vehicleLocation, incidentLocation);
+		assertThat(routeToIncident.getDistanceInMeters()).isEqualTo(1);
 	}
 
 	@Test
 	public void expectDistanceCorrectlyCalculatedOverYAxis() {
-		Location vehicleLocation = LocationBuilder.aLocation()
-				.withX(0)
-				.withY(0)
-				.build();
-		Location incidentLocation = LocationBuilder.aLocation()
-				.withX(0)
-				.withY(1)
-				.build();
+		Location vehicleLocation = buildLocation(0, 0);
+		Location incidentLocation = buildLocation(0, 1);
 
-		Route routeToIncident = locationManager.getRouteToIncident(vehicleLocation, incidentLocation);
-		assertThat(routeToIncident.getDistanceInKm()).isEqualTo(1);
+		Route routeToIncident = locationManager.getRouteBetweenLocations(vehicleLocation, incidentLocation);
+		assertThat(routeToIncident.getDistanceInMeters()).isEqualTo(1);
 	}
 
 	@Test
 	public void expectDistanceCorrectlyCalculatedOverXAndYAxis() {
-		Location vehicleLocation = LocationBuilder.aLocation()
-				.withX(0)
-				.withY(0)
-				.build();
-		Location incidentLocation = LocationBuilder.aLocation()
-				.withX(1)
-				.withY(1)
-				.build();
+		Location vehicleLocation = buildLocation(0, 0);
+		Location incidentLocation = buildLocation(1, 1);
 
-		Route routeToIncident = locationManager.getRouteToIncident(vehicleLocation, incidentLocation);
-		assertThat(routeToIncident.getDistanceInKm()).isEqualTo(2);
+		Route routeToIncident = locationManager.getRouteBetweenLocations(vehicleLocation, incidentLocation);
+		assertThat(routeToIncident.getDistanceInMeters()).isEqualTo(2);
 	}
 
 	@Test
 	public void expectCorrectAmountOfHorizontalSteps() {
-		Location vehicleLocation = LocationBuilder.aLocation()
-				.withX(0)
-				.withY(0)
-				.build();
-		Location incidentLocation = LocationBuilder.aLocation()
-				.withX(4)
-				.withY(0)
-				.build();
+		Location vehicleLocation = buildLocation(0, 0);
+		Location incidentLocation = buildLocation(4, 0);
 
-		Route routeToIncident = locationManager.getRouteToIncident(vehicleLocation, incidentLocation);
-		assertThat(routeToIncident.getTotalSteps()).isEqualTo(4);
-		assertThat(routeToIncident.getHorizontalSteps()).isEqualTo(4);
-		assertThat(routeToIncident.getVerticalSteps()).isEqualTo(0);
-		assertThat(routeToIncident.getDistanceInKm()).isEqualTo(4);
+		Route routeToIncident = locationManager.getRouteBetweenLocations(vehicleLocation, incidentLocation);
+		assertThat(routeToIncident.getTotalDistance()).isEqualTo(4);
+		assertThat(routeToIncident.getHorizontalDistance()).isEqualTo(4);
+		assertThat(routeToIncident.getVerticalDistance()).isEqualTo(0);
+		assertThat(routeToIncident.getDistanceInMeters()).isEqualTo(4);
 	}
 
 	@Test
 	public void expectCorrectAmountOfVerticalSteps() {
-		Location vehicleLocation = LocationBuilder.aLocation()
-				.withX(0)
-				.withY(0)
-				.build();
-		Location incidentLocation = LocationBuilder.aLocation()
-				.withX(0)
-				.withY(4)
-				.build();
+		Location vehicleLocation = buildLocation(0, 0);
+		Location incidentLocation = buildLocation(0, 4);
 
-		Route routeToIncident = locationManager.getRouteToIncident(vehicleLocation, incidentLocation);
-		assertThat(routeToIncident.getTotalSteps()).isEqualTo(4);
-		assertThat(routeToIncident.getVerticalSteps()).isEqualTo(4);
-		assertThat(routeToIncident.getHorizontalSteps()).isEqualTo(0);
-		assertThat(routeToIncident.getDistanceInKm()).isEqualTo(4);
+		Route routeToIncident = locationManager.getRouteBetweenLocations(vehicleLocation, incidentLocation);
+		assertThat(routeToIncident.getTotalDistance()).isEqualTo(4);
+		assertThat(routeToIncident.getVerticalDistance()).isEqualTo(4);
+		assertThat(routeToIncident.getHorizontalDistance()).isEqualTo(0);
+		assertThat(routeToIncident.getDistanceInMeters()).isEqualTo(4);
 	}
 
 	@Test
 	public void expectCorrectAmountOfTotalSteps() {
-		Location vehicleLocation = LocationBuilder.aLocation()
-				.withX(0)
-				.withY(0)
-				.build();
-		Location incidentLocation = LocationBuilder.aLocation()
-				.withX(4)
-				.withY(3)
-				.build();
+		Location vehicleLocation = buildLocation(0, 0);
+		Location incidentLocation = buildLocation(4, 3);
 
-		Route routeToIncident = locationManager.getRouteToIncident(vehicleLocation, incidentLocation);
-		assertThat(routeToIncident.getTotalSteps()).isEqualTo(7);
-		assertThat(routeToIncident.getHorizontalSteps()).isEqualTo(4);
-		assertThat(routeToIncident.getVerticalSteps()).isEqualTo(3);
-		assertThat(routeToIncident.getDistanceInKm()).isEqualTo(7);
+		Route routeToIncident = locationManager.getRouteBetweenLocations(vehicleLocation, incidentLocation);
+		assertThat(routeToIncident.getTotalDistance()).isEqualTo(7);
+		assertThat(routeToIncident.getHorizontalDistance()).isEqualTo(4);
+		assertThat(routeToIncident.getVerticalDistance()).isEqualTo(3);
+		assertThat(routeToIncident.getDistanceInMeters()).isEqualTo(7);
 	}
 
+	private Location buildLocation(int x, int y) {
+		return LocationBuilder.aLocation()
+				.withX(x)
+				.withY(y)
+				.build();
+	}
 }

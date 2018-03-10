@@ -13,10 +13,10 @@
 			{{vehicle.vehicleStatus}}
 		</div>
 		<div class="col">
-			{{vehicle.incident}}
+			{{vehicle.location}}
 		</div>
 		<div class="col">
-			{{vehicle.arrivalTimeAtIncident | date : 'mediumTime'}}
+			{{vehicle.incident}}
 		</div>
 		<div class="col">
 			<select ng-model="selectedIncident" ng-change="ctrl.sendVehicleToIncident(vehicle.id, selectedIncident.id)" ng-options="incident.id for incident in ctrl.getAllIncidents()">

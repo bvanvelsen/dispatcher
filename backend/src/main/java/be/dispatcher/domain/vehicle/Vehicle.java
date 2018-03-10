@@ -7,7 +7,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Configurable;
 
-import be.dispatcher.domain.Route;
 import be.dispatcher.domain.Ticks;
 import be.dispatcher.domain.incident.Incident;
 import be.dispatcher.domain.location.Location;
@@ -24,7 +23,6 @@ public abstract class Vehicle implements Ticks {
 	private VehicleStatus vehicleStatus;
 	private Location location;
 	private Incident incident;
-	private Route route;
 
 	Vehicle(Location location, VehicleType vehicleType) {
 		vehicleStatus = VehicleStatus.AT_BASE;
@@ -62,16 +60,16 @@ public abstract class Vehicle implements Ticks {
 		return id;
 	}
 
-	public Integer getSpeed() {
+	public Integer getSpeedKmh() {
 		return speed;
+	}
+
+	public Integer getSpeedMeterPerSecond() {
+		return (speed * 1000) / 60 / 60;
 	}
 
 	public Location getLocation() {
 		return location;
-	}
-
-	public Route getRoute() {
-		return route;
 	}
 
 	@Override
@@ -83,7 +81,6 @@ public abstract class Vehicle implements Ticks {
 				.append("vehicleStatus", vehicleStatus)
 				.append("location", location)
 				.append("incident", incident)
-				.append("route", route)
 				.toString();
 	}
 
@@ -91,18 +88,15 @@ public abstract class Vehicle implements Ticks {
 	public void tick() {
 		Optional<StatusHandler> handlerOptional = STATUS_HANDLER_FACTORY.getStatusHandler(this);
 		handlerOptional.ifPresent(statusHandler -> statusHandler.handleStatus());
-//		System.out.println(this);
 	}
 
-	public void goToIncident(Incident incident, Route route) {
+	public void goToIncident(Incident incident) {
 		vehicleStatus = VehicleStatus.RESPONDING;
 		this.incident = incident;
-		this.route = route;
 	}
 
 	public void ArriveAtIncident() {
 		vehicleStatus = VehicleStatus.AT_INCIDENT;
-		this.route = null;
 	}
 
 	public boolean hasEmptySpaces() {

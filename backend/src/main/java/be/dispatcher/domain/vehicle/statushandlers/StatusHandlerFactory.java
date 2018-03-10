@@ -9,7 +9,7 @@ public class StatusHandlerFactory {
 	public Optional<StatusHandler> getStatusHandler(Vehicle vehicle) {
 		switch (vehicle.getVehicleStatus()) {
 		case RESPONDING:
-			return Optional.of(new RespondingStatusHandler(vehicle));
+			return Optional.of(new RespondingStatusHandler(vehicle, vehicle.getIncident()));
 		case AT_INCIDENT:
 			return Optional.of(new AtIncidentStatusHandler(vehicle));
 		}

@@ -5,11 +5,10 @@ import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static java.lang.Math.sqrt;
 
-import java.time.LocalDateTime;
-
 import org.springframework.stereotype.Component;
 
-import be.dispatcher.domain.Route;
+import be.dispatcher.domain.route.Direction;
+import be.dispatcher.domain.route.Route;
 import be.dispatcher.domain.location.Location;
 
 @Component
@@ -20,7 +19,7 @@ public class LocationManager {
 	/*
 	 * https://stackoverflow.com/questions/30368632/calculate-distance-on-a-grid-between-2-points
 	 * */
-	//	public Route getRouteToIncident(Location vehicleLocation, Location incidentLocation) {
+	//	public Route getRouteBetweenLocations(Location vehicleLocation, Location incidentLocation) {
 	//		int incidentLocationX = incidentLocation.getX();
 	//		int incidentLocationY = incidentLocation.getY();
 	//		int vehicleLocationX = vehicleLocation.getX();
@@ -37,22 +36,39 @@ public class LocationManager {
 	//		double distanceInKm = getDistanceInKm(diagonalSteps, straightSteps);
 	//		return new Route(LocalDateTime.now(), distanceInKm, diagonalSteps, straightSteps);
 	//	}
+	//	private double getDistanceInKm(int diagonalSteps, int straightSteps) {
+	//		return SQRT_OF_2 * diagonalSteps + straightSteps;
+	//	}
 
-	private double getDistanceInKm(int diagonalSteps, int straightSteps) {
-		return SQRT_OF_2 * diagonalSteps + straightSteps;
-	}
+	public Route getRouteBetweenLocations(Location startLocation, Location destinationLocation) {
+		int destinationX = destinationLocation.getX();
+		int destinationY = destinationLocation.getY();
+		int startX = startLocation.getX();
+		int startY = startLocation.getY();
+		Direction direction = null;
 
-	public Route getRouteToIncident(Location vehicleLocation, Location incidentLocation) {
-		int destinationX = incidentLocation.getX();
-		int destinationY = incidentLocation.getY();
-		int startX = vehicleLocation.getX();
-		int startY = vehicleLocation.getY();
+		int horizontalDistance = abs(destinationX - startX);
+		int verticalDistance = abs(destinationY - startY);
 
-		int horizontalSteps = abs(destinationX - startX);
-		int verticalSteps = abs(destinationY - startY);
-
-		double distanceInKm = horizontalSteps + verticalSteps;
-		return new Route(LocalDateTime.now(), distanceInKm, verticalSteps, horizontalSteps);
+		if (destinationY == startY && startX < destinationX) {
+			direction = Direction.EAST;
+		} else if (destinationX == startX && startY < destinationY) {
+			direction = Direction.NORTH;
+		} else if (destinationY == startY && startX > destinationX) {
+			direction = Direction.WEST;
+		} else if (destinationX == startX && startY > destinationY) {
+			direction = Direction.SOUTH;
+		} else if (horizontalDistance < verticalDistance && startX > destinationX) {
+			direction = Direction.WEST;
+		} else if (horizontalDistance < verticalDistance && startX < destinationX) {
+			direction = Direction.EAST;
+		} else if (verticalDistance < horizontalDistance && startY > destinationY) {
+			direction = Direction.SOUTH;
+		} else if (verticalDistance < horizontalDistance && startY < destinationY) {
+			direction = Direction.NORTH;
+		}
+		int distanceInMeters = horizontalDistance + verticalDistance;
+		return new Route(distanceInMeters, verticalDistance, horizontalDistance, direction);
 	}
 
 }

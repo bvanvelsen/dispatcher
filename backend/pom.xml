@@ -17,6 +17,7 @@
 		<mockito-core.version>2.15.0</mockito-core.version>
 		<maven-compiler-plugin.target>1.8</maven-compiler-plugin.target>
 		<commons-collections4.version>4.1</commons-collections4.version>
+		<jscience.version>4.3.1</jscience.version>
 	</properties>
 
 	<parent>
@@ -73,6 +74,12 @@
 			<artifactId>commons-collections4</artifactId>
 			<version>${commons-collections4.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.jscience</groupId>
+			<artifactId>jscience</artifactId>
+			<version>${jscience.version}</version>
+		</dependency>
+
 
 
 

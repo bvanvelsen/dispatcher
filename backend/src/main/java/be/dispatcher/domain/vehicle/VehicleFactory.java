@@ -30,7 +30,7 @@ public class VehicleFactory extends DispatchFactory {
 //	public Vehicle createVehicle(VehicleType vehicleType) {
 //		Vehicle vehicle = null;
 //		if (VehicleType.AMBULANCE.equals(vehicleType)) {
-//			vehicle = new Ambulance(vehicleType.getSpeed(), locationFactory.createDefaultVehicleLocation());
+//			vehicle = new Ambulance(vehicleType.getSpeedKmh(), locationFactory.createDefaultVehicleLocation());
 //		}
 //		vehicleRepository.addVehicleToRepository(vehicle);
 //		super.addToWorld(vehicle);
