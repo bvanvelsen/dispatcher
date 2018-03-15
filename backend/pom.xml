@@ -18,6 +18,7 @@
 		<maven-compiler-plugin.target>1.8</maven-compiler-plugin.target>
 		<commons-collections4.version>4.1</commons-collections4.version>
 		<jscience.version>4.3.1</jscience.version>
+		<commons-csv.version>1.4</commons-csv.version>
 	</properties>
 
 	<parent>
@@ -79,7 +80,11 @@
 			<artifactId>jscience</artifactId>
 			<version>${jscience.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-csv</artifactId>
+			<version>${commons-csv.version}</version>
+		</dependency>
 
 
 

@@ -27,8 +27,13 @@ public class VehicleController {
 
 	@RequestMapping(value = "{vehicleId}/sendTo/{incidentId}", method = RequestMethod.POST)
 	@ResponseBody
-	Vehicle sendVehicleToIncident(@PathVariable("vehicleId") String vehicleId, @PathVariable("incidentId") String incidentId) {
+	public Vehicle sendVehicleToIncident(@PathVariable("vehicleId") int vehicleId, @PathVariable("incidentId") String incidentId) {
 		return vehicleManager.sendVehicleToIncident(vehicleId, incidentId);
+	}
+
+	@RequestMapping(value = "{vehicleId}/goToHospital", method = RequestMethod.PUT)
+	public void sendVehicleToNearestHospital(@PathVariable("vehicleId") int vehicleId) {
+		vehicleManager.sendVehicleToNearestHospital(vehicleId);
 	}
 
 }

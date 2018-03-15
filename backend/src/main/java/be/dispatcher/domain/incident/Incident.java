@@ -17,19 +17,29 @@ import be.dispatcher.domain.people.Victim;
 public class Incident implements Ticks {
 
 	private final String id;
+	private final String shortDescription;
 	private Location location;
 	private List<Victim> unstabilizedVictims;
 	private List<Victim> stabilizedVictims = new ArrayList<>();
+
+
+	private boolean markIncidentFinished = false;
 
 	public Incident(Location location, List<Victim> unstabilizedVictims) {
 		this.id = UUID.randomUUID().toString();
 		this.location = location;
 		this.unstabilizedVictims = unstabilizedVictims;
+		shortDescription = String.format("Verkeersongeval op x:%d y:%d",location.getX(), location.getY());
 	}
 
 	@Override
 	public void tick() {
 		unstabilizedVictims.forEach(victim -> victim.tick());
+		checkIncidentFinished();
+	}
+
+	private void checkIncidentFinished() {
+		markIncidentFinished = unstabilizedVictims.isEmpty() && stabilizedVictims.isEmpty();
 	}
 
 	public String getId() {
@@ -38,6 +48,10 @@ public class Incident implements Ticks {
 
 	public Location getLocation() {
 		return location;
+	}
+
+	public String getShortDescription() {
+		return shortDescription;
 	}
 
 	public List<Victim> getUnstabilizedVictims() {
@@ -55,6 +69,10 @@ public class Incident implements Ticks {
 	public void notifyVictimStabilized(Victim victim) {
 		unstabilizedVictims.remove(victim);
 		stabilizedVictims.add(victim);
+	}
+
+	public boolean isMarkIncidentFinished() {
+		return markIncidentFinished;
 	}
 
 	@Override

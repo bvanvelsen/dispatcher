@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
-import be.dispatcher.domain.incident.Incident;
 import be.dispatcher.domain.location.Location;
 import be.dispatcher.domain.route.Direction;
 import be.dispatcher.domain.route.Route;
@@ -12,21 +11,25 @@ import be.dispatcher.domain.vehicle.Vehicle;
 import be.dispatcher.managers.LocationManager;
 
 @Configurable(preConstruction = true, autowire = Autowire.BY_TYPE)
-public class RespondingStatusHandler implements StatusHandler {
+public abstract class RespondingStatusHandler implements StatusHandler {
 
 	private Vehicle vehicle;
-	private Incident incident;
+	private Location destination;
 
-	@Autowired
 	private LocationManager locationManager;
 
-	public RespondingStatusHandler(Vehicle vehicle, Incident incident) {
+	public RespondingStatusHandler(Vehicle vehicle, Location destination, LocationManager locationManager) {
 		this.vehicle = vehicle;
-		this.incident = incident;
+		this.destination = destination;
+		this.locationManager = locationManager;
 	}
 
-	public void setLocationManager(LocationManager locationManager) {
-		this.locationManager = locationManager;
+	protected Location getDestination() {
+		return destination;
+	}
+
+	protected Vehicle getVehicle() {
+		return vehicle;
 	}
 
 	@Override
@@ -35,24 +38,12 @@ public class RespondingStatusHandler implements StatusHandler {
 	}
 
 	private void driveToIncident() {
-		Location incidentLocation = incident.getLocation();
-		Route routeToIncident = locationManager.getRouteBetweenLocations(vehicle.getLocation(), incidentLocation);
-		travelTowardsDirection(vehicle, routeToIncident.getTravelDirection(), incidentLocation);
-		if (isVehicleArrived(incidentLocation)) {
-			vehicle.ArriveAtIncident();
-		}
-		//check passed limit of direction
-
-		//		long timePerStep = timeManager.timeInMsPerStepOnRoute(route);
-		//		int currentStep = timeManager.determineCurrentStep(route, timePerStep, LocalDateTime.now());
-		//		determineAndSetCurrentLocation(currentStep);
-		//		if (timeManager.hasVehicleArrivedAtScene(route)) {
-		//			vehicle.ArriveAtIncident();
-		//		}
+		Route routeToIncident = locationManager.getRouteBetweenLocations(vehicle.getLocation(), destination);
+		travelTowardsDirection(vehicle, routeToIncident.getTravelDirection(), destination);
 	}
 
-	private boolean isVehicleArrived(Location incidentLocation) {
-		return vehicle.getLocation().equals(incidentLocation);
+	protected boolean isVehicleArrived(Location destination) {
+		return vehicle.getLocation().equals(destination);
 	}
 
 	private void travelTowardsDirection(Vehicle vehicle, Direction travelDirection, Location destination) {

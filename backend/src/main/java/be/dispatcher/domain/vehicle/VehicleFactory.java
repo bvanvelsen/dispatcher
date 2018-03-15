@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import be.dispatcher.domain.DispatchFactory;
-import be.dispatcher.domain.location.LocationFactory;
+import be.dispatcher.repositories.BaseRespository;
 import be.dispatcher.repositories.VehicleRepository;
 
 @Component
@@ -20,25 +20,21 @@ public class VehicleFactory extends DispatchFactory {
 	@Value("${ambulance.dgh.basicAmbulanceLayingPlaces}")
 	private int basicAmbulanceLayingPlaces;
 
-
 	@Autowired
 	private VehicleRepository vehicleRepository;
 
 	@Autowired
-	private LocationFactory locationFactory;
+	private BaseRespository baseRespository;
 
-//	public Vehicle createVehicle(VehicleType vehicleType) {
-//		Vehicle vehicle = null;
-//		if (VehicleType.AMBULANCE.equals(vehicleType)) {
-//			vehicle = new Ambulance(vehicleType.getSpeedKmh(), locationFactory.createDefaultVehicleLocation());
-//		}
-//		vehicleRepository.addVehicleToRepository(vehicle);
-//		super.addToWorld(vehicle);
-//		return vehicle;
-//	}
+	public Vehicle createBasicAmbulance(Vehicle vehicle) {
+		//		Vehicle vehicle = new Ambulance(basicAmbulanceSittingPlaces, basicAmbulanceLayingPlaces, ambulanceDghHealthGain, baseRespository.getBases().get(0));
+		vehicleRepository.addVehicleToRepository(vehicle);
+		super.addToWorld(vehicle);
+		return vehicle;
+	}
 
 	public Vehicle createBasicAmbulance() {
-		Vehicle vehicle = new Ambulance(locationFactory.createDefaultVehicleLocation(), basicAmbulanceSittingPlaces, basicAmbulanceLayingPlaces, ambulanceDghHealthGain);
+		Vehicle vehicle = new Ambulance(1, "", basicAmbulanceSittingPlaces, basicAmbulanceLayingPlaces, ambulanceDghHealthGain, baseRespository.getBases().get(0));
 		vehicleRepository.addVehicleToRepository(vehicle);
 		super.addToWorld(vehicle);
 		return vehicle;

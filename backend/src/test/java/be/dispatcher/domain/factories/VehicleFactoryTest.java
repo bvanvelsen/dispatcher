@@ -3,6 +3,8 @@ package be.dispatcher.domain.factories;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Collections;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,9 +14,11 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import be.dispatcher.domain.location.Location;
 import be.dispatcher.domain.location.LocationFactory;
+import be.dispatcher.domain.location.emergencybases.Base;
 import be.dispatcher.domain.vehicle.Vehicle;
 import be.dispatcher.domain.vehicle.VehicleFactory;
 import be.dispatcher.domain.vehicle.VehicleType;
+import be.dispatcher.repositories.BaseRespository;
 import be.dispatcher.repositories.VehicleRepository;
 import be.dispatcher.world.World;
 
@@ -28,10 +32,13 @@ public class VehicleFactoryTest {
 	private World world;
 
 	@Mock
-	private LocationFactory locationFactory;
+	private BaseRespository baseRespository;
 
 	@Mock
 	private Location location;
+
+	@Mock
+	private Base base;
 
 	@InjectMocks
 	private VehicleFactory vehicleFactory;
@@ -41,7 +48,8 @@ public class VehicleFactoryTest {
 
 	@Before
 	public void setup() {
-		when(locationFactory.createDefaultVehicleLocation()).thenReturn(location);
+		when(base.getLocation()).thenReturn(location);
+		when(baseRespository.getBases()).thenReturn(Collections.singletonList(base));
 		ambulance = vehicleFactory.createBasicAmbulance();
 	}
 

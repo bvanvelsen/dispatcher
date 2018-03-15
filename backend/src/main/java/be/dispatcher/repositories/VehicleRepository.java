@@ -20,9 +20,9 @@ public class VehicleRepository {
 		return vehicles;
 	}
 
-	public Vehicle getVehicleById(String id) {
+	public Vehicle getVehicleById(int id) {
 		return vehicles.stream ()
-				.filter(vehicle -> vehicle.getId().equals(id))
+				.filter(vehicle -> vehicle.getId() == id)
 				.findFirst()
 				.get();
 	}

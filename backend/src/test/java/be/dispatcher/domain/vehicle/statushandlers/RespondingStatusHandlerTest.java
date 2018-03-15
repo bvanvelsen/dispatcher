@@ -9,10 +9,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import be.dispatcher.domain.incident.Incident;
 import be.dispatcher.domain.location.Location;
 import be.dispatcher.domain.location.LocationBuilder;
 import be.dispatcher.domain.route.Direction;
@@ -28,30 +26,28 @@ public class RespondingStatusHandlerTest {
 	private static final int METER_PER_SECOND = 100;
 
 	@InjectMocks
-	private RespondingStatusHandler respondingStatusHandler;
+	private RespondingToIncidentStatusHandler respondingToIncidentStatusHandler;
 
 	@Mock
 	private Vehicle vehicle;
-
-	@Mock
-	private Incident incident;
 
 	@Mock
 	private LocationManager locationManager;
 
 	@Mock
 	private Route route;
+
+
 	private Location destinationLocation;
 	private Location startLocation;
 
 	@Before
 	public void setup() {
-		MockitoAnnotations.initMocks(this);
+		destinationLocation = LocationBuilder.aLocation().withX(1200).withY(400).build();
+		respondingToIncidentStatusHandler = new RespondingToIncidentStatusHandler(vehicle, destinationLocation, locationManager);
 		when(vehicle.getSpeedMeterPerSecond()).thenReturn(METER_PER_SECOND);
 		startLocation = LocationBuilder.aLocation().withX(X).withY(Y).build();
 		when(vehicle.getLocation()).thenReturn(startLocation);
-		destinationLocation = LocationBuilder.aLocation().withX(1200).withY(400).build();
-		when(incident.getLocation()).thenReturn(destinationLocation);
 		when(locationManager.getRouteBetweenLocations(any(Location.class), any(Location.class))).thenReturn(route);
 	}
 
@@ -59,7 +55,7 @@ public class RespondingStatusHandlerTest {
 	public void expectPositiveVehicleTraveledOnXAsisWhenTravelDirectionIsEast() {
 		when(route.getTravelDirection()).thenReturn(Direction.EAST);
 
-		respondingStatusHandler.handleStatus();
+		respondingToIncidentStatusHandler.handleStatus();
 
 		assertThat(vehicle.getLocation().getX()).isEqualTo(X + METER_PER_SECOND);
 		assertThat(vehicle.getLocation().getY()).isEqualTo(Y);
@@ -69,7 +65,7 @@ public class RespondingStatusHandlerTest {
 	public void expectPositiveVehicleTraveledOnYAsisWhenTravelDirectionIsNorth() {
 		when(route.getTravelDirection()).thenReturn(Direction.NORTH);
 
-		respondingStatusHandler.handleStatus();
+		respondingToIncidentStatusHandler.handleStatus();
 
 		assertThat(vehicle.getLocation().getY()).isEqualTo(Y + METER_PER_SECOND);
 		assertThat(vehicle.getLocation().getX()).isEqualTo(X);
@@ -81,7 +77,7 @@ public class RespondingStatusHandlerTest {
 		destinationLocation.setY(100);
 		when(route.getTravelDirection()).thenReturn(Direction.SOUTH);
 
-		respondingStatusHandler.handleStatus();
+		respondingToIncidentStatusHandler.handleStatus();
 
 		assertThat(vehicle.getLocation().getY()).isEqualTo(300 - METER_PER_SECOND);
 		assertThat(vehicle.getLocation().getX()).isEqualTo(X);
@@ -92,7 +88,7 @@ public class RespondingStatusHandlerTest {
 		destinationLocation.setX(200);
 		when(route.getTravelDirection()).thenReturn(Direction.WEST);
 
-		respondingStatusHandler.handleStatus();
+		respondingToIncidentStatusHandler.handleStatus();
 
 		assertThat(vehicle.getLocation().getX()).isEqualTo(X - METER_PER_SECOND);
 		assertThat(vehicle.getLocation().getY()).isEqualTo(Y);
@@ -104,7 +100,7 @@ public class RespondingStatusHandlerTest {
 		destinationLocation.setX(105);
 		when(route.getTravelDirection()).thenReturn(Direction.EAST);
 
-		respondingStatusHandler.handleStatus();
+		respondingToIncidentStatusHandler.handleStatus();
 
 		assertThat(vehicle.getLocation().getX()).isEqualTo(105);
 	}
@@ -115,7 +111,7 @@ public class RespondingStatusHandlerTest {
 		destinationLocation.setX(100);
 		when(route.getTravelDirection()).thenReturn(Direction.WEST);
 
-		respondingStatusHandler.handleStatus();
+		respondingToIncidentStatusHandler.handleStatus();
 
 		assertThat(vehicle.getLocation().getX()).isEqualTo(100);
 	}
@@ -126,7 +122,7 @@ public class RespondingStatusHandlerTest {
 		destinationLocation.setY(105);
 		when(route.getTravelDirection()).thenReturn(Direction.NORTH);
 
-		respondingStatusHandler.handleStatus();
+		respondingToIncidentStatusHandler.handleStatus();
 
 		assertThat(vehicle.getLocation().getY()).isEqualTo(105);
 	}
@@ -137,7 +133,7 @@ public class RespondingStatusHandlerTest {
 		destinationLocation.setY(100);
 		when(route.getTravelDirection()).thenReturn(Direction.SOUTH);
 
-		respondingStatusHandler.handleStatus();
+		respondingToIncidentStatusHandler.handleStatus();
 
 		assertThat(vehicle.getLocation().getY()).isEqualTo(100);
 	}

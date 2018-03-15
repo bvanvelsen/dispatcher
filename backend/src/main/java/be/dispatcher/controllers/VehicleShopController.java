@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import be.dispatcher.domain.vehicle.Vehicle;
 import be.dispatcher.domain.vehicle.VehicleType;
+import be.dispatcher.init.Parser;
 import be.dispatcher.managers.VehicleManager;
 
 @RestController
@@ -18,9 +19,14 @@ public class VehicleShopController {
 	@Autowired
 	private VehicleManager vehicleManager;
 
+	@Autowired
+	private Parser parser;
+
 	@RequestMapping(value = "{vehicleType}", method = RequestMethod.POST)
-	@ResponseBody Vehicle createVehicleOfType(@PathVariable("vehicleType") String vehicleType) {
-		return vehicleManager.createVehicle(VehicleType.valueOf(vehicleType.toUpperCase()));
+	@ResponseBody void createVehicleOfType(@PathVariable("vehicleType") String vehicleType) {
+		parser.hospitalParser();
+		parser.fireDepartmentParser();
+		parser.ambulanceParser();
 	}
 
 }

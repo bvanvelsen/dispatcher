@@ -1,0 +1,37 @@
+<h3>Incident page</h3>
+<button type="button" class="btn btn-secondary" ng-click="ctrl.createIncident()">Create Incident</button>
+
+<div class="container">
+	<div class="row" ng-repeat="incident in ctrl.getAllIncidents()">
+		<div class="row">
+			<div class="col">
+				{{incident.location}}
+			</div>
+			<div class="col">
+				<div class="row" ng-repeat="unstabilized in incident.unstabilizedVictims">
+					<div class="col">
+						{{unstabilized.shortDescription}}
+					</div>
+					<div class="col">
+						{{unstabilized.health}}
+					</div>
+					<div class="col">
+						{{unstabilized.injuryLevel}}
+					</div>
+				</div>
+				<div class="row" ng-repeat="stabilized in incident.stabilizedVictims">
+					<div class="col">
+						{{stabilized.shortDescription}}
+					</div>
+					<div class="col">
+						{{stabilized.health}}
+					</div>
+					<div class="col">
+						{{stabilized.injuryLevel}}
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>

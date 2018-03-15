@@ -2,9 +2,12 @@ package be.dispatcher.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.LocalDateTime;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Repeat;
 
 import be.dispatcher.DispatcherSpringJunit4Test;
 import be.dispatcher.domain.vehicle.Vehicle;
@@ -12,7 +15,7 @@ import be.dispatcher.domain.vehicle.VehicleFactory;
 import be.dispatcher.domain.vehicle.VehicleStatus;
 import be.dispatcher.domain.vehicle.VehicleType;
 
-public class VehicleTest extends DispatcherSpringJunit4Test {
+public class VehicleArriveAtDropOffTestTest extends DispatcherSpringJunit4Test {
 
 	@Autowired
 	private VehicleFactory vehicleFactory;
@@ -24,18 +27,19 @@ public class VehicleTest extends DispatcherSpringJunit4Test {
 		vehicle = vehicleFactory.createBasicAmbulance();
 	}
 
+
 	@Test
-	public void expectVehicleTypeIsCorrectlySet() {
-		assertThat(vehicle.getVehicleType()).isEqualTo(VehicleType.AMBULANCE);
+	public void expectArrivedAtDropOffStatusSetWhenArrivingAtDropOff() {
+		vehicle.arriveAtDropOff();
+
+		assertThat(vehicle.getVehicleStatus()).isEqualTo(VehicleStatus.AT_DROP_OFF);
 	}
 
 	@Test
-	public void expectVehicleStatusIsCorrectlySet() {
-		assertThat(vehicle.getVehicleStatus()).isEqualTo(VehicleStatus.AT_BASE);
+	@Repeat(10)
+	public void expectRandomTimeGeneratedWhenArrivingAtDropOff() {
+			vehicle.arriveAtDropOff();
+			assertThat(vehicle.getDropOffEndTime()).isBetween(LocalDateTime.now(), LocalDateTime.now().plusMinutes(10));
 	}
 
-	@Test
-	public void expectVehicleHasAGeneratedId() {
-		assertThat(vehicle.getId()).isNotZero();
-	}
 }

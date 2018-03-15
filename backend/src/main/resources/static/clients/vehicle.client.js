@@ -7,13 +7,17 @@ angular.module('be.dispatcher.client.vehicle', [])
 		function getAllVehicles() {
 			return allVehicles;
 		}
-		function buyAmbulance() {
 
+		function buyAmbulance() {
 			return Restangular.all('/vehicles/create/ambulance').post();
 		}
-		function sendVehicleToIncident(vehicleId, incidentId) {
 
+		function sendVehicleToIncident(vehicleId, incidentId) {
 			return Restangular.one('vehicles', vehicleId).one('sendTo', incidentId).post();
+		}
+
+		function goToNearestHospital(vehicleId) {
+			return Restangular.one('vehicles', vehicleId).one('goToHospital').put();
 		}
 
 
@@ -23,7 +27,7 @@ angular.module('be.dispatcher.client.vehicle', [])
 
 		function getAllVehiclesFromBackend() {
 			console.log("get all vehicles from backend")
-			Restangular.all('/vehicles/all').getList().then(function(vehicles) {
+			Restangular.all('/vehicles/all').getList().then(function (vehicles) {
 				allVehicles = vehicles;
 			});
 		}
@@ -31,6 +35,7 @@ angular.module('be.dispatcher.client.vehicle', [])
 		return {
 			getAllVehicles: getAllVehicles,
 			buyAmbulance: buyAmbulance,
-			sendVehicleToIncident: sendVehicleToIncident
+			sendVehicleToIncident: sendVehicleToIncident,
+			goToNearestHospital: goToNearestHospital
 		};
 	});

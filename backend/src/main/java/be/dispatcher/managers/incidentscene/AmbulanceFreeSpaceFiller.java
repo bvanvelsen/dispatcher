@@ -26,11 +26,15 @@ public class AmbulanceFreeSpaceFiller {
 	}
 
 	private void fillMedicalVehicleWithStableSittingVictims(MedicalVehicle medicalVehicle) {
-		medicalVehicle.getSittingVictims().addAll(getStabilizedSittingVictims(medicalVehicle.freeSittingsPlaces(), medicalVehicle.getIncident()));
+		List<Victim> stabilizedSittingVictims = getStabilizedSittingVictims(medicalVehicle.freeSittingsPlaces(), medicalVehicle.getIncident());
+		medicalVehicle.getIncident().getStabilizedVictims().removeAll(stabilizedSittingVictims);
+		medicalVehicle.getSittingVictims().addAll(stabilizedSittingVictims);
 	}
 
 	private void fillMedicalVehicleWithStableLayingVictims(MedicalVehicle medicalVehicle) {
-		medicalVehicle.getLayingVictims().addAll(getStabilizedLayingVictims(medicalVehicle.freeLayingPlaces(), medicalVehicle.getIncident()));
+		List<Victim> stabilizedLayingVictims = getStabilizedLayingVictims(medicalVehicle.freeLayingPlaces(), medicalVehicle.getIncident());
+		medicalVehicle.getIncident().getStabilizedVictims().removeAll(stabilizedLayingVictims);
+		medicalVehicle.getLayingVictims().addAll(stabilizedLayingVictims);
 	}
 
 	private List<Victim> getStabilizedSittingVictims(int amountOfVictimsToRetrieve, Incident incident) {

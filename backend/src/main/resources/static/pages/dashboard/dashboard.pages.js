@@ -28,4 +28,8 @@ angular.module('be.dispatcher.pages.dashboard', ['restangular'])
 		ctrl.sendVehicleToIncident = function(vehicleId, incidentId) {
 			VehicleClient.sendVehicleToIncident(vehicleId, incidentId);
 		}
+
+		ctrl.goToNearestHospital = function(vehicleId) {
+			VehicleClient.goToNearestHospital(vehicleId);
+		}
 });

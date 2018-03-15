@@ -13,6 +13,7 @@ angular.module('be.dispatcher.application', [
 	'be.dispatcher.config.rest',
 	'be.dispatcher.pages.vehicleshop',
 	'be.dispatcher.pages.dashboard',
+	'be.dispatcher.pages.incident',
 ])
 	.controller('ApplicationCtrl', function($scope, $interval) {
 		var tick = function() {

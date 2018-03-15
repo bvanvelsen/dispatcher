@@ -3,11 +3,13 @@ package be.dispatcher.domain.vehicle;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
 import be.dispatcher.domain.location.Location;
+import be.dispatcher.domain.location.emergencybases.Base;
 import be.dispatcher.domain.people.InjuryLevel;
 import be.dispatcher.domain.people.Victim;
 import be.dispatcher.managers.incidentscene.IncidentSceneManager;
@@ -28,8 +30,8 @@ public class Ambulance extends Vehicle implements MedicalVehicle {
 	@Autowired
 	private IncidentSceneManager incidentSceneManager;
 
-	public Ambulance(Location location, int maxSittingPlaces, int maxlayingPlace, double healthGain) {
-		super(location, VehicleType.AMBULANCE);
+	public Ambulance(int id, String name,  int maxSittingPlaces, int maxlayingPlace, double healthGain, Base base) {
+		super(id, name, VehicleType.AMBULANCE, base);
 		this.maxlayingPlaces = maxlayingPlace;
 		this.maxSittingPlaces = maxSittingPlaces;
 		this.healthGain = healthGain;
@@ -85,6 +87,12 @@ public class Ambulance extends Vehicle implements MedicalVehicle {
 		treatVictimAndNotifyTransportableIfPossible();
 	}
 
+	@Override
+	protected void clearVehicle() {
+		sittingVictims.clear();
+		layingVictims.clear();
+	}
+
 	private void checkIfThereAreTransportableVictimsAndFillVehicle() {
 		if (hasEmptySpaces()) {
 			incidentSceneManager.fillEmptySlotsWithStableVictims(this);
@@ -103,5 +111,16 @@ public class Ambulance extends Vehicle implements MedicalVehicle {
 
 	private void treatVictim(Victim victim) {
 		victim.treat(healthGain);
+	}
+
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this)
+				.append("maxSittingPlaces", maxSittingPlaces)
+				.append("maxlayingPlaces", maxlayingPlaces)
+				.append("healthGain", healthGain)
+				.append("sittingVictims", sittingVictims)
+				.append("layingVictims", layingVictims)
+				.toString();
 	}
 }

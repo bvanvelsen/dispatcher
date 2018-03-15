@@ -3,24 +3,28 @@
 
 <div class="container">
 	<div class="row" ng-repeat="vehicle in ctrl.getAllVehicles()">
-		<div class="col">
-			{{vehicle.id}}
+		<div class="row">
+			<div class="col">
+				<button type="button" class="btn btn-info" ng-click="ctrl.goToNearestHospital(vehicle.id)">Go to hospital</button>
+			</div>
+			<div class="col">
+				{{vehicle.name}}
+			</div>
+			<div class="col">
+				{{vehicle.vehicleType}}
+			</div>
+			<div class="col">
+				{{vehicle.vehicleStatus}}
+			</div>
 		</div>
-		<div class="col">
-			{{vehicle.vehicleType}}
-		</div>
-		<div class="col">
-			{{vehicle.vehicleStatus}}
-		</div>
-		<div class="col">
-			{{vehicle.location}}
-		</div>
-		<div class="col">
-			{{vehicle.incident}}
-		</div>
-		<div class="col">
-			<select ng-model="selectedIncident" ng-change="ctrl.sendVehicleToIncident(vehicle.id, selectedIncident.id)" ng-options="incident.id for incident in ctrl.getAllIncidents()">
-			</select>
+		<div class="row">
+			<div class="col">
+				{{vehicle.location}}
+			</div>
+			<div class="col">
+				<select ng-model="selectedIncident" ng-change="ctrl.sendVehicleToIncident(vehicle.id, selectedIncident.id)" ng-options="incident.id for incident in ctrl.getAllIncidents()">
+				</select>
+			</div>
 		</div>
 	</div>
 </div>

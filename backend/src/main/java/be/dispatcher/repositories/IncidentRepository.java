@@ -1,5 +1,7 @@
 package be.dispatcher.repositories;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,5 +27,15 @@ public class IncidentRepository {
 				.filter(incident -> incident.getId().equals(id))
 				.findFirst()
 				.get();
+	}
+
+	private List<Incident> getIncidentsMarkedasComplete() {
+		return incidents.stream ()
+				.filter(incident -> incident.isMarkIncidentFinished())
+				.collect(toList());
+	}
+
+	public void removeFinishedIncidents() {
+		incidents.removeAll(getIncidentsMarkedasComplete());
 	}
 }

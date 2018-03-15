@@ -1,17 +1,20 @@
 package be.dispatcher.managers;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import be.dispatcher.domain.incident.Incident;
 import be.dispatcher.domain.incident.IncidentBuilder;
 import be.dispatcher.domain.location.Location;
 import be.dispatcher.domain.location.LocationBuilder;
+import be.dispatcher.domain.location.emergencybases.Base;
 import be.dispatcher.domain.people.InjuryLevel;
 import be.dispatcher.domain.people.Victim;
 import be.dispatcher.domain.people.VictimBuilder;
@@ -23,6 +26,9 @@ public class IncidentSceneManagerFillEmptySlotsWithStableVictimsTest {
 
 	@InjectMocks
 	private IncidentSceneManager incidentSceneManager;
+
+	@Mock
+	private Base base;
 
 	private Ambulance ambulance;
 
@@ -38,7 +44,9 @@ public class IncidentSceneManagerFillEmptySlotsWithStableVictimsTest {
 				.withX(0)
 				.withY(0)
 				.build();
-		ambulance = new Ambulance(location, 2,1,1.0);
+		when(base.getLocation()).thenReturn(location);
+
+		ambulance = new Ambulance(1,"",2,1,1.0, base);
 		victimMediocre1 = VictimBuilder.aVictim()
 				.withInjuryLevel(InjuryLevel.MEDIOCRE)
 				.withHealth(5d).build();
