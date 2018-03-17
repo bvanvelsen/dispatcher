@@ -21,7 +21,7 @@ public class VehicleController {
 	private VehicleManager vehicleManager;
 
 	@RequestMapping(value = "all", method = RequestMethod.GET)
-	public List<Vehicle> getAllVehicles() {
+	public List<? extends Vehicle> getAllVehicles() {
 		return vehicleManager.getAllVehicles();
 	}
 

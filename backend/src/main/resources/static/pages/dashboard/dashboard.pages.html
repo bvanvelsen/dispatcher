@@ -2,6 +2,7 @@
 <button type="button" class="btn btn-secondary" ng-click="ctrl.createIncident()">Create Incident</button>
 
 <div class="container">
+	<button type="button" class="btn btn-info" ng-click="ctrl.toggleRefresh()">Toggle Refresh</button>
 	<div class="row" ng-repeat="vehicle in ctrl.getAllVehicles()">
 		<div class="row">
 			<div class="col">
@@ -11,10 +12,26 @@
 				{{vehicle.name}}
 			</div>
 			<div class="col">
-				{{vehicle.vehicleType}}
+				<span ng-if="vehicle.vehicleType === 'AMBULANCE'"><i class="fas fa-ambulance"></i></span>
+				<span ng-if="vehicle.vehicleType === 'AMBULANCE' && vehicle.name.includes('MUG')"><i class="fas fa-user-md"></i></span>
 			</div>
 			<div class="col">
-				{{vehicle.vehicleStatus}}
+				<!--<ambulance-places-weergave vehicle="testeke"/>-->
+				<span ng-repeat="item in ctrl.getTimes(vehicle.maxSittingPlaces) track by $index">
+					<span ng-class="vehicle.sittingVictims.length > $index ? 'occupied' : 'unoccupied'"><i class="fas fa-male"></i></span>
+				</span>
+				<span ng-repeat="item in ctrl.getTimes(vehicle.maxlayingPlaces) track by $index">
+					<span class="vehicle.layingVictims.length > $index  ? occupied : unoccupied"><i class="fas fa-bed"></i></span>
+				</span>
+			</div>
+			<div class="col">
+				<span ng-if="vehicle.vehicleStatus === 'AT_BASE'"><i class="fas fa-home"></i></span>
+				<span ng-if="vehicle.vehicleStatus === 'AT_DROP_OFF'"><i class="fas fa-hospital"></i></span>
+				<span ng-if="vehicle.vehicleStatus === 'AT_INCIDENT'"><i class="fas fa-exclamation-circle"></i></span>
+				<span ng-if="vehicle.vehicleStatus === 'RESPONDING'"><i class="fas fa-caret-right"></i></span>
+				<span ng-if="vehicle.vehicleStatus === 'GO_TO_BASE'"><i class="fas fa-caret-left"></i></span>
+				<span ng-if="vehicle.vehicleStatus === 'GO_TO_DROPOFF'"><i class="fas fa-caret-left"></i></span>
+				<!--{{vehicle.vehicleStatus}}-->
 			</div>
 		</div>
 		<div class="row">

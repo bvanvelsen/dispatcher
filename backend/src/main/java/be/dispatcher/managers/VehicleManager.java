@@ -10,6 +10,7 @@ import be.dispatcher.domain.location.emergencybases.Base;
 import be.dispatcher.domain.vehicle.Vehicle;
 import be.dispatcher.domain.vehicle.VehicleFactory;
 import be.dispatcher.domain.vehicle.VehicleType;
+import be.dispatcher.managers.incidentscene.IncidentSceneMedicalTasksManager;
 import be.dispatcher.repositories.BaseRespository;
 import be.dispatcher.repositories.IncidentRepository;
 import be.dispatcher.repositories.VehicleRepository;
@@ -29,6 +30,9 @@ public class VehicleManager {
 	@Autowired
 	private BaseRespository baseRespository;
 
+	@Autowired
+	private IncidentSceneMedicalTasksManager incidentSceneMedicalTasksManager;
+
 	public List<Vehicle> getAllVehicles() {
 		return vehicleRepository.getVehicles();
 	}
@@ -43,6 +47,7 @@ public class VehicleManager {
 	public void sendVehicleToNearestHospital(int vehicleId) {
 		Vehicle vehicle = vehicleRepository.getVehicleById(vehicleId);
 		Base closestHospital = baseRespository.getClosestHospital(vehicle.getLocation());
+		incidentSceneMedicalTasksManager.notifyVehicleLeavingSoRemoveCoupling(vehicle);
 		vehicle.goToDropoffLocation(closestHospital);
 	}
 }

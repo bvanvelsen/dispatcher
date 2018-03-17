@@ -34,8 +34,8 @@ public final class IncidentBuilder {
 	}
 
 	public Incident build() {
-		Incident incident = new Incident(location, victims);
-		incident.getStabilizedVictims().addAll(stabilizedVictims);
+		Incident incident = new Incident(location, new MedicalTasksImpl(victims));
+		incident.getMedicalTasks().getStabilizedVictims().addAll(stabilizedVictims);
 		return incident;
 	}
 }

@@ -4,11 +4,11 @@
 <div class="container">
 	<div class="row" ng-repeat="incident in ctrl.getAllIncidents()">
 		<div class="row">
-			<div class="col">
+			<div class="col-2">
 				{{incident.location}}
 			</div>
 			<div class="col">
-				<div class="row" ng-repeat="unstabilized in incident.unstabilizedVictims">
+				<div class="row" ng-repeat="unstabilized in incident.medicalTasks.unstabilizedVictims">
 					<div class="col">
 						{{unstabilized.shortDescription}}
 					</div>
@@ -19,7 +19,7 @@
 						{{unstabilized.injuryLevel}}
 					</div>
 				</div>
-				<div class="row" ng-repeat="stabilized in incident.stabilizedVictims">
+				<div class="row" ng-repeat="stabilized in incident.medicalTasks.stabilizedVictims">
 					<div class="col">
 						{{stabilized.shortDescription}}
 					</div>

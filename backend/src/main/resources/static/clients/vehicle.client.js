@@ -3,6 +3,7 @@ angular.module('be.dispatcher.client.vehicle', [])
 
 		const GET_VEHICLES_REFRESH_RATE_IN_MS = 3000;
 		var allVehicles;
+		var refresh = true;
 
 		function getAllVehicles() {
 			return allVehicles;
@@ -20,9 +21,15 @@ angular.module('be.dispatcher.client.vehicle', [])
 			return Restangular.one('vehicles', vehicleId).one('goToHospital').put();
 		}
 
+		function toggleRefresh() {
+			refresh = !refresh;
+		}
+
 
 		$interval(function () {
-			getAllVehiclesFromBackend();
+			if (refresh) {
+				getAllVehiclesFromBackend();
+			}
 		}, GET_VEHICLES_REFRESH_RATE_IN_MS);
 
 		function getAllVehiclesFromBackend() {
@@ -36,6 +43,7 @@ angular.module('be.dispatcher.client.vehicle', [])
 			getAllVehicles: getAllVehicles,
 			buyAmbulance: buyAmbulance,
 			sendVehicleToIncident: sendVehicleToIncident,
-			goToNearestHospital: goToNearestHospital
+			goToNearestHospital: goToNearestHospital,
+			toggleRefresh: toggleRefresh
 		};
 	});

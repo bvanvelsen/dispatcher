@@ -19,13 +19,13 @@ import be.dispatcher.domain.people.InjuryLevel;
 import be.dispatcher.domain.people.Victim;
 import be.dispatcher.domain.people.VictimBuilder;
 import be.dispatcher.domain.vehicle.Ambulance;
-import be.dispatcher.managers.incidentscene.IncidentSceneManager;
+import be.dispatcher.managers.incidentscene.IncidentSceneMedicalTasksManager;
 
 @RunWith(MockitoJUnitRunner.class)
-public class IncidentSceneManagerFillEmptySlotsWithStableVictimsTest {
+public class IncidentSceneMedicalTasksManagerFillEmptySlotsWithStableVictimsTest {
 
 	@InjectMocks
-	private IncidentSceneManager incidentSceneManager;
+	private IncidentSceneMedicalTasksManager incidentSceneMedicalTasksManager;
 
 	@Mock
 	private Base base;
@@ -67,7 +67,7 @@ public class IncidentSceneManagerFillEmptySlotsWithStableVictimsTest {
 
 	@Test
 	public void expectStableVictimForAmbulanceFound() {
-		incidentSceneManager.fillEmptySlotsWithStableVictims(ambulance);
+		incidentSceneMedicalTasksManager.fillEmptySlotsWithStableVictims(ambulance);
 
 		assertThat(ambulance.getLayingVictims()).containsExactly(victimMediocre1);
 		assertThat(ambulance.getSittingVictims()).containsExactly(victimMinor1,victimMinor2);
@@ -77,7 +77,7 @@ public class IncidentSceneManagerFillEmptySlotsWithStableVictimsTest {
 	public void expectAmbulanceFull() {
 		assertThat(ambulance.hasEmptySpaces()).isTrue();
 
-		incidentSceneManager.fillEmptySlotsWithStableVictims(ambulance);
+		incidentSceneMedicalTasksManager.fillEmptySlotsWithStableVictims(ambulance);
 
 		assertThat(ambulance.hasEmptySpaces()).isFalse();
 	}

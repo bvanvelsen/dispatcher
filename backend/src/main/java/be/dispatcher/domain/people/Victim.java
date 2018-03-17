@@ -17,9 +17,9 @@ public class Victim implements Person {
 	private boolean transportable = false;
 	private boolean needsDoctor;
 
-	public Victim(Double health, Double healthLossPerTick, InjuryLevel injuryLevel) {
+	public Victim(Double health, InjuryLevel injuryLevel) {
 		this.health = health;
-		this.healthLossPerTick = healthLossPerTick;
+		this.healthLossPerTick = injuryLevel.getHealthLossPerTick();
 		this.injuryLevel = injuryLevel;
 		needsDoctor = InjuryLevel.DEAD.equals(injuryLevel);
 	}
@@ -66,6 +66,7 @@ public class Victim implements Person {
 			injuryLevel = health < InjuryLevel.DEAD.getMaxHealth() ? InjuryLevel.getNextLowerInjuryLevel(injuryLevel) : InjuryLevel.SEVERE;
 			break;
 		}
+			healthLossPerTick = injuryLevel.getHealthLossPerTick();
 	}
 
 	@Override

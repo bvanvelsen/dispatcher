@@ -13,7 +13,7 @@ import be.dispatcher.domain.vehicle.MedicalVehicle;
 import be.dispatcher.domain.vehicle.Vehicle;
 
 @Component
-public class IncidentSceneManager {
+public class IncidentSceneMedicalTasksManager {
 
 	private Map<Vehicle, Victim> vehicleVictimCoupling = new HashMap<>();
 
@@ -35,11 +35,15 @@ public class IncidentSceneManager {
 	public void notifyVictimReadyForTransport(Vehicle vehicle) {
 		Incident incident = vehicle.getIncident();
 		Victim victim = vehicleVictimCoupling.remove(vehicle);
-		incident.notifyVictimStabilized(victim);
+		incident.getMedicalTasks().notifyVictimStabilized(victim);
+	}
+
+	public void notifyVehicleLeavingSoRemoveCoupling(Vehicle vehicle) {
+		vehicleVictimCoupling.remove(vehicle);
 	}
 
 	private Victim getUntreatedVictimInWorstCondition(Incident incident) {
-		Optional<Victim> victimOptional = incident.getUnstabilizedVictims().stream().min(Comparator.comparing(victim -> victim.getHealth()));
+		Optional<Victim> victimOptional = incident.getMedicalTasks().getUnstabilizedVictims().stream().min(Comparator.comparing(victim -> victim.getHealth()));
 		if (victimOptional.isPresent()) {
 			return victimOptional.get();
 		}

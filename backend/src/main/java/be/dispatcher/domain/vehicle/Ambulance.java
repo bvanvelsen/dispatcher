@@ -3,16 +3,16 @@ package be.dispatcher.domain.vehicle;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
-import be.dispatcher.domain.location.Location;
 import be.dispatcher.domain.location.emergencybases.Base;
 import be.dispatcher.domain.people.InjuryLevel;
 import be.dispatcher.domain.people.Victim;
-import be.dispatcher.managers.incidentscene.IncidentSceneManager;
+import be.dispatcher.managers.incidentscene.IncidentSceneMedicalTasksManager;
 
 @Configurable(preConstruction = true, autowire = Autowire.BY_TYPE)
 public class Ambulance extends Vehicle implements MedicalVehicle {
@@ -23,18 +23,21 @@ public class Ambulance extends Vehicle implements MedicalVehicle {
 
 	private double healthGain;
 
-	List<Victim> sittingVictims = new ArrayList<>();
+	private List<Victim> sittingVictims = new ArrayList<>();
 
-	List<Victim> layingVictims = new ArrayList<>();
+	private List<Victim> layingVictims = new ArrayList<>();
+
+	private boolean mug;
 
 	@Autowired
-	private IncidentSceneManager incidentSceneManager;
+	private IncidentSceneMedicalTasksManager incidentSceneMedicalTasksManager;
 
 	public Ambulance(int id, String name,  int maxSittingPlaces, int maxlayingPlace, double healthGain, Base base) {
 		super(id, name, VehicleType.AMBULANCE, base);
 		this.maxlayingPlaces = maxlayingPlace;
 		this.maxSittingPlaces = maxSittingPlaces;
 		this.healthGain = healthGain;
+		this.mug = StringUtils.startsWithIgnoreCase(name, "MUG");
 	}
 
 	@Override
@@ -73,6 +76,21 @@ public class Ambulance extends Vehicle implements MedicalVehicle {
 	}
 
 	@Override
+	public int getMaxlayingPlaces() {
+		return maxlayingPlaces;
+	}
+
+	@Override
+	public int getMaxSittingPlaces() {
+		return maxSittingPlaces;
+	}
+
+	@Override
+	public boolean isMug() {
+		return mug;
+	}
+
+	@Override
 	public boolean canTransport(Victim victim) {
 		if (victim.getInjuryLevel().equals(InjuryLevel.MINOR)) {
 			return sittingVictims.size() < maxSittingPlaces;
@@ -95,16 +113,16 @@ public class Ambulance extends Vehicle implements MedicalVehicle {
 
 	private void checkIfThereAreTransportableVictimsAndFillVehicle() {
 		if (hasEmptySpaces()) {
-			incidentSceneManager.fillEmptySlotsWithStableVictims(this);
+			incidentSceneMedicalTasksManager.fillEmptySlotsWithStableVictims(this);
 		}
 	}
 
 	private void treatVictimAndNotifyTransportableIfPossible() {
-		Victim victim = incidentSceneManager.getVictimFor(this);
+		Victim victim = incidentSceneMedicalTasksManager.getVictimFor(this);
 		if (victim != null) {
 			treatVictim(victim);
 			if (victim.isTransportable()) {
-				incidentSceneManager.notifyVictimReadyForTransport(this);
+				incidentSceneMedicalTasksManager.notifyVictimReadyForTransport(this);
 			}
 		}
 	}

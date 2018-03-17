@@ -23,10 +23,10 @@ public class IncidentNotifyVictimStabilizedTest {
 
 	@Test
 	public void expectStabilizedVictimIsRemovedFromUnstableVictimListAndAddedToStableVictimList() {
-		assertThat(incident.getUnstabilizedVictims()).containsExactly(victim);
+		assertThat(incident.getMedicalTasks().getUnstabilizedVictims()).containsExactly(victim);
 
-		incident.notifyVictimStabilized(victim);
+		incident.getMedicalTasks().notifyVictimStabilized(victim);
 
-		assertThat(incident.getUnstabilizedVictims()).doesNotContain(victim);
+		assertThat(incident.getMedicalTasks().getUnstabilizedVictims()).doesNotContain(victim);
 	}
 }

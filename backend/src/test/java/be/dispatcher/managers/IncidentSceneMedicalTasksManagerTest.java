@@ -18,13 +18,13 @@ import be.dispatcher.domain.location.emergencybases.Base;
 import be.dispatcher.domain.people.Victim;
 import be.dispatcher.domain.people.VictimBuilder;
 import be.dispatcher.domain.vehicle.Ambulance;
-import be.dispatcher.managers.incidentscene.IncidentSceneManager;
+import be.dispatcher.managers.incidentscene.IncidentSceneMedicalTasksManager;
 
 @RunWith(MockitoJUnitRunner.class)
-public class IncidentSceneManagerTest {
+public class IncidentSceneMedicalTasksManagerTest {
 
 	@InjectMocks
-	private IncidentSceneManager incidentSceneManager;
+	private IncidentSceneMedicalTasksManager incidentSceneMedicalTasksManager;
 
 	@Mock
 	private Base base;
@@ -58,22 +58,22 @@ public class IncidentSceneManagerTest {
 
 	@Test
 	public void expectVictimWithLowestHealthFoundOnIncidentLocation() {
-		assertThat(incidentSceneManager.getVictimFor(ambulance)).isEqualTo(victim);
+		assertThat(incidentSceneMedicalTasksManager.getVictimFor(ambulance)).isEqualTo(victim);
 	}
 
 	@Test
 	public void expectMulitpleCallsToGetVictimForReturnTheSameVictim() {
-		assertThat(incidentSceneManager.getVictimFor(ambulance)).isEqualTo(victim);
-		assertThat(incidentSceneManager.getVictimFor(ambulance)).isEqualTo(victim);
+		assertThat(incidentSceneMedicalTasksManager.getVictimFor(ambulance)).isEqualTo(victim);
+		assertThat(incidentSceneMedicalTasksManager.getVictimFor(ambulance)).isEqualTo(victim);
 	}
 
 	@Test
 	public void expectVictimReadyForTransportRemovesItFromToBeTreatedVictimList() {
-		Victim victim = incidentSceneManager.getVictimFor(ambulance);
+		Victim victim = incidentSceneMedicalTasksManager.getVictimFor(ambulance);
 		assertThat(victim).isEqualTo(this.victim);
 
-		incidentSceneManager.notifyVictimReadyForTransport(ambulance);
-		Victim victim2 = incidentSceneManager.getVictimFor(ambulance);
+		incidentSceneMedicalTasksManager.notifyVictimReadyForTransport(ambulance);
+		Victim victim2 = incidentSceneMedicalTasksManager.getVictimFor(ambulance);
 
 		assertThat(victim2).isEqualTo(this.victim2);
 		assertThat(victim).isNotEqualTo(victim2);

@@ -15,7 +15,7 @@ angular.module('be.dispatcher.client.incident', [])
 
 		function getAllIncidentsFromBackend() {
 			console.log("get all incidents from backend");
-			Restangular.all('/incidents/all').getList().then(function(incidents) {
+			Restangular.all('/incidents/all').getList().then(function (incidents) {
 				allIncidents = incidents;
 			});
 		}

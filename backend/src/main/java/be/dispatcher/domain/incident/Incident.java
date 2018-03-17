@@ -19,27 +19,25 @@ public class Incident implements Ticks {
 	private final String id;
 	private final String shortDescription;
 	private Location location;
-	private List<Victim> unstabilizedVictims;
-	private List<Victim> stabilizedVictims = new ArrayList<>();
-
+	private MedicalTasks medicalTasks;
 
 	private boolean markIncidentFinished = false;
 
-	public Incident(Location location, List<Victim> unstabilizedVictims) {
+	public Incident(Location location, MedicalTasks medicalTasks) {
 		this.id = UUID.randomUUID().toString();
 		this.location = location;
-		this.unstabilizedVictims = unstabilizedVictims;
+		this.medicalTasks = medicalTasks;
 		shortDescription = String.format("Verkeersongeval op x:%d y:%d",location.getX(), location.getY());
 	}
 
 	@Override
 	public void tick() {
-		unstabilizedVictims.forEach(victim -> victim.tick());
+		medicalTasks.tick();
 		checkIncidentFinished();
 	}
 
 	private void checkIncidentFinished() {
-		markIncidentFinished = unstabilizedVictims.isEmpty() && stabilizedVictims.isEmpty();
+		markIncidentFinished = medicalTasks.areAllTasksCompleted();
 	}
 
 	public String getId() {
@@ -54,21 +52,8 @@ public class Incident implements Ticks {
 		return shortDescription;
 	}
 
-	public List<Victim> getUnstabilizedVictims() {
-		return unstabilizedVictims;
-	}
-
-	public boolean hasStabilizedVictims() {
-		return CollectionUtils.isNotEmpty(stabilizedVictims);
-	}
-
-	public List<Victim> getStabilizedVictims() {
-		return stabilizedVictims;
-	}
-
-	public void notifyVictimStabilized(Victim victim) {
-		unstabilizedVictims.remove(victim);
-		stabilizedVictims.add(victim);
+	public MedicalTasks getMedicalTasks() {
+		return medicalTasks;
 	}
 
 	public boolean isMarkIncidentFinished() {
@@ -79,9 +64,10 @@ public class Incident implements Ticks {
 	public String toString() {
 		return new ToStringBuilder(this)
 				.append("id", id)
+				.append("shortDescription", shortDescription)
 				.append("location", location)
-				.append("unstabilizedVictims", unstabilizedVictims)
-				.append("stabilizedVictims", stabilizedVictims)
+				.append("medicalTasks", medicalTasks)
+				.append("markIncidentFinished", markIncidentFinished)
 				.toString();
 	}
 }

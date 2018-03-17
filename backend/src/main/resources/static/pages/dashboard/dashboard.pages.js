@@ -11,13 +11,17 @@ angular.module('be.dispatcher.pages.dashboard', ['restangular'])
 		$stateProvider.state(dashboardState);
 	})
 	.controller('DashboardController', function ($scope, VehicleClient, IncidentClient) {
-	var ctrl = this;
+		var ctrl = this;
 
-		ctrl.getAllVehicles = function() {
+		ctrl.getAllVehicles = function () {
 			return VehicleClient.getAllVehicles();
 		}
 
-		ctrl.getAllIncidents = function() {
+		ctrl.toggleRefresh = function () {
+			VehicleClient.toggleRefresh();
+		}
+
+		ctrl.getAllIncidents = function () {
 			return IncidentClient.getAllIncidents();
 		}
 
@@ -25,11 +29,16 @@ angular.module('be.dispatcher.pages.dashboard', ['restangular'])
 			IncidentClient.createIncident();
 		};
 
-		ctrl.sendVehicleToIncident = function(vehicleId, incidentId) {
+		ctrl.sendVehicleToIncident = function (vehicleId, incidentId) {
 			VehicleClient.sendVehicleToIncident(vehicleId, incidentId);
 		}
 
-		ctrl.goToNearestHospital = function(vehicleId) {
+		ctrl.goToNearestHospital = function (vehicleId) {
 			VehicleClient.goToNearestHospital(vehicleId);
 		}
-});
+
+		ctrl.getTimes = function (n) {
+			return new Array(n);
+		};
+
+	});

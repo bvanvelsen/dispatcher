@@ -27,21 +27,21 @@ public class AmbulanceFreeSpaceFiller {
 
 	private void fillMedicalVehicleWithStableSittingVictims(MedicalVehicle medicalVehicle) {
 		List<Victim> stabilizedSittingVictims = getStabilizedSittingVictims(medicalVehicle.freeSittingsPlaces(), medicalVehicle.getIncident());
-		medicalVehicle.getIncident().getStabilizedVictims().removeAll(stabilizedSittingVictims);
+		medicalVehicle.getIncident().getMedicalTasks().getStabilizedVictims().removeAll(stabilizedSittingVictims);
 		medicalVehicle.getSittingVictims().addAll(stabilizedSittingVictims);
 	}
 
 	private void fillMedicalVehicleWithStableLayingVictims(MedicalVehicle medicalVehicle) {
 		List<Victim> stabilizedLayingVictims = getStabilizedLayingVictims(medicalVehicle.freeLayingPlaces(), medicalVehicle.getIncident());
-		medicalVehicle.getIncident().getStabilizedVictims().removeAll(stabilizedLayingVictims);
+		medicalVehicle.getIncident().getMedicalTasks().getStabilizedVictims().removeAll(stabilizedLayingVictims);
 		medicalVehicle.getLayingVictims().addAll(stabilizedLayingVictims);
 	}
 
 	private List<Victim> getStabilizedSittingVictims(int amountOfVictimsToRetrieve, Incident incident) {
-		return incident.getStabilizedVictims().stream().filter(victim -> InjuryLevel.MINOR.equals(victim.getInjuryLevel())).limit(amountOfVictimsToRetrieve).collect(Collectors.toList());
+		return incident.getMedicalTasks().getStabilizedVictims().stream().filter(victim -> InjuryLevel.MINOR.equals(victim.getInjuryLevel())).limit(amountOfVictimsToRetrieve).collect(Collectors.toList());
 	}
 
 	private List<Victim> getStabilizedLayingVictims(int amountOfVictimsToRetrieve, Incident incident) {
-		return incident.getStabilizedVictims().stream().filter(victim -> !InjuryLevel.MINOR.equals(victim.getInjuryLevel())).limit(amountOfVictimsToRetrieve).collect(Collectors.toList());
+		return incident.getMedicalTasks().getStabilizedVictims().stream().filter(victim -> !InjuryLevel.MINOR.equals(victim.getInjuryLevel())).limit(amountOfVictimsToRetrieve).collect(Collectors.toList());
 	}
 }

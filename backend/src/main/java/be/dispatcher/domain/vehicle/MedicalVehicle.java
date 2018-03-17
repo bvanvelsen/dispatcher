@@ -20,7 +20,13 @@ public interface MedicalVehicle {
 
 	List<Victim> getSittingVictims();
 
+	int getMaxlayingPlaces();
+
+	int getMaxSittingPlaces();
+
 	boolean canTransport(Victim victim);
 
 	Incident getIncident();
+
+	boolean isMug();
 }

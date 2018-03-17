@@ -16,7 +16,6 @@ public class VictimSetInjuryLevelBasedOnCurrentHealthTest extends DispatcherSpri
 		victim = VictimBuilder.aVictim()
 				.withInjuryLevel(InjuryLevel.MINOR)
 				.withHealth(InjuryLevel.MEDIOCRE.getMaxHealth())
-				.withHealthLossPerTick(1.0)
 				.build();
 
 		victim.tick();
@@ -29,7 +28,6 @@ public class VictimSetInjuryLevelBasedOnCurrentHealthTest extends DispatcherSpri
 		victim = VictimBuilder.aVictim()
 				.withInjuryLevel(InjuryLevel.MEDIOCRE)
 				.withHealth(InjuryLevel.SEVERE.getMaxHealth())
-				.withHealthLossPerTick(1.0)
 				.build();
 
 		victim.tick();
@@ -40,7 +38,6 @@ public class VictimSetInjuryLevelBasedOnCurrentHealthTest extends DispatcherSpri
 	@Test
 	public void expectVictimInjuryLevelDroppedFromSevereToDead() {
 		victim = VictimBuilder.aVictim()
-				.withHealthLossPerTick(1.0)
 				.withInjuryLevel(InjuryLevel.SEVERE)
 				.withHealth(InjuryLevel.DEAD.getMaxHealth())
 				.build();
