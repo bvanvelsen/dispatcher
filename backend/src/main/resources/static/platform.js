@@ -15,6 +15,7 @@ angular.module('be.dispatcher.application', [
 	'be.dispatcher.pages.dashboard',
 	'be.dispatcher.pages.incident',
 	'be.dispatcher.component.ambulanceplaces',
+	'be.dispatcher.client.bases',
 ])
 	.controller('ApplicationCtrl', function($scope, $interval) {
 		var tick = function() {

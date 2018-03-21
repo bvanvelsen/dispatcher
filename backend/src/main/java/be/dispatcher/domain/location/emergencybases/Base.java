@@ -9,4 +9,6 @@ public interface Base {
 	String getName();
 
 	int getId();
+
+	BaseType getBaseType();
 }

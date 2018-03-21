@@ -3,19 +3,31 @@
 
 <div class="container">
 	<button type="button" class="btn btn-info" ng-click="ctrl.toggleRefresh()">Toggle Refresh</button>
-	<div class="row" ng-repeat="vehicle in ctrl.getAllVehicles()">
-		<div class="row">
-			<div class="col">
+	<table class="table table-striped">
+		<thead>
+		<tr>
+			<th>Action</th>
+			<th>Name</th>
+			<th>Type</th>
+			<th>spaces</th>
+			<th>status</th>
+			<th>location</th>
+			<th>accident</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr ng-repeat="vehicle in ctrl.getAllVehicles()">
+			<td  style="width:10%" class="col">
 				<button type="button" class="btn btn-info" ng-click="ctrl.goToNearestHospital(vehicle.id)">Go to hospital</button>
-			</div>
-			<div class="col">
+			</td>
+			<td  style="width:30%" class="col">
 				{{vehicle.name}}
-			</div>
-			<div class="col">
+			</td>
+			<td  style="width:5%" class="col">
 				<span ng-if="vehicle.vehicleType === 'AMBULANCE'"><i class="fas fa-ambulance"></i></span>
 				<span ng-if="vehicle.vehicleType === 'AMBULANCE' && vehicle.name.includes('MUG')"><i class="fas fa-user-md"></i></span>
-			</div>
-			<div class="col">
+			</td>
+			<td  style="width:10%" class="col">
 				<!--<ambulance-places-weergave vehicle="testeke"/>-->
 				<span ng-repeat="item in ctrl.getTimes(vehicle.maxSittingPlaces) track by $index">
 					<span ng-class="vehicle.sittingVictims.length > $index ? 'occupied' : 'unoccupied'"><i class="fas fa-male"></i></span>
@@ -23,8 +35,8 @@
 				<span ng-repeat="item in ctrl.getTimes(vehicle.maxlayingPlaces) track by $index">
 					<span class="vehicle.layingVictims.length > $index  ? occupied : unoccupied"><i class="fas fa-bed"></i></span>
 				</span>
-			</div>
-			<div class="col">
+			</td>
+			<td  style="width:5%" class="col">
 				<span ng-if="vehicle.vehicleStatus === 'AT_BASE'"><i class="fas fa-home"></i></span>
 				<span ng-if="vehicle.vehicleStatus === 'AT_DROP_OFF'"><i class="fas fa-hospital"></i></span>
 				<span ng-if="vehicle.vehicleStatus === 'AT_INCIDENT'"><i class="fas fa-exclamation-circle"></i></span>
@@ -32,16 +44,15 @@
 				<span ng-if="vehicle.vehicleStatus === 'GO_TO_BASE'"><i class="fas fa-caret-left"></i></span>
 				<span ng-if="vehicle.vehicleStatus === 'GO_TO_DROPOFF'"><i class="fas fa-caret-left"></i></span>
 				<!--{{vehicle.vehicleStatus}}-->
-			</div>
-		</div>
-		<div class="row">
-			<div class="col">
+			</td>
+			<td  style="width:10%" class="col">
 				{{vehicle.location}}
-			</div>
-			<div class="col">
+			</td>
+			<td  style="width:20%" class="col">
 				<select ng-model="selectedIncident" ng-change="ctrl.sendVehicleToIncident(vehicle.id, selectedIncident.id)" ng-options="incident.id for incident in ctrl.getAllIncidents()">
 				</select>
-			</div>
-		</div>
-	</div>
+			</td>
+		</tr>
+		</tbody>
+	</table>
 </div>

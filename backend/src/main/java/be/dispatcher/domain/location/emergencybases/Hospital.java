@@ -28,4 +28,9 @@ public class Hospital implements Base {
 	public int getId() {
 		return id;
 	}
+
+	@Override
+	public BaseType getBaseType() {
+		return BaseType.HOSPITAL;
+	}
 }

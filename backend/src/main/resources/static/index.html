@@ -24,6 +24,7 @@
 </head>
 
 <body ng-app="be.dispatcher.application" ng-cloak>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/two.js/0.6.0/two.min.js'></script>
 
 <div ng-controller='ApplicationCtrl'>
 	<p>{{ clock | date:'HH:mm:ss'}}</p>
@@ -62,6 +63,7 @@
 <script src="config/restangular.config.js"></script>
 <script src="clients/vehicle.client.js"></script>
 <script src="clients/incident.client.js"></script>
+<script src="clients/bases.client.js"></script>
 <script src="pages/vehicleshop/vehicleshop.pages.js"></script>
 <script src="pages/dashboard/dashboard.pages.js"></script>
 <script src="pages/incident/incident.pages.js"></script>

@@ -41,7 +41,7 @@ public class Parser {
 	};
 
 	private Function<CSVRecord, Ambulance> csvToAmbulanceFunction = csvRecord -> {
-		return new Ambulance(Integer.parseInt(csvRecord.get(1)), csvRecord.get(2), Integer.parseInt(csvRecord.get(4)), Integer.parseInt(csvRecord.get(5)), Double.parseDouble(csvRecord.get(3)),
+		return new Ambulance(Integer.parseInt(csvRecord.get(0)), csvRecord.get(2), Integer.parseInt(csvRecord.get(4)), Integer.parseInt(csvRecord.get(5)), Double.parseDouble(csvRecord.get(3)),
 				baseRespository.getById(Integer.parseInt(csvRecord.get(1))));
 	};
 	private Function<CSVRecord, FireDepartment> csvToFireDepartmentFunction = csvRecord -> {

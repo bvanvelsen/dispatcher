@@ -1,5 +1,7 @@
 package be.dispatcher.domain.location.emergencybases;
 
+import static be.dispatcher.domain.location.emergencybases.BaseType.FIRE_DEPARTMENT;
+
 import be.dispatcher.domain.location.Location;
 
 public class FireDepartment implements Base {
@@ -27,5 +29,10 @@ public class FireDepartment implements Base {
 	@Override
 	public int getId() {
 		return id;
+	}
+
+	@Override
+	public BaseType getBaseType() {
+		return FIRE_DEPARTMENT;
 	}
 }
