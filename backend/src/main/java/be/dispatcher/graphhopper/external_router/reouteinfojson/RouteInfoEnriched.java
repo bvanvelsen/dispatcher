@@ -3,13 +3,10 @@ package be.dispatcher.graphhopper.external_router.reouteinfojson;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.temporal.TemporalField;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import be.dispatcher.graphhopper.LatLon;
 import be.dispatcher.graphhopper.LatLonAtTime;
@@ -48,37 +45,35 @@ public class RouteInfoEnriched {
 		return startTime;
 	}
 
-	public void setArrivalTime(LocalDateTime arrivalTime) {
-		this.arrivalTime = arrivalTime;
+	public LatLon getDestination() {
+		return new LatLon(routeInfo.getDestination().get(1),routeInfo.getDestination().get(0));
 	}
 
 	public void enrichRouteInfo() {
-		LocalDateTime startOfResponse = LocalDateTime.now();
-		startTime = startOfResponse;
+		startTime = LocalDateTime.now();
 		int travelTimeSoFarInMs = 0;
-		for (Instruction instruction : routeInfo.getInstructions()) {
-			enrichPointsWithTimeInformation(getCoordinateListFor(instruction), instruction, travelTimeSoFarInMs,
-					startOfResponse);
-			travelTimeSoFarInMs += instruction.getTime();
+
+		for (List<Double> doubles : routeInfo.getTimes()) {
+			enrichPointsWithTimeInformation(getCoordinateListFor(doubles), doubles.get(2).intValue(), travelTimeSoFarInMs);
+			travelTimeSoFarInMs += doubles.get(2).intValue();
 		}
-		arrivalTime = startTime.plusSeconds(travelTimeSoFarInMs / 1000);
+		arrivalTime = startTime.plusSeconds(getTime() / 1000);
 	}
 
-	private List<List<Double>> getCoordinateListFor(Instruction instruction) {
-		List<List<Double>> subList = routeInfo.getCoordinates().subList(instruction.getInterval().get(0), instruction.getInterval().get(1));
+	private List<List<Double>> getCoordinateListFor(List<Double> intervals) {
+		List<List<Double>> subList = routeInfo.getCoordinates().subList(intervals.get(0).intValue(), intervals.get(1).intValue());
 		if (subList.isEmpty()) {//last item
-			subList = Collections.singletonList(routeInfo.getCoordinates().get(instruction.getInterval().get(0)));
+			subList = Collections.singletonList(routeInfo.getCoordinates().get(intervals.get(0).intValue()));
 		}
 		return subList;
 	}
 
-	private void enrichPointsWithTimeInformation(List<List<Double>> points, Instruction instruction, int travelTimeSoFarInMs, LocalDateTime startTimeOfRoute) {
-		Integer timeForInstructionInMs = instruction.getTime();
+	private void enrichPointsWithTimeInformation(List<List<Double>> points, Integer timeForInstructionInMs, int travelTimeSoFarInMs) {
 		if (!points.isEmpty()) {
 			double travelTimeBetweenPointsInInstruction = timeForInstructionInMs / points.size();
 			for (List<Double> point : points) {
 				LatLon latLon = createLatLanForPoint(point);
-				long timeAtPoint = (startTimeOfRoute.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() + msAfterStart(points, travelTimeSoFarInMs, travelTimeBetweenPointsInInstruction, point));
+				long timeAtPoint = (startTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() + msAfterStart(points, travelTimeSoFarInMs, travelTimeBetweenPointsInInstruction, point));
 				LocalDateTime date = LocalDateTime.ofInstant(Instant.ofEpochMilli(timeAtPoint), ZoneId.systemDefault());
 				addLatLonAtTime(new LatLonAtTime(latLon, date));
 			}
