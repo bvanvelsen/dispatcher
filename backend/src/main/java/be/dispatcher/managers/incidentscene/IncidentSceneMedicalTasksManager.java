@@ -28,22 +28,22 @@ public class IncidentSceneMedicalTasksManager {
 		return victim;
 	}
 
-	public void fillEmptySlotsWithStableVictims(MedicalVehicle medicalVehicle) {
-		new AmbulanceFreeSpaceFiller(medicalVehicle).fillEmptySlotsWithStableVictims();
-	}
+//	public void fillEmptySlotsWithStableVictims(MedicalVehicle medicalVehicle) {
+//		new AmbulanceFreeSpaceFiller(medicalVehicle).fillEmptySlotsWithStableVictims();
+//	}
 
-	public void notifyVictimReadyForTransport(Vehicle vehicle) {
-		Incident incident = vehicle.getIncident();
-		Victim victim = vehicleVictimCoupling.remove(vehicle);
-		incident.getMedicalTasks().notifyVictimStabilized(victim);
-	}
+//	public void notifyVictimReadyForTransport(Vehicle vehicle) {
+//		Incident incident = vehicle.getIncident();
+//		Victim victim = vehicleVictimCoupling.remove(vehicle);
+//		incident.notifyVictimStabilized(victim);
+//	}
 
-	public void notifyVehicleLeavingSoRemoveCoupling(Vehicle vehicle) {
-		vehicleVictimCoupling.remove(vehicle);
+	public Victim notifyVehicleLeavingSoRemoveCoupling(Vehicle vehicle) {
+		return vehicleVictimCoupling.remove(vehicle);
 	}
 
 	private Victim getUntreatedVictimInWorstCondition(Incident incident) {
-		Optional<Victim> victimOptional = incident.getMedicalTasks().getUnstabilizedVictims().stream().min(Comparator.comparing(victim -> victim.getHealth()));
+		Optional<Victim> victimOptional = incident.getMedicalTasks().getVictims().stream().max(Comparator.comparing(victim -> victim.getHealCountdown()));
 		if (victimOptional.isPresent()) {
 			return victimOptional.get();
 		}

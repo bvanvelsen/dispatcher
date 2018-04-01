@@ -7,7 +7,23 @@ angular.module('be.dispatcher.client.bases', [])
 			});
 		}
 
+
+		function getAllHospitals() {
+			return Restangular.all('bases/hospitals').getList().then(function (allBases) {
+				return allBases;
+			});
+		}
+
+		function getAllFireDepartments() {
+			return Restangular.all('bases/fire_departments').getList().then(function (allBases) {
+				return allBases;
+			});
+		}
+
+
 		return {
-			getAllBases: getAllBases
+			getAllBases: getAllBases,
+			getAllHospitals:getAllHospitals,
+			getAllFireDepartments:getAllFireDepartments
 		};
 	});

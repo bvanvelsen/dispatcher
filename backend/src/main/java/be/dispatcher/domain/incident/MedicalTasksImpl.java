@@ -7,37 +7,14 @@ import be.dispatcher.domain.people.Victim;
 
 public class MedicalTasksImpl implements MedicalTasks {
 
-	private List<Victim> unstabilizedVictims;
-	private List<Victim> stabilizedVictims = new ArrayList<>();
+	private List<Victim> victims;
 
-	public MedicalTasksImpl(List<Victim> unstabilizedVictims) {
-		this.unstabilizedVictims = unstabilizedVictims;
+	public MedicalTasksImpl(List<Victim> victims) {
+		this.victims = victims;
 	}
 
 	@Override
-	public void tick() {
-		unstabilizedVictims.forEach(victim -> victim.tick());
-	}
-
-	@Override
-	public boolean areAllTasksCompleted() {
-		return unstabilizedVictims.isEmpty() && stabilizedVictims.isEmpty();
-	}
-
-	@Override
-	public List<Victim> getStabilizedVictims() {
-		return stabilizedVictims;
-	}
-
-	@Override
-	public List<Victim> getUnstabilizedVictims() {
-		return unstabilizedVictims;
-	}
-
-	@Override
-	public void notifyVictimStabilized(Victim victim) {
-		if (unstabilizedVictims.remove(victim)) {
-			stabilizedVictims.add(victim);
-		}
+	public List<Victim> getVictims() {
+		return victims;
 	}
 }

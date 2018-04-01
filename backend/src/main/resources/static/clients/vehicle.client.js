@@ -1,17 +1,19 @@
 angular.module('be.dispatcher.client.vehicle', [])
 	.factory('VehicleClient', function (Restangular, $interval) {
 
-		const GET_VEHICLES_REFRESH_RATE_IN_MS = 3000;
-		var allVehicles;
+		const GET_VEHICLES_REFRESH_RATE_IN_MS = 1000;
+		var allAmbulances;
+		var allMugs;
 		var refresh = true;
 
-		function getAllVehicles() {
-			return allVehicles;
+		function getAllAmbulances() {
+			return allAmbulances;
 		}
 
-		function buyAmbulance() {
-			return Restangular.all('/vehicles/create/ambulance').post();
+		function getAllMugs() {
+			return allAmbulances;
 		}
+
 
 		function sendVehicleToIncident(vehicleId, incidentId) {
 			return Restangular.one('vehicles', vehicleId).one('sendTo', incidentId).post();
@@ -33,15 +35,17 @@ angular.module('be.dispatcher.client.vehicle', [])
 		}, GET_VEHICLES_REFRESH_RATE_IN_MS);
 
 		function getAllVehiclesFromBackend() {
-			console.log("get all vehicles from backend")
-			Restangular.all('/vehicles/all').getList().then(function (vehicles) {
-				allVehicles = vehicles;
+			Restangular.all('/vehicles/ambulances/all').getList().then(function (vehicles) {
+				allAmbulances = vehicles;
+			});
+			Restangular.all('/vehicles/mugs/all').getList().then(function (vehicles) {
+				allMugs = vehicles;
 			});
 		}
 
 		return {
-			getAllVehicles: getAllVehicles,
-			buyAmbulance: buyAmbulance,
+			getAllAmbulances: getAllAmbulances,
+			getAllMugs: getAllMugs,
 			sendVehicleToIncident: sendVehicleToIncident,
 			goToNearestHospital: goToNearestHospital,
 			toggleRefresh: toggleRefresh

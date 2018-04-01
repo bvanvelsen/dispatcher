@@ -9,14 +9,14 @@
 			<th>Action</th>
 			<th>Name</th>
 			<th>Type</th>
-			<th>spaces</th>
+			<th>filled</th>
 			<th>status</th>
 			<th>location</th>
 			<th>accident</th>
 		</tr>
 		</thead>
-		<tbody>
-		<tr ng-repeat="vehicle in ctrl.getAllVehicles()">
+		<tbody ng-repeat="vehicle in ctrl.getAllAmbulances()">
+		<tr>
 			<td  style="width:10%" class="col">
 				<button type="button" class="btn btn-info" ng-click="ctrl.goToNearestHospital(vehicle.id)">Go to hospital</button>
 			</td>
@@ -28,13 +28,7 @@
 				<span ng-if="vehicle.vehicleType === 'AMBULANCE' && vehicle.name.includes('MUG')"><i class="fas fa-user-md"></i></span>
 			</td>
 			<td  style="width:10%" class="col">
-				<!--<ambulance-places-weergave vehicle="testeke"/>-->
-				<span ng-repeat="item in ctrl.getTimes(vehicle.maxSittingPlaces) track by $index">
-					<span ng-class="vehicle.sittingVictims.length > $index ? 'occupied' : 'unoccupied'"><i class="fas fa-male"></i></span>
-				</span>
-				<span ng-repeat="item in ctrl.getTimes(vehicle.maxlayingPlaces) track by $index">
-					<span class="vehicle.layingVictims.length > $index  ? occupied : unoccupied"><i class="fas fa-bed"></i></span>
-				</span>
+					<span ng-class="vehicle.filled ? 'occupied' : 'unoccupied'"><i class="fas fa-male"></i></span>
 			</td>
 			<td  style="width:5%" class="col">
 				<span ng-if="vehicle.vehicleStatus === 'AT_BASE'"><i class="fas fa-home"></i></span>
@@ -46,13 +40,19 @@
 				<!--{{vehicle.vehicleStatus}}-->
 			</td>
 			<td  style="width:10%" class="col">
-				{{vehicle.location}}
 			</td>
 			<td  style="width:20%" class="col">
-				<select ng-model="selectedIncident" ng-change="ctrl.sendVehicleToIncident(vehicle.id, selectedIncident.id)" ng-options="incident.id for incident in ctrl.getAllIncidents()">
-				</select>
 			</td>
 		</tr>
+		<tr ng-repeat-start="incident in ctrl.getAllIncidents()">
+			<td >
+				<button type="button" class="btn btn-warning" ng-click="ctrl.sendVehicleToIncident(vehicle.id, incident.id)">Dispatch</button>
+			</td>
+			<td colspan="5">{{incident.location.display_name}}</td>
+			<td ng-if="incident.medicalTasks"><img src="../../star_of_life.png" height="15" width="15"/></td>
+		</tr>
+		<tr ng-repeat-end></tr>
+
 		</tbody>
 	</table>
 </div>

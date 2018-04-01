@@ -1,5 +1,8 @@
 package be.dispatcher.repositories;
 
+import static be.dispatcher.domain.location.emergencybases.BaseType.*;
+import static java.util.stream.Collectors.toList;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -7,29 +10,24 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import be.dispatcher.DispatcherProperties;
-import be.dispatcher.domain.location.Location;
 import be.dispatcher.domain.location.emergencybases.Base;
+import be.dispatcher.domain.location.emergencybases.BaseType;
 import be.dispatcher.domain.location.emergencybases.Hospital;
-import be.dispatcher.managers.LocationManager;
+import be.dispatcher.graphhopper.LatLon;
+import be.dispatcher.graphhopper.external_router.RetrofitRouteCaller;
+import be.dispatcher.graphhopper.external_router.RouteInput;
+import be.dispatcher.graphhopper.external_router.reouteinfojson.RouteInfoEnriched;
 
 @Component
 public class BaseRespository {
 
-	@Autowired
-	private DispatcherProperties dispatcherProperties;
-
-	@Autowired
-	private LocationManager locationManager;
-
 	private List<Base> bases = new ArrayList<>();
+
+	@Autowired
+	private RetrofitRouteCaller retrofitRouteCaller;
 
 	public void addBaseToRepository(Base base) {
 		bases.add(base);
-	}
-
-	public List<Base> getBases() {
-		return bases;
 	}
 
 	public Base getById(int id) {
@@ -38,21 +36,33 @@ public class BaseRespository {
 				.findFirst().get();
 	}
 
-	public Base getClosestHospital(Location vehicleLocation) {
+	public List<Base> getAllHospitals() {
+		return bases.stream()
+				.filter(base -> HOSPITAL.equals(base.getBaseType()))
+				.collect(toList());
+	}
+
+	public Base getClosestHospital(String speedProfile, LatLon vehicleLocation) {
 		List<Base> hospitals = bases.stream()
 				.filter(base -> base instanceof Hospital)
 				.collect(Collectors.toList());
 
 		Base closestHospital = null;
-		int closestInMeters = 0;
+		int closestInTime = 0;
 		for (Base hospital : hospitals) {
-			int distanceInMeters = locationManager.getRouteBetweenLocations(vehicleLocation, hospital.getLocation()).getDistanceInMeters();
-			if (closestHospital == null || closestInMeters > distanceInMeters) {
+			RouteInfoEnriched routeInfoEnriched = retrofitRouteCaller.doCall(new RouteInput(speedProfile, vehicleLocation, hospital.getLocation()));
+			int travelTimeToCurrentHospital = routeInfoEnriched.getTime();
+			if (closestHospital == null || closestInTime > travelTimeToCurrentHospital) {
 				closestHospital = hospital;
-				closestInMeters = distanceInMeters;
+				closestInTime = travelTimeToCurrentHospital;
 			}
 		}
 		return closestHospital;
 	}
 
+	public List<Base> getAllFireDepartments() {
+		return bases.stream()
+				.filter(base -> FIRE_DEPARTMENT.equals(base.getBaseType()))
+				.collect(toList());
+	}
 }

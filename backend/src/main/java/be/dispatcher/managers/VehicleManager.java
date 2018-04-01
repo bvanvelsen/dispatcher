@@ -8,8 +8,11 @@ import org.springframework.stereotype.Component;
 import be.dispatcher.domain.incident.Incident;
 import be.dispatcher.domain.location.emergencybases.Base;
 import be.dispatcher.domain.vehicle.Vehicle;
-import be.dispatcher.domain.vehicle.VehicleFactory;
-import be.dispatcher.domain.vehicle.VehicleType;
+import be.dispatcher.domain.vehicle.VehicleStatus;
+import be.dispatcher.graphhopper.external_router.RetrofitRouteCaller;
+import be.dispatcher.graphhopper.external_router.RouteInput;
+import be.dispatcher.graphhopper.external_router.reouteinfojson.RouteInfo;
+import be.dispatcher.graphhopper.external_router.reouteinfojson.RouteInfoEnriched;
 import be.dispatcher.managers.incidentscene.IncidentSceneMedicalTasksManager;
 import be.dispatcher.repositories.BaseRespository;
 import be.dispatcher.repositories.IncidentRepository;
@@ -18,14 +21,17 @@ import be.dispatcher.repositories.VehicleRepository;
 @Component
 public class VehicleManager {
 
-	@Autowired
-	private VehicleFactory vehicleFactory;
+//	@Autowired
+//	private VehicleFactory vehicleFactory;
 
 	@Autowired
 	private VehicleRepository vehicleRepository;
 
 	@Autowired
 	private IncidentRepository incidentRepository;
+
+	@Autowired
+	private RetrofitRouteCaller retrofitRouteCaller;
 
 	@Autowired
 	private BaseRespository baseRespository;
@@ -37,17 +43,26 @@ public class VehicleManager {
 		return vehicleRepository.getVehicles();
 	}
 
-	public Vehicle sendVehicleToIncident(int vehicleId, String incidentId) {
+	public Vehicle sendVehicleToIncident(int vehicleId, int incidentId) {
 		Vehicle vehicle = vehicleRepository.getVehicleById(vehicleId);
 		Incident incident = incidentRepository.getIncidentById(incidentId);
-		vehicle.goToIncident(incident);
+		RouteInfoEnriched routeInfo = retrofitRouteCaller.doCall(new RouteInput(vehicle.getVehicleType().getSpeedProfilePrioriy(), vehicle.getLocation(), incident.getLocation()));
+		vehicle.setRouteInfo(routeInfo);
+		vehicle.setVehicleStatus(VehicleStatus.RESPONDING);
+		vehicle.setIncident(incident);
 		return vehicle;
 	}
 
-	public void sendVehicleToNearestHospital(int vehicleId) {
-		Vehicle vehicle = vehicleRepository.getVehicleById(vehicleId);
-		Base closestHospital = baseRespository.getClosestHospital(vehicle.getLocation());
-		incidentSceneMedicalTasksManager.notifyVehicleLeavingSoRemoveCoupling(vehicle);
-		vehicle.goToDropoffLocation(closestHospital);
+	public void sendVehicleToNearestHospital(Vehicle vehicle) {
+		Base closestHospital = baseRespository.getClosestHospital(vehicle.getVehicleType().getSpeedProfilePrioriy(), vehicle.getLocation());
+		RouteInfoEnriched routeInfoEnriched = retrofitRouteCaller.doCall(new RouteInput(vehicle.getVehicleType().getSpeedProfilePrioriy(), vehicle.getLocation(), closestHospital.getLocation()));
+		vehicle.setRouteInfo(routeInfoEnriched);
+		vehicle.setVehicleStatus(VehicleStatus.GO_TO_DROPOFF);
+	}
+
+	public void sendVehicleToBase(Vehicle vehicle) {
+		RouteInfoEnriched routeInfoEnriched = retrofitRouteCaller.doCall(new RouteInput(vehicle.getVehicleType().getSpeedProfileSecundary(), vehicle.getLocation(), vehicle.getBase().getLocation()));
+		vehicle.setRouteInfo(routeInfoEnriched);
+		vehicle.setVehicleStatus(VehicleStatus.GO_TO_BASE);
 	}
 }

@@ -22,20 +22,11 @@ public class IncidentRepository {
 		return incidents;
 	}
 
-	public Incident getIncidentById(String id) {
+	public Incident getIncidentById(int id) {
 		return incidents.stream ()
-				.filter(incident -> incident.getId().equals(id))
+				.filter(incident -> incident.getId() == id)
 				.findFirst()
 				.get();
 	}
 
-	private List<Incident> getIncidentsMarkedasComplete() {
-		return incidents.stream ()
-				.filter(incident -> incident.isMarkIncidentFinished())
-				.collect(toList());
-	}
-
-	public void removeFinishedIncidents() {
-		incidents.removeAll(getIncidentsMarkedasComplete());
-	}
 }

@@ -1,10 +1,9 @@
 package be.dispatcher.domain.location.emergencybases;
 
-import be.dispatcher.domain.location.Location;
+import be.dispatcher.graphhopper.LatLon;
 
 public interface Base {
-
-	Location getLocation();
+	LatLon getLocation();
 
 	String getName();
 

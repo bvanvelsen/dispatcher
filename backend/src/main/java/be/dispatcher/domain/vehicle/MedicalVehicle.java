@@ -1,32 +1,41 @@
 package be.dispatcher.domain.vehicle;
 
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import be.dispatcher.domain.incident.Incident;
+import be.dispatcher.domain.location.emergencybases.Base;
 import be.dispatcher.domain.people.Victim;
+import be.dispatcher.managers.incidentscene.IncidentSceneMedicalTasksManager;
 
-public interface MedicalVehicle {
-	boolean hasEmptySpaces();
+public abstract class MedicalVehicle extends Vehicle {
 
-	boolean hasFreeLayingPlaces();
+	private final int healthGainPerTick;
 
-	boolean hasFreeSittingsPlaces();
+	@Autowired
+	private IncidentSceneMedicalTasksManager incidentSceneMedicalTasksManager;
 
-	int freeLayingPlaces();
+	public MedicalVehicle(int id, String name, Base base, int healthGainPerTick) {
+		super(id, name, base);
+		this.healthGainPerTick = healthGainPerTick;
+	}
 
-	int freeSittingsPlaces();
-
-	List<Victim> getLayingVictims();
-
-	List<Victim> getSittingVictims();
-
-	int getMaxlayingPlaces();
-
-	int getMaxSittingPlaces();
-
-	boolean canTransport(Victim victim);
-
-	Incident getIncident();
-
-	boolean isMug();
+	@Override
+	public void tick() {
+		super.tick();
+		switch (vehicleStatus) {
+		case AT_INCIDENT:
+			Victim victim = incidentSceneMedicalTasksManager.getVictimFor(this);
+			if (victim != null) {
+				if (victim.heal(healthGainPerTick)) {
+					if (victim.isTransportable()) {
+						incident.getMedicalTasks().getVictims().remove(victim);
+						filled = true;
+						vehicleManager.sendVehicleToNearestHospital(this);
+					}
+				}
+			} else {
+				vehicleManager.sendVehicleToBase(this);
+			}
+			break;
+		}
+	}
 }

@@ -3,27 +3,28 @@ package be.dispatcher.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import be.dispatcher.domain.location.emergencybases.Base;
-import be.dispatcher.domain.vehicle.Vehicle;
-import be.dispatcher.managers.VehicleManager;
 import be.dispatcher.repositories.BaseRespository;
 
 @RestController
-@RequestMapping("api/")
+@RequestMapping("api/bases/")
 public class BasesController {
 
 	@Autowired
-	private BaseRespository vehicleManager;
+	private BaseRespository baseRespository;
 
-	@RequestMapping(value = "bases", method = RequestMethod.GET)
-	public List<? extends Base> getAllVehicles() {
-		return vehicleManager.getBases();
+	@RequestMapping(value = "hospitals", method = RequestMethod.GET)
+	public List<Base> getAllHospitals() {
+		return baseRespository.getAllHospitals();
+	}
+
+	@RequestMapping(value = "fire_departments", method = RequestMethod.GET)
+	public List<Base> getAllFireDepartments() {
+		return baseRespository.getAllFireDepartments();
 	}
 
 }

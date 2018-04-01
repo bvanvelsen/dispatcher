@@ -1,3 +1,4 @@
-1000,100,Ziekenwagen Jessa,5.4,2,3
-1001,100,MUG Jessa,10,0,0
-1002,200,Ziekenwagen Hasselt 1,5.4,1,1
+1000,100,Ziekenwagen Jessa PIT,AMBULANCE,15
+1001,100,MUG Jessa,MUG,20
+1002,200,Hasselt 1,AMBULANCE,10
+1003,200,Hasselt 2,AMBULANCE,10

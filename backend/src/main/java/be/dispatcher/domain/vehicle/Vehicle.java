@@ -1,59 +1,108 @@
 package be.dispatcher.domain.vehicle;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
 
 import be.dispatcher.domain.Ticks;
 import be.dispatcher.domain.incident.Incident;
-import be.dispatcher.domain.location.Location;
-import be.dispatcher.domain.location.LocationBuilder;
 import be.dispatcher.domain.location.emergencybases.Base;
-import be.dispatcher.domain.vehicle.statushandlers.StatusHandler;
-import be.dispatcher.domain.vehicle.statushandlers.StatusHandlerFactory;
+import be.dispatcher.graphhopper.LatLon;
+import be.dispatcher.graphhopper.external_router.reouteinfojson.RouteInfoEnriched;
+import be.dispatcher.managers.VehicleManager;
 
-@Configurable(preConstruction = true, autowire = Autowire.BY_TYPE)
 public abstract class Vehicle implements Ticks {
 
 	@Autowired
-	private StatusHandlerFactory statusHandlerFactory;
+	protected VehicleManager vehicleManager;
 
-	private final int id;
-	private String name;
-	private final Integer speed;
-	private final VehicleType vehicleType;
-	private VehicleStatus vehicleStatus;
-	private Location location;
-	private Incident incident;
-	private Base base;
-	private Base dropOffBase;
-	private LocalDateTime dropOffEndTime;
+	protected int id;
+	protected String name;
+	protected VehicleType vehicleType;
+	protected Base base;
+	protected LatLon location;
+	protected Incident incident;
+	protected RouteInfoEnriched routeInfo;
+	protected VehicleStatus vehicleStatus;
+	protected boolean filled;
+	protected LocalDateTime timeUntilReadyAtDropoff;
 
-	Vehicle(int id, String name,  VehicleType vehicleType, Base base) {
-		vehicleStatus = VehicleStatus.AT_BASE;
+	public Vehicle(int id, String name, Base base) {
 		this.id = id;
 		this.name = name;
-		this.speed = vehicleType.getSpeed();
-		this.location = LocationBuilder.aLocation().withX(base.getLocation().getX()).withY(base.getLocation().getY()).build();
-		this.vehicleType = vehicleType;
 		this.base = base;
+		location = base.getLocation();
+		this.vehicleStatus = VehicleStatus.AT_BASE;
+		filled = false;
 	}
 
-	public void setLocation(Location location) {
+	@Override
+	public void tick() {
+		switch (vehicleStatus) {
+		case AT_BASE:
+			break;
+		case RESPONDING:
+			setLocation(routeInfo.getLocationForCurrentTime(LocalDateTime.now()));
+			checkAndSetArrivalForArrivalAtIncident();
+			break;
+		case GO_TO_DROPOFF:
+			setLocation(routeInfo.getLocationForCurrentTime(LocalDateTime.now()));
+			checkAndSetArrivalForArrivalAtDropOff();
+			break;
+		case AT_DROP_OFF:
+			checkReadyAtDropOffAndGoBackToBase();
+			break;
+		}
+	}
+
+	private void checkAndSetArrivalForArrivalAtIncident() {
+		if (LocalDateTime.now().isAfter(routeInfo.getArrivalTime())) {
+			vehicleStatus = VehicleStatus.AT_INCIDENT;
+			location = incident.getLocation();
+			routeInfo = null;
+		}
+	}
+
+	private void checkAndSetArrivalForArrivalAtDropOff() {
+		if (LocalDateTime.now().isAfter(routeInfo.getArrivalTime())) {
+			vehicleStatus = VehicleStatus.AT_DROP_OFF;
+			location = routeInfo.getDestination();
+			routeInfo = null;
+			timeUntilReadyAtDropoff = LocalDateTime.now().plusSeconds(new Random().ints(3 * 60, 10 * 60).findFirst().getAsInt());
+		}
+	}
+
+	private void checkReadyAtDropOffAndGoBackToBase() {
+		if (LocalDateTime.now().isAfter(timeUntilReadyAtDropoff)) {
+			if (location.equals(base.getLocation())) {
+				vehicleStatus = VehicleStatus.AT_BASE;
+			} else {
+				vehicleStatus = VehicleStatus.GO_TO_BASE;
+				vehicleManager.sendVehicleToBase(this);
+			}
+			timeUntilReadyAtDropoff = null;
+		}
+	}
+
+	private void setLocation(LatLon location) {
 		this.location = location;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	public VehicleType getVehicleType() {
 		return vehicleType;
 	}
 
-	public VehicleStatus getVehicleStatus() {
-		return vehicleStatus;
+	public void setRouteInfo(RouteInfoEnriched routeInfo) {
+		this.routeInfo = routeInfo;
 	}
 
 	public void setVehicleStatus(VehicleStatus vehicleStatus) {
@@ -64,99 +113,23 @@ public abstract class Vehicle implements Ticks {
 		this.incident = incident;
 	}
 
+	public LatLon getLocation() {
+		return location;
+	}
+
+	public VehicleStatus getVehicleStatus() {
+		return vehicleStatus;
+	}
+
 	public Incident getIncident() {
 		return incident;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public Integer getSpeedKmh() {
-		return speed;
-	}
-
-	public Integer getSpeedMeterPerSecond() {
-		return (speed * 1000) / 60 / 60;
-	}
-
-	public Location getLocation() {
-		return location;
-	}
-
-	public Base getDropOffBase() {
-		return dropOffBase;
-	}
-
-	@Override
-	public String toString() {
-		return new ToStringBuilder(this)
-				.append("id", id)
-				.append("speed", speed)
-				.append("vehicleType", vehicleType)
-				.append("vehicleStatus", vehicleStatus)
-				.append("location", location)
-				.append("incident", incident)
-				.append("base", base)
-				.append("dropOffBase", dropOffBase)
-				.toString();
-	}
-
-	@Override
-	public void tick() {
-		Optional<StatusHandler> handlerOptional = statusHandlerFactory.getStatusHandler(this);
-		handlerOptional.ifPresent(statusHandler -> statusHandler.handleStatus());
-	}
-
-	public void goToIncident(Incident incident) {
-		vehicleStatus = VehicleStatus.RESPONDING;
-		this.incident = incident;
-	}
-
-	public void ArriveAtIncident() {
-		vehicleStatus = VehicleStatus.AT_INCIDENT;
-	}
-
-	public boolean hasEmptySpaces() {
-		return false;
-	}
-
-	public abstract void performJobAtIncidentLocation();
-
-	public void goToDropoffLocation(Base dropOffBase) {
-		vehicleStatus = VehicleStatus.GO_TO_DROPOFF;
-		this.dropOffBase = dropOffBase;
-		this.incident = null;
-	}
-
-	public void arriveAtDropOff() {
-		vehicleStatus = VehicleStatus.AT_DROP_OFF;
-		dropOffEndTime = LocalDateTime.now().plusSeconds(ThreadLocalRandom.current().nextInt(60));
-	}
-
-	public void performJobAtDropOffLocation() {
-		clearVehicle();
-		if (dropOffEndTime.isBefore(LocalDateTime.now())) {
-			vehicleStatus = VehicleStatus.GO_TO_BASE;
-			dropOffEndTime = null;
-		}
-	}
-
-	protected abstract void clearVehicle();
-
-	public LocalDateTime getDropOffEndTime() {
-		return dropOffEndTime;
-	}
-
-	public void arriveAtBase() {
-		vehicleStatus = VehicleStatus.AT_BASE;
+	public RouteInfoEnriched getRouteInfo() {
+		return routeInfo;
 	}
 
 	public Base getBase() {
 		return base;
-	}
-
-	public String getName() {
-		return name;
 	}
 }

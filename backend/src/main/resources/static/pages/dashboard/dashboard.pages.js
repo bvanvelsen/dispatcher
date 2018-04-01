@@ -10,11 +10,11 @@ angular.module('be.dispatcher.pages.dashboard', ['restangular'])
 
 		$stateProvider.state(dashboardState);
 	})
-	.controller('DashboardController', function ($scope, VehicleClient, IncidentClient) {
+	.controller('DashboardController', function ($scope, VehicleClient, IncidentClient, $interval) {
 		var ctrl = this;
 
-		ctrl.getAllVehicles = function () {
-			return VehicleClient.getAllVehicles();
+		ctrl.getAllAmbulances = function () {
+			return VehicleClient.getAllAmbulances();
 		}
 
 		ctrl.toggleRefresh = function () {
@@ -40,5 +40,9 @@ angular.module('be.dispatcher.pages.dashboard', ['restangular'])
 		ctrl.getTimes = function (n) {
 			return new Array(n);
 		};
+
+		$interval(function () {
+
+		}, 1000);
 
 	});
