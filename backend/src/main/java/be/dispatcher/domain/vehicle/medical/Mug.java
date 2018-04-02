@@ -1,14 +1,12 @@
-package be.dispatcher.domain.vehicle;
+package be.dispatcher.domain.vehicle.medical;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Configurable;
 
-import be.dispatcher.domain.incident.Incident;
 import be.dispatcher.domain.location.emergencybases.Base;
-import be.dispatcher.graphhopper.LatLon;
-import be.dispatcher.graphhopper.external_router.reouteinfojson.RouteInfo;
-import be.dispatcher.graphhopper.external_router.reouteinfojson.RouteInfoEnriched;
+import be.dispatcher.domain.people.Victim;
+import be.dispatcher.domain.vehicle.VehicleType;
 
 @Configurable(preConstruction = true, autowire = Autowire.BY_TYPE)
 public class Mug extends MedicalVehicle {
@@ -21,7 +19,22 @@ public class Mug extends MedicalVehicle {
 	@Override
 	public void tick() {
 		super.tick();
+		switch (vehicleStatus) {
+		case AT_INCIDENT:
+			Victim victim = incidentSceneMedicalTasksManager.getDoctorVictimFor(this);
+			if (victim != null) {
+				if (victim.heal(healthGainPerTick)) {
+					if (victim.isTransportable()) {
+						incidentSceneMedicalTasksManager.notifyVictimStabilizedByDoctor(this);
+					}
+				}
+			} else {
+				vehicleManager.sendVehicleToBase(this);
+			}
+			break;
+		}
 	}
+
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this)

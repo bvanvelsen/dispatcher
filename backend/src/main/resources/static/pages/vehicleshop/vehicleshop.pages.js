@@ -10,41 +10,17 @@ angular.module('be.dispatcher.pages.vehicleshop', ['restangular'])
 
 		$stateProvider.state(shopState);
 	})
-	.controller('VehicleshopController', function (BasesClient, VehicleClient, IncidentClient, $interval) {
+	.controller('VehicleshopController', function (ImagesMarkersClient, BasesClient, VehicleClient, IncidentClient, $interval) {
 		var ctrl = this;
 		var mymap;
 		var bases;
-		var ambulances = new Array();
-		var incidents = new Array();
-		var hospitalIcon = L.icon({
-			iconUrl: 'hospital.png',
-
-			iconSize: [30, 30], // size of the icon
-			iconAnchor: [15, 15], // point of the icon which will correspond to marker's location
-			popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
-		});
-		var brandweerIcon = L.icon({
-			iconUrl: 'brandweer.png',
-
-			iconSize: [30, 30], // size of the icon
-			iconAnchor: [15, 15], // point of the icon which will correspond to marker's location
-			popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
-		});
-		var incidentIcon = L.icon({
-			iconUrl: 'incident.png',
-
-			iconSize: [30, 30], // size of the icon
-			iconAnchor: [15, 15], // point of the icon which will correspond to marker's location
-			popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
-		});
-		var ambulanceIcon = L.icon({
-			iconUrl: 'ambulance.png',
-
-			iconSize: [30, 30], // size of the icon
-			iconAnchor: [15, 15], // point of the icon which will correspond to marker's location
-			popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
-		});
-
+		var ambulanceIcons = new Array();
+		var mugIcons = new Array();
+		var rvIcons = new Array();
+		var tsIcons = new Array();
+		var policeCombiIcons = new Array();
+		var policeInterceptorIcons = new Array();
+		var incidentIcons = new Array();
 
 		mymap = L.map('mapid').setView([50.92669, 5.342462], 13);
 		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -56,50 +32,115 @@ angular.module('be.dispatcher.pages.vehicleshop', ['restangular'])
 
 		addHospitalsToMap();
 		addFireDepartmentsToMap();
+		addPoliceStationsToMap();
 
 		function addHospitalsToMap() {
 			BasesClient.getAllHospitals().then(function (value) {
 				bases = value;
 				for (i = 0; i < bases.length; i++) {
-					L.marker([bases[i].location.lat, bases[i].location.lon], {icon: hospitalIcon, zIndexOffset:1000}).addTo(mymap);
+					L.marker([bases[i].location.lat, bases[i].location.lon], {icon: ImagesMarkersClient.getHospitalIcon(), zIndexOffset: 1000}).addTo(mymap);
 				}
 			});
 		}
+
 		function addFireDepartmentsToMap() {
 			BasesClient.getAllFireDepartments().then(function (value) {
 				bases = value;
 				for (i = 0; i < bases.length; i++) {
-					L.marker([bases[i].location.lat, bases[i].location.lon], {icon: brandweerIcon, zIndexOffset:1000}).addTo(mymap);
+					L.marker([bases[i].location.lat, bases[i].location.lon], {icon: ImagesMarkersClient.getBrandweerIcon(), zIndexOffset: 1000}).addTo(mymap);
 				}
 			});
 		}
 
-		function addAmbulancesToMap() {
-			for (i = 0; i < ambulances.length; i++) {
-				mymap.removeLayer(ambulances[i]);
-			}
-			ambulances = [];
+		function addPoliceStationsToMap() {
+			BasesClient.getAllPoliceStations().then(function (value) {
+				bases = value;
+				for (i = 0; i < bases.length; i++) {
+					L.marker([bases[i].location.lat, bases[i].location.lon], {icon: ImagesMarkersClient.getPoliceIcon(), zIndexOffset: 1000}).addTo(mymap);
+				}
+			});
+		}
 
-			var Allambulances = VehicleClient.getAllAmbulances();
-			for (i = 0; i < Allambulances.length; i++) {
-				const marker = L.marker([Allambulances[i].location.lat, Allambulances[i].location.lon], {icon: ambulanceIcon});
-				ambulances.push(marker)
-				marker.addTo(mymap)
+		function addVehiclesToMap() {
+			for (i = 0; i < ambulanceIcons.length; i++) {
+				mymap.removeLayer(ambulanceIcons[i]);
 			}
+			for (i = 0; i < mugIcons.length; i++) {
+				mymap.removeLayer(mugIcons[i]);
+			}
+			for (i = 0; i < rvIcons.length; i++) {
+				mymap.removeLayer(rvIcons[i]);
+			}
+			for (i = 0; i < tsIcons.length; i++) {
+				mymap.removeLayer(tsIcons[i]);
+			}
+			for (i = 0; i < policeCombiIcons.length; i++) {
+				mymap.removeLayer(policeCombiIcons[i]);
+			}
+			for (i = 0; i < policeInterceptorIcons.length; i++) {
+				mymap.removeLayer(policeInterceptorIcons[i]);
+			}
+			ambulanceIcons = [];
+			mugIcons = [];
+			rvIcons = [];
+			tsIcons = [];
+			policeCombiIcons = [];
+			policeInterceptorIcons = [];
+
+			var AllMedicalVehicles = VehicleClient.getAllMedicalVehicles();
+			for (i = 0; i < AllMedicalVehicles.length; i++) {
+				var currentMedicalVehicle = AllMedicalVehicles[i];
+				if (currentMedicalVehicle.vehicleType === 'AMBULANCE') {
+					const marker = L.marker([currentMedicalVehicle.location.lat, currentMedicalVehicle.location.lon], {icon: ImagesMarkersClient.getAmbulanceIcon()});
+					ambulanceIcons.push(marker)
+					marker.addTo(mymap)
+				} else if(currentMedicalVehicle.vehicleType === 'MUG') {
+					const marker = L.marker([currentMedicalVehicle.location.lat, currentMedicalVehicle.location.lon], {icon: ImagesMarkersClient.getMugIcon()});
+					mugIcons.push(marker)
+					marker.addTo(mymap)
+				}
+			}
+			var AllFireTrucks = VehicleClient.getAllFireTrucks();
+			for (i = 0; i < AllFireTrucks.length; i++) {
+				var currentFireTruck = AllFireTrucks[i];
+				if (currentFireTruck.vehicleType === 'TS') {
+					const marker = L.marker([currentFireTruck.location.lat, currentFireTruck.location.lon], {icon: ImagesMarkersClient.getTSIcon()});
+					tsIcons.push(marker)
+					marker.addTo(mymap)
+				} else if(currentFireTruck.vehicleType === 'RV') {
+					const marker = L.marker([currentFireTruck.location.lat, currentFireTruck.location.lon], {icon: ImagesMarkersClient.getRVIcon()});
+					rvIcons.push(marker)
+					marker.addTo(mymap)
+				}
+			}
+			var AllPoliceVehicles = VehicleClient.getAllPoliceVehicles();
+			for (i = 0; i < AllPoliceVehicles.length; i++) {
+				var currentPoliceVehicle = AllPoliceVehicles[i];
+				if (currentPoliceVehicle.vehicleType === 'COMBI') {
+					const marker = L.marker([currentPoliceVehicle.location.lat, currentPoliceVehicle.location.lon], {icon: ImagesMarkersClient.getPoliceCombiIcon()});
+					policeCombiIcons.push(marker)
+					marker.addTo(mymap)
+				} else if (currentPoliceVehicle.vehicleType === 'INTERCEPTOR') {
+					const marker = L.marker([currentPoliceVehicle.location.lat, currentPoliceVehicle.location.lon], {icon: ImagesMarkersClient.getPoliceInterceptorIcon()});
+					policeInterceptorIcons.push(marker)
+					marker.addTo(mymap)
+				}
+			}
+
 		}
 
 		function removeAllIncidentMarkers() {
-			for (i = 0; i < incidents.length; i++) {
-				mymap.removeLayer(incidents[i]);
+			for (i = 0; i < incidentIcons.length; i++) {
+				mymap.removeLayer(incidentIcons[i]);
 			}
-			incidents = [];
+			incidentIcons = [];
 		}
 
 		function addAllIncidentMarkers() {
 			var allIncidents = IncidentClient.getAllIncidents();
 			for (i = 0; i < allIncidents.length; i++) {
-				const marker = L.marker([allIncidents[i].location.lat, allIncidents[i].location.lon], {icon: incidentIcon});
-				incidents.push(marker);
+				const marker = L.marker([allIncidents[i].location.lat, allIncidents[i].location.lon], {icon: ImagesMarkersClient.getIncidentIcon()});
+				incidentIcons.push(marker);
 				marker.addTo(mymap);
 			}
 		}
@@ -130,10 +171,8 @@ angular.module('be.dispatcher.pages.vehicleshop', ['restangular'])
 			IncidentClient.getAllIncidentsFromBackend();
 		};
 
-		IncidentClient
-
 		$interval(function () {
 			addIncidentsToMap();
-			addAmbulancesToMap();
+			addVehiclesToMap();
 		}, 1000);
 	});

@@ -53,6 +53,10 @@ public abstract class Vehicle implements Ticks {
 		case AT_DROP_OFF:
 			checkReadyAtDropOffAndGoBackToBase();
 			break;
+		case GO_TO_BASE:
+			setLocation(routeInfo.getLocationForCurrentTime(LocalDateTime.now()));
+			checkAndSetAtBase();
+			break;
 		}
 	}
 
@@ -82,6 +86,14 @@ public abstract class Vehicle implements Ticks {
 				vehicleManager.sendVehicleToBase(this);
 			}
 			timeUntilReadyAtDropoff = null;
+		}
+	}
+
+	private void checkAndSetAtBase() {
+		if (LocalDateTime.now().isAfter(routeInfo.getArrivalTime())) {
+			vehicleStatus = VehicleStatus.AT_BASE;
+			location = getBase().getLocation();
+			routeInfo = null;
 		}
 	}
 
@@ -131,5 +143,9 @@ public abstract class Vehicle implements Ticks {
 
 	public Base getBase() {
 		return base;
+	}
+
+	public void setFilled(boolean filled) {
+		this.filled = filled;
 	}
 }

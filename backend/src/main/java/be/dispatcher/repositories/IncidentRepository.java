@@ -1,21 +1,30 @@
 package be.dispatcher.repositories;
 
-import static java.util.stream.Collectors.toList;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import be.dispatcher.domain.incident.Incident;
+import be.dispatcher.world.World;
 
 @Component
 public class IncidentRepository {
 
+	@Autowired
+	private World world;
+
 	private List<Incident> incidents = new ArrayList<>();
 
 	public void addIncidentToRepository(Incident incident) {
+		world.addObjectToWorld(incident);
 		incidents.add(incident);
+	}
+
+	public void removeIncidentFromRepository(Incident incident) {
+		world.removeObjectFromWorld(incident);
+		incidents.remove(incident);
 	}
 
 	public List<Incident> getIncidents() {

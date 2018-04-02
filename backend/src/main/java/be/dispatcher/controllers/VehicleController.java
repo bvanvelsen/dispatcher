@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import be.dispatcher.domain.vehicle.MedicalVehicle;
 import be.dispatcher.domain.vehicle.Vehicle;
 import be.dispatcher.domain.vehicle.VehicleType;
+import be.dispatcher.domain.vehicle.fire.FireTruck;
+import be.dispatcher.domain.vehicle.medical.MedicalVehicle;
+import be.dispatcher.domain.vehicle.police.PoliceVehicle;
 import be.dispatcher.managers.VehicleManager;
 import be.dispatcher.repositories.VehicleRepository;
 
@@ -40,15 +42,20 @@ public class VehicleController {
 		return vehicleRepository.getAllMedicalVehicles();
 	}
 
+	@RequestMapping(value = "police_vehicles", method = RequestMethod.GET)
+	public List<PoliceVehicle> getAllPoliceVehicles() {
+		return vehicleRepository.getAllPoliceVehicles();
+	}
+
+	@RequestMapping(value = "fire_trucks", method = RequestMethod.GET)
+	public List<FireTruck> getAllFireTrucks() {
+		return vehicleRepository.getAllFireTrucks();
+	}
+
 	@RequestMapping(value = "{vehicleId}/sendTo/{incidentId}", method = RequestMethod.POST)
 	@ResponseBody
 	public Vehicle sendVehicleToIncident(@PathVariable("vehicleId") int vehicleId, @PathVariable("incidentId") int incidentId) {
 		return vehicleManager.sendVehicleToIncident(vehicleId, incidentId);
 	}
-
-//	@RequestMapping(value = "{vehicleId}/goToHospital", method = RequestMethod.PUT)
-//	public void sendVehicleToNearestHospital(@PathVariable("vehicleId") int vehicleId) {
-//		vehicleManager.sendVehicleToNearestHospital(vehicleId);
-//	}
 
 }

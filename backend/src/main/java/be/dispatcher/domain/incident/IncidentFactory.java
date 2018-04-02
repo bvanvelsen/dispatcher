@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import be.dispatcher.DistributedRandomNumberGenerator;
-import be.dispatcher.domain.DispatchFactory;
 import be.dispatcher.domain.people.InjuryLevel;
 import be.dispatcher.domain.people.Victim;
 import be.dispatcher.graphhopper.LatLon;
@@ -16,7 +15,7 @@ import be.dispatcher.graphhopper.location.PointGenerator;
 import be.dispatcher.repositories.IncidentRepository;
 
 @Component
-public class IncidentFactory extends DispatchFactory {
+public class IncidentFactory {
 
 	@Autowired
 	private IncidentRepository incidentRepository;
@@ -27,29 +26,45 @@ public class IncidentFactory extends DispatchFactory {
 	public Incident createIncident() {
 		LatLon latLon = pointGenerator.generateRandomIncidentLocationSnappedToNearestLocation();
 
+		Incident incident = new Incident(latLon);
+		generateMedicalTasks(incident);
+		generateFireTaks(incident);
+
+		incidentRepository.addIncidentToRepository(incident);
+		return incident;
+	}
+
+	private void generateFireTaks(Incident incident) {
+		if (shouldGenerateFireTasks(100)) {
+			incident.setFireTasks(new FireTasksImpl(createRandomFireCountdown(), createRandomTechnicalCountdown()));
+		}
+	}
+
+	private boolean shouldGenerateFireTasks(int changeThatFireDepartmentIsRequired) {
+		return new Random().ints(0, 101).findFirst().getAsInt() < changeThatFireDepartmentIsRequired;
+	}
+
+	private void generateMedicalTasks(Incident incident) {
 		int victimCount = createRandomVictimCount();
 		List<Victim> victims = new ArrayList<>();
-		for (int i = 0; i < victimCount; i++) {
-			InjuryLevel randomInjuryLevel = getRandomInjuryLevel();
-			int healCountdown = getRandomHealCountdown(randomInjuryLevel);
-			victims.add(new Victim(randomInjuryLevel, healCountdown));
+		if (victimCount != 0) {
+			for (int i = 0; i < victimCount; i++) {
+				InjuryLevel randomInjuryLevel = getRandomInjuryLevel();
+				int healCountdown = getRandomHealCountdown(randomInjuryLevel);
+				victims.add(new Victim(randomInjuryLevel, healCountdown));
+			}
+			incident.setMedicalTasks(new MedicalTasksImpl(victims));
 		}
-
-		Incident incident = new Incident(latLon);
-		incident.setMedicalTasks(new MedicalTasksImpl(victims));
-		incidentRepository.addIncidentToRepository(incident);
-		super.addToWorld(incident);
-		return incident;
 	}
 
 	private int getRandomHealCountdown(InjuryLevel randomInjuryLevel) {
 		switch (randomInjuryLevel) {
 		case MINOR:
-		return new Random().ints(1000,2000).findFirst().getAsInt();
+			return new Random().ints(1000, 2000).findFirst().getAsInt();
 		case MEDIOCRE:
-			return new Random().ints(2000,4000).findFirst().getAsInt();
+			return new Random().ints(2000, 4000).findFirst().getAsInt();
 		default:
-			return new Random().ints(4000,10000).findFirst().getAsInt();
+			return new Random().ints(4000, 10000).findFirst().getAsInt();
 		}
 	}
 
@@ -70,4 +85,11 @@ public class IncidentFactory extends DispatchFactory {
 		return distributedRandomNumberGenerator.getDistributedRandomNumber();
 	}
 
+	private int createRandomFireCountdown() {
+		return new Random().ints(1, 100).findFirst().getAsInt();
+	}
+
+	private int createRandomTechnicalCountdown() {
+		return new Random().ints(1, 100).findFirst().getAsInt();
+	}
 }

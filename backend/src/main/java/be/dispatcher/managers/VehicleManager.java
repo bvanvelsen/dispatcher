@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component;
 
 import be.dispatcher.domain.incident.Incident;
 import be.dispatcher.domain.location.emergencybases.Base;
+import be.dispatcher.domain.people.Victim;
 import be.dispatcher.domain.vehicle.Vehicle;
 import be.dispatcher.domain.vehicle.VehicleStatus;
 import be.dispatcher.graphhopper.external_router.RetrofitRouteCaller;
 import be.dispatcher.graphhopper.external_router.RouteInput;
-import be.dispatcher.graphhopper.external_router.reouteinfojson.RouteInfo;
 import be.dispatcher.graphhopper.external_router.reouteinfojson.RouteInfoEnriched;
 import be.dispatcher.managers.incidentscene.IncidentSceneMedicalTasksManager;
 import be.dispatcher.repositories.BaseRespository;
@@ -54,6 +54,9 @@ public class VehicleManager {
 	}
 
 	public void sendVehicleToNearestHospital(Vehicle vehicle) {
+		Victim victim = incidentSceneMedicalTasksManager.notifyVehicleLeavingSoRemoveCoupling(vehicle);
+		vehicle.getIncident().getMedicalTasks().getVictims().remove(victim);
+		vehicle.setFilled(true);
 		Base closestHospital = baseRespository.getClosestHospital(vehicle.getVehicleType().getSpeedProfilePrioriy(), vehicle.getLocation());
 		RouteInfoEnriched routeInfoEnriched = retrofitRouteCaller.doCall(new RouteInput(vehicle.getVehicleType().getSpeedProfilePrioriy(), vehicle.getLocation(), closestHospital.getLocation()));
 		vehicle.setRouteInfo(routeInfoEnriched);

@@ -1,6 +1,5 @@
 package be.dispatcher.domain.incident;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import be.dispatcher.domain.people.Victim;
@@ -16,5 +15,10 @@ public class MedicalTasksImpl implements MedicalTasks {
 	@Override
 	public List<Victim> getVictims() {
 		return victims;
+	}
+
+	@Override
+	public boolean allTasksCompleted() {
+		return victims.isEmpty();
 	}
 }

@@ -3,7 +3,6 @@ package be.dispatcher.managers;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -16,9 +15,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import be.dispatcher.domain.incident.Incident;
 import be.dispatcher.domain.location.emergencybases.Base;
-import be.dispatcher.domain.vehicle.Ambulance;
 import be.dispatcher.domain.vehicle.Vehicle;
 import be.dispatcher.domain.vehicle.VehicleStatus;
+import be.dispatcher.domain.vehicle.medical.Ambulance;
 import be.dispatcher.graphhopper.LatLon;
 import be.dispatcher.graphhopper.external_router.RetrofitRouteCaller;
 import be.dispatcher.graphhopper.external_router.RouteInput;

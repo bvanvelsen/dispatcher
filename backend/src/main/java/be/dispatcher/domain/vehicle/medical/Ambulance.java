@@ -1,29 +1,19 @@
-package be.dispatcher.domain.vehicle;
-
-import java.time.LocalDateTime;
+package be.dispatcher.domain.vehicle.medical;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowire;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
 import be.dispatcher.domain.location.emergencybases.Base;
-import be.dispatcher.domain.people.Victim;
-import be.dispatcher.managers.VehicleManager;
-import be.dispatcher.managers.incidentscene.IncidentSceneMedicalTasksManager;
+import be.dispatcher.domain.vehicle.VehicleType;
 
 @Configurable(preConstruction = true, autowire = Autowire.BY_TYPE)
-public class Ambulance extends MedicalVehicle {
+public class Ambulance extends MedicalTransportVehicle{
 
 
 	public Ambulance(int id, String name, Base base, int healthGainPerTick) {
 		super(id, name, base, healthGainPerTick);
 		vehicleType = VehicleType.AMBULANCE;
-	}
-
-	@Override
-	public void tick() {
-		super.tick();
 	}
 
 	@Override

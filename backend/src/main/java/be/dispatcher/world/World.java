@@ -21,7 +21,10 @@ public class World {
 	public void startWorldTicking() {
 		parser.hospitalParser();
 		parser.fireDepartmentParser();
+		parser.policeStationParser();
 		parser.medicalVehicleParser();
+		parser.fireTruckParser();
+		parser.policeVehicleParser();
 		new Thread(() -> {
 			while (true) {
 				try {
@@ -34,8 +37,11 @@ public class World {
 		}).start();
 	}
 
-
 	public void addObjectToWorld(Ticks livingObject) {
 		tickableObjects.add(livingObject);
+	}
+
+	public void removeObjectFromWorld(Ticks livingObject) {
+		tickableObjects.remove(livingObject);
 	}
 }

@@ -19,9 +19,9 @@ angular.module('be.dispatcher.client.incident', [])
 			});
 		}
 
-		// $interval(function () {
-		// 	getAllIncidentsFromBackend();
-		// }, GET_INCIDENTS_REFRESH_RATE_IN_MS);
+		$interval(function () {
+			getAllIncidentsFromBackend();
+		}, GET_INCIDENTS_REFRESH_RATE_IN_MS);
 
 		return {
 			createIncident: createIncident,

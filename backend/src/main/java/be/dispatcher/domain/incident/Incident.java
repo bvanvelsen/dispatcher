@@ -1,24 +1,26 @@
 package be.dispatcher.domain.incident;
 
-import java.util.List;
-import java.util.UUID;
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowire;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
 import be.dispatcher.domain.Ticks;
-import be.dispatcher.domain.people.Victim;
 import be.dispatcher.graphhopper.LatLon;
+import be.dispatcher.repositories.IncidentRepository;
 
 @Configurable(preConstruction = true, autowire = Autowire.BY_TYPE)
 public class Incident implements Ticks {
 
 	private static int incidentCounter = 0;
 
+	@Autowired
+	private IncidentRepository incidentRepository;
+
 	private final int id;
 	private LatLon location;
 	private MedicalTasks medicalTasks;
+	private FireTasks fireTasks;
 
 	public Incident(LatLon location) {
 		this.id = incidentCounter++;
@@ -27,6 +29,9 @@ public class Incident implements Ticks {
 
 	@Override
 	public void tick() {
+		if (isCompleted()) {
+			incidentRepository.removeIncidentFromRepository(this);
+		}
 	}
 
 	public int getId() {
@@ -41,12 +46,31 @@ public class Incident implements Ticks {
 		return medicalTasks;
 	}
 
+	public FireTasks getFireTasks() {
+		return fireTasks;
+	}
+
+	private boolean isCompleted() {
+		boolean completed = true;
+		if (medicalTasks != null) {
+			completed &= medicalTasks.allTasksCompleted();
+		}
+		if (fireTasks != null) {
+			completed &= fireTasks.allTasksCompleted();
+		}
+		return completed;
+	}
+
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this)
 				.append("id", id)
 				.append("location", location)
 				.toString();
+	}
+
+	public void setFireTasks(FireTasks fireTasks) {
+		this.fireTasks = fireTasks;
 	}
 
 	public void setMedicalTasks(MedicalTasks medicalTasks) {

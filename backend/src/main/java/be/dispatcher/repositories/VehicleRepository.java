@@ -7,9 +7,11 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import be.dispatcher.domain.vehicle.MedicalVehicle;
 import be.dispatcher.domain.vehicle.Vehicle;
 import be.dispatcher.domain.vehicle.VehicleType;
+import be.dispatcher.domain.vehicle.fire.FireTruck;
+import be.dispatcher.domain.vehicle.medical.MedicalVehicle;
+import be.dispatcher.domain.vehicle.police.PoliceVehicle;
 import be.dispatcher.world.World;
 
 @Component
@@ -46,6 +48,20 @@ public class VehicleRepository {
 		return vehicles.stream ()
 				.filter(vehicle -> vehicle instanceof MedicalVehicle)
 				.map(vehicle -> (MedicalVehicle)vehicle)
+				.collect(Collectors.toList());
+	}
+
+	public List<FireTruck> getAllFireTrucks() {
+		return vehicles.stream ()
+				.filter(vehicle -> vehicle instanceof FireTruck)
+				.map(vehicle -> (FireTruck)vehicle)
+				.collect(Collectors.toList());
+	}
+
+	public List<PoliceVehicle> getAllPoliceVehicles() {
+		return vehicles.stream ()
+				.filter(vehicle -> vehicle instanceof PoliceVehicle)
+				.map(vehicle -> (PoliceVehicle)vehicle)
 				.collect(Collectors.toList());
 	}
 }

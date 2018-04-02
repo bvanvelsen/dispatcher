@@ -1,6 +1,8 @@
 package be.dispatcher.repositories;
 
-import static be.dispatcher.domain.location.emergencybases.BaseType.*;
+import static be.dispatcher.domain.location.emergencybases.BaseType.FIRE_DEPARTMENT;
+import static be.dispatcher.domain.location.emergencybases.BaseType.HOSPITAL;
+import static be.dispatcher.domain.location.emergencybases.BaseType.POLICE_STATION;
 import static java.util.stream.Collectors.toList;
 
 import java.util.ArrayList;
@@ -11,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import be.dispatcher.domain.location.emergencybases.Base;
-import be.dispatcher.domain.location.emergencybases.BaseType;
 import be.dispatcher.domain.location.emergencybases.Hospital;
 import be.dispatcher.graphhopper.LatLon;
 import be.dispatcher.graphhopper.external_router.RetrofitRouteCaller;
@@ -63,6 +64,12 @@ public class BaseRespository {
 	public List<Base> getAllFireDepartments() {
 		return bases.stream()
 				.filter(base -> FIRE_DEPARTMENT.equals(base.getBaseType()))
+				.collect(toList());
+	}
+
+	public List<Base> getAllPoliceStations() {
+		return bases.stream()
+				.filter(base -> POLICE_STATION.equals(base.getBaseType()))
 				.collect(toList());
 	}
 }

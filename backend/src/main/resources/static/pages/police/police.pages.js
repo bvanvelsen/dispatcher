@@ -1,24 +1,20 @@
-angular.module('be.dispatcher.pages.dashboard', ['restangular'])
+angular.module('be.dispatcher.pages.police', ['restangular'])
 	.config(function ($stateProvider) {
-		var dashboardState = {
-			name: 'dashboard',
-			url: '/dashboard',
-			templateUrl: 'pages/dashboard/dashboard.pages.html',
-			controller: 'DashboardController',
+		var policeState = {
+			name: 'police',
+			url: '/police',
+			templateUrl: 'pages/police/police.pages.html',
+			controller: 'PoliceController',
 			controllerAs: 'ctrl'
 		}
 
-		$stateProvider.state(dashboardState);
+		$stateProvider.state(policeState);
 	})
-	.controller('DashboardController', function ($scope, VehicleClient, IncidentClient, $interval) {
+	.controller('PoliceController', function ($scope, VehicleClient, IncidentClient, $interval) {
 		var ctrl = this;
 
-		ctrl.getAllAmbulances = function () {
-			return VehicleClient.getAllAmbulances();
-		}
-
-		ctrl.toggleRefresh = function () {
-			VehicleClient.toggleRefresh();
+		ctrl.getAllPoliceVehicles = function () {
+			return VehicleClient.getAllPoliceVehicles();
 		}
 
 		ctrl.getAllIncidents = function () {

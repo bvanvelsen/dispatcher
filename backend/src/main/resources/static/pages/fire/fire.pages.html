@@ -1,8 +1,7 @@
-<h3>dashboard page</h3>
+<h3>Fire Trucks</h3>
 <button type="button" class="btn btn-secondary" ng-click="ctrl.createIncident()">Create Incident</button>
 
 <div class="container">
-	<button type="button" class="btn btn-info" ng-click="ctrl.toggleRefresh()">Toggle Refresh</button>
 	<table class="table table-striped">
 		<thead>
 		<tr>
@@ -15,22 +14,21 @@
 			<th>accident</th>
 		</tr>
 		</thead>
-		<tbody ng-repeat="vehicle in ctrl.getAllAmbulances()">
+		<tbody ng-repeat="vehicle in ctrl.getAllFireTrucks()">
 		<tr>
-			<td  style="width:10%" class="col">
-				<button type="button" class="btn btn-info" ng-click="ctrl.goToNearestHospital(vehicle.id)">Go to hospital</button>
+			<td style="width:10%" class="col">
+				<!--<button type="button" class="btn btn-info" ng-click="ctrl.goToNearestHospital(vehicle.id)">Go to hospital</button>-->
 			</td>
-			<td  style="width:30%" class="col">
+			<td style="width:30%" class="col">
 				{{vehicle.name}}
 			</td>
-			<td  style="width:5%" class="col">
-				<span ng-if="vehicle.vehicleType === 'AMBULANCE'"><i class="fas fa-ambulance"></i></span>
-				<span ng-if="vehicle.vehicleType === 'AMBULANCE' && vehicle.name.includes('MUG')"><i class="fas fa-user-md"></i></span>
+			<td style="width:5%" class="col">
+				<span ng-if="vehicle.vehicleType === 'TS' || vehicle.vehicleType === 'RV'"><i class="fas fa-fire"></i></span>
 			</td>
-			<td  style="width:10%" class="col">
-					<span ng-class="vehicle.filled ? 'occupied' : 'unoccupied'"><i class="fas fa-male"></i></span>
+			<td style="width:10%" class="col">
+				<!--<span ng-class="vehicle.filled ? 'occupied' : 'unoccupied'"><i class="fas fa-male"></i></span>-->
 			</td>
-			<td  style="width:5%" class="col">
+			<td style="width:5%" class="col">
 				<span ng-if="vehicle.vehicleStatus === 'AT_BASE'"><i class="fas fa-home"></i></span>
 				<span ng-if="vehicle.vehicleStatus === 'AT_DROP_OFF'"><i class="fas fa-hospital"></i></span>
 				<span ng-if="vehicle.vehicleStatus === 'AT_INCIDENT'"><i class="fas fa-exclamation-circle"></i></span>
@@ -39,16 +37,17 @@
 				<span ng-if="vehicle.vehicleStatus === 'GO_TO_DROPOFF'"><i class="fas fa-caret-left"></i></span>
 				<!--{{vehicle.vehicleStatus}}-->
 			</td>
-			<td  style="width:10%" class="col">
+			<td style="width:10%" class="col">
 			</td>
-			<td  style="width:20%" class="col">
+			<td style="width:20%" class="col">
 			</td>
 		</tr>
 		<tr ng-repeat-start="incident in ctrl.getAllIncidents()">
-			<td >
+			<td>
 				<button type="button" class="btn btn-warning" ng-click="ctrl.sendVehicleToIncident(vehicle.id, incident.id)">Dispatch</button>
 			</td>
 			<td colspan="5">{{incident.location.display_name}}</td>
+			<td ng-if="incident.fireTasks"><img src="../../brandweer.png" height="15" width="15"/></td>
 			<td ng-if="incident.medicalTasks"><img src="../../star_of_life.png" height="15" width="15"/></td>
 		</tr>
 		<tr ng-repeat-end></tr>

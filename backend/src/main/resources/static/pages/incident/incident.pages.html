@@ -4,34 +4,36 @@
 <div class="container">
 	<div class="row" ng-repeat="incident in ctrl.getAllIncidents()">
 		<div class="row">
-			<div class="col-2">
-				{{incident.location}}
+			<div class="col-8">
+				{{incident.location.display_name}}
 			</div>
-			<div class="col">
-				<div class="row" ng-repeat="unstabilized in incident.medicalTasks.unstabilizedVictims">
+			<div class="col-4">
+				<span ng-if="incident.medicalTasks"><img src="../../star_of_life.png" height="15" width="15"/></span>
+				<span ng-if="incident.fireTasks"><img src="../../brandweer.png" height="15" width="15"/></span>
+			</div>
+			<div>
+				Slachtoffers
+				<div class="row {{victim.injuryLevel}}" ng-repeat="victim in incident.medicalTasks.victims">
 					<div class="col">
-						{{unstabilized.shortDescription}}
+						{{victim.healCountdown}}
 					</div>
 					<div class="col">
-						{{unstabilized.health}}
+						{{victim.injuryLevel}}
 					</div>
 					<div class="col">
-						{{unstabilized.injuryLevel}}
-					</div>
-				</div>
-				<div class="row" ng-repeat="stabilized in incident.medicalTasks.stabilizedVictims">
-					<div class="col">
-						{{stabilized.shortDescription}}
-					</div>
-					<div class="col">
-						{{stabilized.health}}
-					</div>
-					<div class="col">
-						{{stabilized.injuryLevel}}
+						{{victim.transportable}}
 					</div>
 				</div>
 			</div>
-
+			<div class="row">
+				Brandweer
+				<div class="col">
+					{{incident.fireTasks.fireCountdown}}
+				</div>
+				<div class="col">
+					{{incident.fireTasks.technicalCountdown}}
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

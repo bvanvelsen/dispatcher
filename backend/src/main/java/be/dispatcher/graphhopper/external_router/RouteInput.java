@@ -1,7 +1,5 @@
 package be.dispatcher.graphhopper.external_router;
 
-import java.time.LocalDateTime;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -45,6 +43,7 @@ public class RouteInput {
 		return new EqualsBuilder()
 				.append(startLocation, routeInput.startLocation)
 				.append(destinationLocation, routeInput.destinationLocation)
+				.append(speedprofile, routeInput.speedprofile)
 				.isEquals();
 	}
 
@@ -53,6 +52,7 @@ public class RouteInput {
 		return new HashCodeBuilder(17, 37)
 				.append(startLocation)
 				.append(destinationLocation)
+				.append(speedprofile)
 				.toHashCode();
 	}
 

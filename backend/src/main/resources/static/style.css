@@ -6,4 +6,16 @@
     color:gray;
 }
 
+.SEVERE {
+    background:tomato;
+}
+
+.MEDIOCRE {
+    background:orange;
+}
+
+.MINOR {
+    background:lightgreen;
+}
+
 #mapid { height: 800px; }

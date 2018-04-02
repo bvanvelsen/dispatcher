@@ -2,18 +2,22 @@ angular.module('be.dispatcher.client.vehicle', [])
 	.factory('VehicleClient', function (Restangular, $interval) {
 
 		const GET_VEHICLES_REFRESH_RATE_IN_MS = 1000;
-		var allAmbulances;
-		var allMugs;
+		var allMedicalVehicles;
+		var allFireTrucks;
+		var allPoliceVehicles;
 		var refresh = true;
 
-		function getAllAmbulances() {
-			return allAmbulances;
+		function getAllMedicalVehicles() {
+			return allMedicalVehicles;
 		}
 
-		function getAllMugs() {
-			return allAmbulances;
+		function getAllFireTrucks() {
+			return allFireTrucks;
 		}
 
+		function getAllPoliceVehicles() {
+			return allPoliceVehicles;
+		}
 
 		function sendVehicleToIncident(vehicleId, incidentId) {
 			return Restangular.one('vehicles', vehicleId).one('sendTo', incidentId).post();
@@ -35,17 +39,23 @@ angular.module('be.dispatcher.client.vehicle', [])
 		}, GET_VEHICLES_REFRESH_RATE_IN_MS);
 
 		function getAllVehiclesFromBackend() {
-			Restangular.all('/vehicles/ambulances/all').getList().then(function (vehicles) {
-				allAmbulances = vehicles;
+			Restangular.all('/vehicles/medical_vehicles').getList().then(function (medicalVehicles) {
+				allMedicalVehicles = medicalVehicles;
 			});
-			Restangular.all('/vehicles/mugs/all').getList().then(function (vehicles) {
-				allMugs = vehicles;
+			Restangular.all('/vehicles/fire_trucks').getList().then(function (fireTrucks) {
+				allFireTrucks = fireTrucks;
+			});
+			Restangular.all('/vehicles/police_vehicles').getList().then(function (policeVehicles) {
+				allPoliceVehicles = policeVehicles;
 			});
 		}
 
 		return {
-			getAllAmbulances: getAllAmbulances,
-			getAllMugs: getAllMugs,
+			// getAllAmbulances: getAllAmbulances,
+			// getAllMugs: getAllMugs,
+			getAllMedicalVehicles:getAllMedicalVehicles,
+			getAllFireTrucks:getAllFireTrucks,
+			getAllPoliceVehicles:getAllPoliceVehicles,
 			sendVehicleToIncident: sendVehicleToIncident,
 			goToNearestHospital: goToNearestHospital,
 			toggleRefresh: toggleRefresh
