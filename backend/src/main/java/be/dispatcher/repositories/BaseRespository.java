@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import be.dispatcher.domain.location.emergencybases.Base;
 import be.dispatcher.domain.location.emergencybases.Hospital;
+import be.dispatcher.domain.location.emergencybases.PoliceStation;
 import be.dispatcher.graphhopper.LatLon;
 import be.dispatcher.graphhopper.external_router.RetrofitRouteCaller;
 import be.dispatcher.graphhopper.external_router.RouteInput;
@@ -71,5 +72,23 @@ public class BaseRespository {
 		return bases.stream()
 				.filter(base -> POLICE_STATION.equals(base.getBaseType()))
 				.collect(toList());
+	}
+
+	public Base getClosestPolicestation(String speedProfile, LatLon vehicleLocation) {
+		List<Base> policeStations = bases.stream()
+				.filter(base -> base instanceof PoliceStation)
+				.collect(Collectors.toList());
+
+		Base closestPoliceStation = null;
+		int closestInTime = 0;
+		for (Base policeStation : policeStations) {
+			RouteInfoEnriched routeInfoEnriched = retrofitRouteCaller.doCall(new RouteInput(speedProfile, vehicleLocation, policeStation.getLocation()));
+			int travelTimeToCurrentPoliceStation = routeInfoEnriched.getTime();
+			if (closestPoliceStation == null || closestInTime > travelTimeToCurrentPoliceStation) {
+				closestPoliceStation = policeStation;
+				closestInTime = travelTimeToCurrentPoliceStation;
+			}
+		}
+		return closestPoliceStation;
 	}
 }

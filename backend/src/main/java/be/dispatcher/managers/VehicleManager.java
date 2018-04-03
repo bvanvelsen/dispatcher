@@ -7,9 +7,11 @@ import org.springframework.stereotype.Component;
 
 import be.dispatcher.domain.incident.Incident;
 import be.dispatcher.domain.location.emergencybases.Base;
+import be.dispatcher.domain.people.Criminal;
 import be.dispatcher.domain.people.Victim;
 import be.dispatcher.domain.vehicle.Vehicle;
 import be.dispatcher.domain.vehicle.VehicleStatus;
+import be.dispatcher.domain.vehicle.police.PoliceVehicle;
 import be.dispatcher.graphhopper.external_router.RetrofitRouteCaller;
 import be.dispatcher.graphhopper.external_router.RouteInput;
 import be.dispatcher.graphhopper.external_router.reouteinfojson.RouteInfoEnriched;
@@ -67,5 +69,15 @@ public class VehicleManager {
 		RouteInfoEnriched routeInfoEnriched = retrofitRouteCaller.doCall(new RouteInput(vehicle.getVehicleType().getSpeedProfileSecundary(), vehicle.getLocation(), vehicle.getBase().getLocation()));
 		vehicle.setRouteInfo(routeInfoEnriched);
 		vehicle.setVehicleStatus(VehicleStatus.GO_TO_BASE);
+	}
+
+	public void sendVehicleToNearestPoliceStation(PoliceVehicle policeVehicle) {
+		Criminal victim = incidentSceneMedicalTasksManager.notifyVehicleLeavingSoRemovePoliceVehicleCoupling(policeVehicle);
+		policeVehicle.getIncident().getPoliceTasks().getCriminals().remove(victim);
+		policeVehicle.setFilled(true);
+		Base closestPolicestation = baseRespository.getClosestPolicestation(policeVehicle.getVehicleType().getSpeedProfileSecundary(), policeVehicle.getLocation());
+		RouteInfoEnriched routeInfoEnriched = retrofitRouteCaller.doCall(new RouteInput(policeVehicle.getVehicleType().getSpeedProfileSecundary(), policeVehicle.getLocation(), closestPolicestation.getLocation()));
+		policeVehicle.setRouteInfo(routeInfoEnriched);
+		policeVehicle.setVehicleStatus(VehicleStatus.GO_TO_DROPOFF);
 	}
 }

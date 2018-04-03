@@ -8,15 +8,18 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 import be.dispatcher.domain.incident.Incident;
+import be.dispatcher.domain.people.Criminal;
 import be.dispatcher.domain.people.InjuryLevel;
 import be.dispatcher.domain.people.Victim;
 import be.dispatcher.domain.vehicle.Vehicle;
 import be.dispatcher.domain.vehicle.medical.Mug;
+import be.dispatcher.domain.vehicle.police.PoliceVehicle;
 
 @Component
 public class IncidentSceneMedicalTasksManager {
 
 	private Map<Vehicle, Victim> vehicleVictimCoupling = new HashMap<>();
+	private Map<PoliceVehicle, Criminal> vehicleCriminalCoupling = new HashMap<>();
 	private Map<Mug, Victim> mugVictimCoupling = new HashMap<>();
 
 	public Victim getVictimFor(Vehicle vehicle) {
@@ -28,6 +31,17 @@ public class IncidentSceneMedicalTasksManager {
 			}
 		}
 		return victim;
+	}
+
+	public Criminal getCriminalFor(PoliceVehicle policeVehicle) {
+		Criminal criminal = vehicleCriminalCoupling.get(policeVehicle);
+		if (criminal == null) {
+			criminal = getCriminal(policeVehicle.getIncident());
+			if (criminal != null) {
+				vehicleCriminalCoupling.put(policeVehicle, criminal);
+			}
+		}
+		return criminal;
 	}
 
 	public Victim getDoctorVictimFor(Mug mug) {
@@ -45,6 +59,10 @@ public class IncidentSceneMedicalTasksManager {
 		return vehicleVictimCoupling.remove(vehicle);
 	}
 
+	public Criminal notifyVehicleLeavingSoRemovePoliceVehicleCoupling(PoliceVehicle vehicle) {
+		return vehicleCriminalCoupling.remove(vehicle);
+	}
+
 	public Victim notifyVictimStabilizedByDoctor(Mug mug) {
 		return mugVictimCoupling.remove(mug);
 	}
@@ -55,6 +73,15 @@ public class IncidentSceneMedicalTasksManager {
 				.max(Comparator.comparing(victim -> victim.getHealCountdown()));
 		if (victimOptional.isPresent()) {
 			return victimOptional.get();
+		}
+		return null;
+	}
+
+	private Criminal getCriminal(Incident incident) {
+		Optional<Criminal> criminalOptional = incident.getPoliceTasks().getCriminals().stream()
+				.filter(criminal -> !vehicleCriminalCoupling.values().contains(criminal)).findAny();
+		if (criminalOptional.isPresent()) {
+			return criminalOptional.get();
 		}
 		return null;
 	}

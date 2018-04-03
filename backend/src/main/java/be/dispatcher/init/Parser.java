@@ -76,7 +76,8 @@ public class Parser {
 		Base base = baseRespository.getById(Integer.parseInt(csvRecord.get(1)));
 		String name = csvRecord.get(2);
 		VehicleType vehicleType = VehicleType.valueOf(csvRecord.get(3));
-		return new PoliceVehicle(id, name, base, vehicleType);
+		int arrestGainPerTick = Integer.parseInt(csvRecord.get(4));
+		return new PoliceVehicle(id, name, base, arrestGainPerTick, vehicleType);
 	};
 
 	private Function<CSVRecord, FireDepartment> csvToFireDepartmentFunction = csvRecord -> {

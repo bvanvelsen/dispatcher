@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import be.dispatcher.DistributedRandomNumberGenerator;
+import be.dispatcher.domain.people.Criminal;
 import be.dispatcher.domain.people.InjuryLevel;
 import be.dispatcher.domain.people.Victim;
 import be.dispatcher.graphhopper.LatLon;
@@ -29,9 +30,25 @@ public class IncidentFactory {
 		Incident incident = new Incident(latLon);
 		generateMedicalTasks(incident);
 		generateFireTaks(incident);
+		generatePoliceTaks(incident);
 
 		incidentRepository.addIncidentToRepository(incident);
 		return incident;
+	}
+
+	private void generatePoliceTaks(Incident incident) {
+		if (shouldGeneratePoliceTasks(100)) {
+			int criminalCount = createRandomVictimCount();
+			List<Criminal> criminals = new ArrayList<>();
+			if (criminalCount != 0) {
+				for (int i = 0; i < criminalCount; i++) {
+					int arrestCountdown = getRandomArrestCountdown();
+					criminals.add(new Criminal(arrestCountdown));
+				}
+				PoliceTasksImpl policeTasks = new PoliceTasksImpl(criminals);
+				incident.setPoliceTasks(policeTasks);
+			}
+		}
 	}
 
 	private void generateFireTaks(Incident incident) {
@@ -42,6 +59,10 @@ public class IncidentFactory {
 
 	private boolean shouldGenerateFireTasks(int changeThatFireDepartmentIsRequired) {
 		return new Random().ints(0, 101).findFirst().getAsInt() < changeThatFireDepartmentIsRequired;
+	}
+
+	private boolean shouldGeneratePoliceTasks(int changeThatPoliceIsRequired) {
+		return new Random().ints(0, 101).findFirst().getAsInt() < changeThatPoliceIsRequired;
 	}
 
 	private void generateMedicalTasks(Incident incident) {
@@ -66,6 +87,10 @@ public class IncidentFactory {
 		default:
 			return new Random().ints(4000, 10000).findFirst().getAsInt();
 		}
+	}
+
+	private int getRandomArrestCountdown() {
+		return new Random().ints(10, 2000).findFirst().getAsInt();
 	}
 
 	private InjuryLevel getRandomInjuryLevel() {

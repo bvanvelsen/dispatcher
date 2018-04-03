@@ -21,6 +21,7 @@ public class Incident implements Ticks {
 	private LatLon location;
 	private MedicalTasks medicalTasks;
 	private FireTasks fireTasks;
+	private PoliceTasks policeTasks;
 
 	public Incident(LatLon location) {
 		this.id = incidentCounter++;
@@ -50,6 +51,10 @@ public class Incident implements Ticks {
 		return fireTasks;
 	}
 
+	public PoliceTasks getPoliceTasks() {
+		return policeTasks;
+	}
+
 	private boolean isCompleted() {
 		boolean completed = true;
 		if (medicalTasks != null) {
@@ -57,6 +62,9 @@ public class Incident implements Ticks {
 		}
 		if (fireTasks != null) {
 			completed &= fireTasks.allTasksCompleted();
+		}
+		if (policeTasks != null) {
+			completed &= policeTasks.allTasksCompleted();
 		}
 		return completed;
 	}
@@ -75,5 +83,9 @@ public class Incident implements Ticks {
 
 	public void setMedicalTasks(MedicalTasks medicalTasks) {
 		this.medicalTasks = medicalTasks;
+	}
+
+	public void setPoliceTasks(PoliceTasks policeTasks) {
+		this.policeTasks = policeTasks;
 	}
 }

@@ -10,6 +10,7 @@
 			<div class="col-4">
 				<span ng-if="incident.medicalTasks"><img src="../../star_of_life.png" height="15" width="15"/></span>
 				<span ng-if="incident.fireTasks"><img src="../../brandweer.png" height="15" width="15"/></span>
+				<span ng-if="incident.policeTasks"><img src="../../politie.gif" height="15" width="15"/></span>
 			</div>
 			<div>
 				Slachtoffers
@@ -32,6 +33,14 @@
 				</div>
 				<div class="col">
 					{{incident.fireTasks.technicalCountdown}}
+				</div>
+			</div>
+			<div>
+				Criminals
+				<div class="row" ng-repeat="criminal in incident.policeTasks.criminals">
+					<div class="col">
+						{{criminal.arrestCountdown}}
+					</div>
 				</div>
 			</div>
 		</div>
