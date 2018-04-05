@@ -1,4 +1,4 @@
-package be.dispatcher.graphhopper.external_router.reouteinfojson;
+package be.dispatcher.graphhopper.external_router.routeinfojson;
 
 import java.time.Instant;
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-package be.dispatcher.graphhopper.external_router.reouteinfojson;
+package be.dispatcher.graphhopper.external_router.routeinfojson;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

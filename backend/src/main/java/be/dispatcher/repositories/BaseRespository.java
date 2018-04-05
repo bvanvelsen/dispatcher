@@ -18,7 +18,7 @@ import be.dispatcher.domain.location.emergencybases.PoliceStation;
 import be.dispatcher.graphhopper.LatLon;
 import be.dispatcher.graphhopper.external_router.RetrofitRouteCaller;
 import be.dispatcher.graphhopper.external_router.RouteInput;
-import be.dispatcher.graphhopper.external_router.reouteinfojson.RouteInfoEnriched;
+import be.dispatcher.graphhopper.external_router.routeinfojson.RouteInfoEnriched;
 
 @Component
 public class BaseRespository {

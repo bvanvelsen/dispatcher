@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
-import java.time.temporal.TemporalAmount;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,9 +19,8 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
 import be.dispatcher.graphhopper.LatLon;
-import be.dispatcher.graphhopper.LatLonAtTime;
-import be.dispatcher.graphhopper.external_router.reouteinfojson.RouteInfo;
-import be.dispatcher.graphhopper.external_router.reouteinfojson.RouteInfoEnriched;
+import be.dispatcher.graphhopper.external_router.routeinfojson.RouteInfo;
+import be.dispatcher.graphhopper.external_router.routeinfojson.RouteInfoEnriched;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RetrofitRouteCachedCallerTest {

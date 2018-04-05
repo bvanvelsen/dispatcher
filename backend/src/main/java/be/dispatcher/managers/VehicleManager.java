@@ -16,7 +16,7 @@ import be.dispatcher.domain.vehicle.VehicleStatus;
 import be.dispatcher.domain.vehicle.police.PoliceVehicle;
 import be.dispatcher.graphhopper.external_router.RetrofitRouteCaller;
 import be.dispatcher.graphhopper.external_router.RouteInput;
-import be.dispatcher.graphhopper.external_router.reouteinfojson.RouteInfoEnriched;
+import be.dispatcher.graphhopper.external_router.routeinfojson.RouteInfoEnriched;
 import be.dispatcher.managers.incidentscene.IncidentSceneMedicalTasksManager;
 import be.dispatcher.repositories.BaseRespository;
 import be.dispatcher.repositories.IncidentRepository;

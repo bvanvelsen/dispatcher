@@ -2,9 +2,6 @@ package be.dispatcher.graphhopper.external_router;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.lang.reflect.Type;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
@@ -14,14 +11,9 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-
 import be.dispatcher.graphhopper.LatLon;
 import be.dispatcher.graphhopper.LatLonAtTime;
-import be.dispatcher.graphhopper.external_router.reouteinfojson.RouteInfo;
-import be.dispatcher.graphhopper.external_router.reouteinfojson.RouteInfoEnriched;
+import be.dispatcher.graphhopper.external_router.routeinfojson.RouteInfoEnriched;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RetrofitRouteRealCallerTest {

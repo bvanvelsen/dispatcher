@@ -1,10 +1,10 @@
-package be.dispatcher.graphhopper.external_router.reouteinfojson;
+package be.dispatcher.graphhopper.external_router.routeinfojson;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class SnappedWaypoints {
+public class Points {
 
 @SerializedName("coordinates")
 @Expose

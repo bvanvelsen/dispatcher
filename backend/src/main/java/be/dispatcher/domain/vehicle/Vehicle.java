@@ -9,7 +9,7 @@ import be.dispatcher.domain.Ticks;
 import be.dispatcher.domain.incident.Incident;
 import be.dispatcher.domain.location.emergencybases.Base;
 import be.dispatcher.graphhopper.LatLon;
-import be.dispatcher.graphhopper.external_router.reouteinfojson.RouteInfoEnriched;
+import be.dispatcher.graphhopper.external_router.routeinfojson.RouteInfoEnriched;
 import be.dispatcher.managers.VehicleManager;
 
 public abstract class Vehicle implements Ticks {

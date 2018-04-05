@@ -1,6 +1,6 @@
 package be.dispatcher.graphhopper.external_router;
 
-import be.dispatcher.graphhopper.external_router.reouteinfojson.RouteInfo;
+import be.dispatcher.graphhopper.external_router.routeinfojson.RouteInfo;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

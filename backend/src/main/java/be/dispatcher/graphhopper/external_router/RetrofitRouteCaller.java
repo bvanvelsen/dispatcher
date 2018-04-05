@@ -1,12 +1,6 @@
 package be.dispatcher.graphhopper.external_router;
 
 import java.io.IOException;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.util.Calendar;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -16,11 +10,8 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
-import be.dispatcher.graphhopper.LatLon;
-import be.dispatcher.graphhopper.LatLonAtTime;
-import be.dispatcher.graphhopper.external_router.reouteinfojson.Instruction;
-import be.dispatcher.graphhopper.external_router.reouteinfojson.RouteInfo;
-import be.dispatcher.graphhopper.external_router.reouteinfojson.RouteInfoEnriched;
+import be.dispatcher.graphhopper.external_router.routeinfojson.RouteInfo;
+import be.dispatcher.graphhopper.external_router.routeinfojson.RouteInfoEnriched;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
