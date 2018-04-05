@@ -27,8 +27,10 @@ public abstract class Vehicle implements Ticks {
 	protected VehicleStatus vehicleStatus;
 	protected boolean filled;
 	protected LocalDateTime timeUntilReadyAtDropoff;
+	protected LocalDateTime timeUntilAlarmedStateDone;
+	protected boolean volunteer;
 
-	public Vehicle(int id, String name, Base base) {
+	public Vehicle(int id, String name, Base base, boolean volunteer) {
 		this.id = id;
 		this.name = name;
 		this.base = base;
@@ -41,6 +43,9 @@ public abstract class Vehicle implements Ticks {
 	public void tick() {
 		switch (vehicleStatus) {
 		case AT_BASE:
+			break;
+		case ALARMED:
+			checkAlarmedStateAndReadyToGoToResponding();
 			break;
 		case RESPONDING:
 			setLocation(routeInfo.getLocationForCurrentTime(LocalDateTime.now()));
@@ -60,6 +65,13 @@ public abstract class Vehicle implements Ticks {
 		}
 	}
 
+	private void checkAlarmedStateAndReadyToGoToResponding() {
+		if (LocalDateTime.now().isAfter(timeUntilAlarmedStateDone)) {
+			vehicleManager.sendVehicleToIncident(id, getIncident().getId());
+			timeUntilAlarmedStateDone = null;
+		}
+	}
+
 	private void checkAndSetArrivalForArrivalAtIncident() {
 		if (LocalDateTime.now().isAfter(routeInfo.getArrivalTime())) {
 			vehicleStatus = VehicleStatus.AT_INCIDENT;
@@ -73,6 +85,7 @@ public abstract class Vehicle implements Ticks {
 			vehicleStatus = VehicleStatus.AT_DROP_OFF;
 			location = routeInfo.getDestination();
 			routeInfo = null;
+			filled = false;
 			timeUntilReadyAtDropoff = LocalDateTime.now().plusSeconds(new Random().ints(3 * 60, 10 * 60).findFirst().getAsInt());
 		}
 	}
@@ -147,5 +160,17 @@ public abstract class Vehicle implements Ticks {
 
 	public void setFilled(boolean filled) {
 		this.filled = filled;
+	}
+
+	public boolean isFilled() {
+		return filled;
+	}
+
+	public boolean isVolunteer() {
+		return volunteer;
+	}
+
+	public void setTimeUntilAlarmedStateDone(LocalDateTime timeUntilAlarmedStateDone) {
+		this.timeUntilAlarmedStateDone = timeUntilAlarmedStateDone;
 	}
 }

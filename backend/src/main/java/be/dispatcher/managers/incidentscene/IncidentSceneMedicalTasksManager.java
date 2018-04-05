@@ -8,8 +8,10 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 import be.dispatcher.domain.incident.Incident;
+import be.dispatcher.domain.incident.MedicalTasks;
 import be.dispatcher.domain.people.Criminal;
 import be.dispatcher.domain.people.InjuryLevel;
+import be.dispatcher.domain.people.TrappedVictim;
 import be.dispatcher.domain.people.Victim;
 import be.dispatcher.domain.vehicle.Vehicle;
 import be.dispatcher.domain.vehicle.medical.Mug;
@@ -93,6 +95,26 @@ public class IncidentSceneMedicalTasksManager {
 				.max(Comparator.comparing(victim -> victim.getHealCountdown()));
 		if (victimOptional.isPresent()) {
 			return victimOptional.get();
+		}
+		return null;
+	}
+
+	public boolean hasTrappedVictims(Incident incident) {
+		MedicalTasks medicalTasks = incident.getMedicalTasks();
+		if (medicalTasks != null) {
+			return medicalTasks.getVictims().stream()
+					.filter(victim -> victim.isTrapped())
+					.count() > 0;
+		}
+		return false;
+	}
+
+	public TrappedVictim getTrappedVictim(Incident incident) {
+		if (hasTrappedVictims(incident)) {
+			return incident.getMedicalTasks().getVictims().stream()
+					.filter(victim -> victim.isTrapped())
+					.map(victim -> (TrappedVictim) victim)
+					.findFirst().get();
 		}
 		return null;
 	}

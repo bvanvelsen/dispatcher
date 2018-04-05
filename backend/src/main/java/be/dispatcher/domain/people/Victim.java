@@ -27,9 +27,18 @@ public class Victim implements Person {
 		return healCountdown == 0;
 	}
 
+	@Override
+	public boolean isTrapped() {
+		return false;
+	}
+
 	public boolean heal(int healAmount) {
 		healCountdown -=healAmount;
 		healCountdown = healCountdown <= 0 ? 0 : healCountdown;
 		return isTransportable();
+	}
+
+	public int getTrappedCountdown() {
+		return 0;
 	}
 }

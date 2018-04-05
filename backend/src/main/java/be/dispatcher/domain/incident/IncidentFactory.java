@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import be.dispatcher.DistributedRandomNumberGenerator;
 import be.dispatcher.domain.people.Criminal;
 import be.dispatcher.domain.people.InjuryLevel;
+import be.dispatcher.domain.people.TrappedVictim;
 import be.dispatcher.domain.people.Victim;
 import be.dispatcher.graphhopper.LatLon;
 import be.dispatcher.graphhopper.location.PointGenerator;
@@ -72,7 +73,7 @@ public class IncidentFactory {
 			for (int i = 0; i < victimCount; i++) {
 				InjuryLevel randomInjuryLevel = getRandomInjuryLevel();
 				int healCountdown = getRandomHealCountdown(randomInjuryLevel);
-				victims.add(new Victim(randomInjuryLevel, healCountdown));
+				victims.add(new TrappedVictim(randomInjuryLevel, healCountdown, 250));
 			}
 			incident.setMedicalTasks(new MedicalTasksImpl(victims));
 		}

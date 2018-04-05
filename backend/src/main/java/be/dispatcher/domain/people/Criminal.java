@@ -17,6 +17,11 @@ public class Criminal implements Person{
 		return arrestCountdown == 0;
 	}
 
+	@Override
+	public boolean isTrapped() {
+		return false;
+	}
+
 	public boolean arrest(int arrestAmount) {
 		arrestCountdown -=arrestAmount;
 		arrestCountdown = arrestCountdown <= 0 ? 0 : arrestCountdown;

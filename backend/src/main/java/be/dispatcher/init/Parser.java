@@ -68,7 +68,8 @@ public class Parser {
 		VehicleType vehicleType = VehicleType.valueOf(csvRecord.get(3));
 		int fireGainPerTick = Integer.parseInt(csvRecord.get(4));
 		int technicalPerTick = Integer.parseInt(csvRecord.get(5));
-		return new FireTruck(id, name, base, vehicleType, fireGainPerTick, technicalPerTick);
+		boolean volunteer = Boolean.parseBoolean(csvRecord.get(6));
+		return new FireTruck(id, name, base, vehicleType, fireGainPerTick, technicalPerTick, volunteer);
 	};
 
 	private Function<CSVRecord, Vehicle> csvToPoliceVehicleFunction = csvRecord -> {

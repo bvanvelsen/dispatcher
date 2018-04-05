@@ -30,6 +30,7 @@
 			</td>
 			<td style="width:5%" class="col">
 				<span ng-if="vehicle.vehicleStatus === 'AT_BASE'"><i class="fas fa-home"></i></span>
+				<span ng-if="vehicle.vehicleStatus === 'ALARMED'"><i class="far fa-clock"></i></span>
 				<span ng-if="vehicle.vehicleStatus === 'AT_DROP_OFF'"><i class="fas fa-hospital"></i></span>
 				<span ng-if="vehicle.vehicleStatus === 'AT_INCIDENT'"><i class="fas fa-exclamation-circle"></i></span>
 				<span ng-if="vehicle.vehicleStatus === 'RESPONDING'"><i class="fas fa-caret-right"></i></span>

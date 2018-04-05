@@ -14,7 +14,7 @@ public abstract class MedicalVehicle extends Vehicle {
 	protected IncidentSceneMedicalTasksManager incidentSceneMedicalTasksManager;
 
 	public MedicalVehicle(int id, String name, Base base, int healthGainPerTick) {
-		super(id, name, base);
+		super(id, name, base, false);
 		this.healthGainPerTick = healthGainPerTick;
 	}
 

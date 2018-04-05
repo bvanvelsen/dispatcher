@@ -105,6 +105,9 @@ public class RouteInfoEnriched {
 	}
 
 	public LatLon getLocationForCurrentTime(LocalDateTime localDateTime) {
+		if (latLonAtTimeList.isEmpty()) {
+			return null;
+		}
 		LatLonAtTime latLonAtTime1 = latLonAtTimeList.stream()
 				.filter(latLonAtTime -> localDateTime.isAfter(latLonAtTime.getLocalDateTime()))
 				.sorted(Comparator.comparing(LatLonAtTime::getLocalDateTime).reversed())
