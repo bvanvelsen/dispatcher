@@ -17,8 +17,8 @@ import be.dispatcher.domain.location.emergencybases.Hospital;
 import be.dispatcher.domain.location.emergencybases.PoliceStation;
 import be.dispatcher.graphhopper.LatLon;
 import be.dispatcher.graphhopper.external_router.RetrofitRouteCaller;
+import be.dispatcher.graphhopper.external_router.RouteInfoEnriched;
 import be.dispatcher.graphhopper.external_router.RouteInput;
-import be.dispatcher.graphhopper.external_router.routeinfojson.RouteInfoEnriched;
 
 @Component
 public class BaseRespository {
@@ -44,7 +44,7 @@ public class BaseRespository {
 				.collect(toList());
 	}
 
-	public Base getClosestHospital(String speedProfile, LatLon vehicleLocation) {
+	public Base getClosestHospital(double speedProfile, LatLon vehicleLocation) {
 		List<Base> hospitals = bases.stream()
 				.filter(base -> base instanceof Hospital)
 				.collect(Collectors.toList());
@@ -74,7 +74,7 @@ public class BaseRespository {
 				.collect(toList());
 	}
 
-	public Base getClosestPolicestation(String speedProfile, LatLon vehicleLocation) {
+	public Base getClosestPolicestation(double speedProfile, LatLon vehicleLocation) {
 		List<Base> policeStations = bases.stream()
 				.filter(base -> base instanceof PoliceStation)
 				.collect(Collectors.toList());

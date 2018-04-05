@@ -8,11 +8,11 @@ import be.dispatcher.graphhopper.LatLon;
 
 public class RouteInput {
 
-	private String speedprofile;
+	private double speedprofile;
 	private LatLon startLocation;
 	private LatLon destinationLocation;
 
-	public RouteInput(String speedprofile, LatLon startLocation, LatLon destinationLocation) {
+	public RouteInput(double speedprofile, LatLon startLocation, LatLon destinationLocation) {
 		this.speedprofile = speedprofile;
 		this.startLocation = startLocation;
 		this.destinationLocation = destinationLocation;
@@ -26,7 +26,7 @@ public class RouteInput {
 		return destinationLocation;
 	}
 
-	public String getSpeedprofile() {
+	public double getSpeedprofile() {
 		return speedprofile;
 	}
 

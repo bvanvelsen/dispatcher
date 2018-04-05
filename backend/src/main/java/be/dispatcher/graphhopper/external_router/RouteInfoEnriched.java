@@ -1,4 +1,4 @@
-package be.dispatcher.graphhopper.external_router.routeinfojson;
+package be.dispatcher.graphhopper.external_router;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -15,20 +15,30 @@ import be.dispatcher.graphhopper.LatLonAtTime;
 
 public class RouteInfoEnriched {
 
-	private RouteInfo routeInfo;
-
 	private LocalDateTime startTime;
 
 	private LocalDateTime arrivalTime;
 
 	private List<LatLonAtTime> latLonAtTimeList = new ArrayList();
+	private RouteInfoWithSpeedProfile routeInfo;
+
+	public RouteInfoEnriched(RouteInfoWithSpeedProfile routeInfoWithSpeedProfile) {
+		this.routeInfo = routeInfoWithSpeedProfile;
+	}
 
 	public Integer getTime() {
 		return routeInfo.getTime();
 	}
 
-	public RouteInfoEnriched(RouteInfo routeInfo) {
-		this.routeInfo = routeInfo;
+	public void enrichRouteInfo() {
+		startTime = LocalDateTime.now();
+		int travelTimeSoFarInMs = 0;
+
+		for (List<Double> doubles : routeInfo.getTimes()) {
+			enrichPointsWithTimeInformation(getCoordinateListFor(doubles), doubles.get(2).intValue(), travelTimeSoFarInMs);
+			travelTimeSoFarInMs += doubles.get(2).intValue();
+		}
+		arrivalTime = startTime.plusSeconds(getTime() / 1000);
 	}
 
 	public List<LatLonAtTime> getLatLonAtTimeList() {
@@ -51,16 +61,6 @@ public class RouteInfoEnriched {
 		return new LatLon(routeInfo.getDestination().get(1), routeInfo.getDestination().get(0));
 	}
 
-	public void enrichRouteInfo() {
-		startTime = LocalDateTime.now();
-		int travelTimeSoFarInMs = 0;
-
-		for (List<Double> doubles : routeInfo.getTimes()) {
-			enrichPointsWithTimeInformation(getCoordinateListFor(doubles), doubles.get(2).intValue(), travelTimeSoFarInMs);
-			travelTimeSoFarInMs += doubles.get(2).intValue();
-		}
-		arrivalTime = startTime.plusSeconds(getTime() / 1000);
-	}
 
 	private List<List<Double>> getCoordinateListFor(List<Double> intervals) {
 		List<List<Double>> subList = routeInfo.getCoordinates().subList(intervals.get(0).intValue(), intervals.get(1).intValue()+1);
@@ -76,13 +76,6 @@ public class RouteInfoEnriched {
 
 			List<LatLon> latLonsWith10MetersInBetween = LatLonMapper.calculateLatLonsInBetween(latLons.stream().findFirst().get(), latLons.stream().reduce((first, second) -> second).get(), timeForInstructionInMs);
 			double travelTimeBetweenPointsInInstruction = timeForInstructionInMs / latLonsWith10MetersInBetween.size();
-			//			LatLonMapper.distanceForInstructionInMeter(latLons.stream().findFirst().get(), latLons.stream().reduce((first, second) -> second).get());
-//						for (List<Double> point : points) {
-			//							LatLon latLon = createLatLanForPoint(point);
-			//							long timeAtPoint = (startTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() + msAfterStart(points, travelTimeSoFarInMs, travelTimeBetweenPointsInInstruction, point));
-			//							LocalDateTime date = LocalDateTime.ofInstant(Instant.ofEpochMilli(timeAtPoint), ZoneId.systemDefault());
-			//							addLatLonAtTime(new LatLonAtTime(latLon, date));
-			//						}
 			for (LatLon latLon : latLonsWith10MetersInBetween) {
 				long timeAtPoint = (startTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() + msAfterStart(latLonsWith10MetersInBetween, travelTimeSoFarInMs, travelTimeBetweenPointsInInstruction, latLon));
 				LocalDateTime date = LocalDateTime.ofInstant(Instant.ofEpochMilli(timeAtPoint), ZoneId.systemDefault());
@@ -96,10 +89,6 @@ public class RouteInfoEnriched {
 		return new LatLon(point.get(1), point.get(0));
 	}
 
-//	private int msAfterStart(List<List<Double>> points, int travelTimeSoFarInMs, double travelTimeBetweenPointsInInstruction, List<Double> point) {
-//		return (int) (travelTimeSoFarInMs + (travelTimeBetweenPointsInInstruction * (points.indexOf(point) + 1)));
-//	}
-
 	private int msAfterStart(List<LatLon> points, int travelTimeSoFarInMs, double travelTimeBetweenPointsInInstruction, LatLon point) {
 		return (int) (travelTimeSoFarInMs + (travelTimeBetweenPointsInInstruction * (points.indexOf(point) + 1)));
 	}
@@ -112,7 +101,6 @@ public class RouteInfoEnriched {
 				.filter(latLonAtTime -> localDateTime.isAfter(latLonAtTime.getLocalDateTime()))
 				.sorted(Comparator.comparing(LatLonAtTime::getLocalDateTime).reversed())
 				.findFirst().orElse(latLonAtTimeList.get(0));
-//		System.out.println(latLonAtTime1);
 		return latLonAtTime1.getLatLon();
 	}
 }

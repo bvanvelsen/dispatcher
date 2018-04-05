@@ -10,8 +10,6 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
-import be.dispatcher.graphhopper.external_router.routeinfojson.RouteInfo;
-import be.dispatcher.graphhopper.external_router.routeinfojson.RouteInfoEnriched;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -39,7 +37,7 @@ public class RetrofitRouteCaller {
 									.build();
 							RouteService service = retrofit.create(RouteService.class);
 
-							Call<RouteInfo> json = service.listRepos(key.getSpeedprofile(), key.getStartLocation().toPoint(), key.getDestinationLocation().toPoint(), false, "time");
+							Call<RouteInfo> json = service.listRepos("car", key.getStartLocation().toPoint(), key.getDestinationLocation().toPoint(), false, "time");
 							try {
 								return json.execute().body();
 							} catch (IOException e) {
@@ -52,7 +50,8 @@ public class RetrofitRouteCaller {
 	public RouteInfoEnriched doCall(RouteInput routeInput) {
 		try {
 			RouteInfo routeInfo = cache.get(routeInput);
-			RouteInfoEnriched routeInfoEnriched = new RouteInfoEnriched(routeInfo);
+			RouteInfoWithSpeedProfile routeInfoWithSpeedProfile = new RouteInfoWithSpeedProfile(routeInfo, routeInput.getSpeedprofile());
+			RouteInfoEnriched routeInfoEnriched = new RouteInfoEnriched(routeInfoWithSpeedProfile);
 			routeInfoEnriched.enrichRouteInfo();
 			return routeInfoEnriched;
 		} catch (ExecutionException e) {

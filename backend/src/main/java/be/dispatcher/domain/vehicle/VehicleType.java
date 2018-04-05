@@ -2,26 +2,26 @@ package be.dispatcher.domain.vehicle;
 
 public enum VehicleType {
 
-	AMBULANCE("2", "car"),
-	MUG("3", "car"),
-	TS("1", "car"),
-	RV("1", "car"),
-	COMBI("2","car"),
-	INTERCEPTOR("3", "car");
+	AMBULANCE(0.4, 0),
+	MUG(0.4, 0),
+	TS(0.4, 0),
+	RV(0.4, 0),
+	COMBI(0.4, 0),
+	INTERCEPTOR(0.4, 0);
 
-	private final String speedProfilePrioriy;
-	private final String speedProfileSecundary;
+	private final double speedProfilePrioriy;
+	private final double speedProfileSecundary;
 
-	VehicleType(String speedProfilePrioriy, String speedProfileSecundary) {
+	VehicleType(double speedProfilePrioriy, double speedProfileSecundary) {
 		this.speedProfilePrioriy = speedProfilePrioriy;
 		this.speedProfileSecundary = speedProfileSecundary;
 	}
 
-	public String getSpeedProfilePrioriy() {
+	public double getSpeedProfilePrioriy() {
 		return speedProfilePrioriy;
 	}
 
-	public String getSpeedProfileSecundary() {
+	public double getSpeedProfileSecundary() {
 		return speedProfileSecundary;
 	}
 }

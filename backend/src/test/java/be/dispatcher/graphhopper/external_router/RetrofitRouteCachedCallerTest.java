@@ -19,8 +19,6 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
 import be.dispatcher.graphhopper.LatLon;
-import be.dispatcher.graphhopper.external_router.routeinfojson.RouteInfo;
-import be.dispatcher.graphhopper.external_router.routeinfojson.RouteInfoEnriched;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RetrofitRouteCachedCallerTest {
@@ -33,7 +31,7 @@ public class RetrofitRouteCachedCallerTest {
 	public void setup() {
 		LatLon startLocation = new LatLon(50.92669, 5.342462);//jessa
 		LatLon destinationLocation = new LatLon(50.937506, 5.316248);//brico grote ring
-		routeInput = new RouteInput("car", startLocation, destinationLocation);
+		routeInput = new RouteInput(0, startLocation, destinationLocation);
 	}
 
 	@Test
