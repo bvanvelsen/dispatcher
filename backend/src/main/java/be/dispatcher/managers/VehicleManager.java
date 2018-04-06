@@ -67,7 +67,7 @@ public class VehicleManager {
 		if (volunteer) {
 			return new Random().ints(6 * 60, 10 * 60).findFirst().getAsInt();
 		} else {
-			return new Random().ints(90, 3 * 60).findFirst().getAsInt();
+			return new Random().ints(90, 2 * 60).findFirst().getAsInt();
 		}
 	}
 

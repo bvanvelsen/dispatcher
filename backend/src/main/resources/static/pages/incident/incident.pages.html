@@ -2,48 +2,30 @@
 <button type="button" class="btn btn-secondary" ng-click="ctrl.createIncident()">Create Incident</button>
 
 <div class="container">
-	<div class="row" ng-repeat="incident in ctrl.getAllIncidents()">
-		<div class="row">
-			<div class="col-8">
-				{{incident.location.display_name}}
+	<div class="row" ng-class-odd="'incidentRowOdd'" ng-repeat="incident in ctrl.getAllIncidents()">
+		<div class="col">
+			<h2>{{incident.location.display_name}}</h2>
+
+
+			<h4>Slachtoffers</h4>
+			<div class="row {{victim.injuryLevel}}" ng-repeat="victim in incident.medicalTasks.victims">
+				<div class="col"><span ng-if="victim.trapped"><img src="../../brandweer.png" height="15" width="15"/></span> {{victim.healCountdown}}</div>
 			</div>
-			<div class="col-4">
-				<span ng-if="incident.medicalTasks"><img src="../../star_of_life.png" height="15" width="15"/></span>
-				<span ng-if="incident.fireTasks"><img src="../../brandweer.png" height="15" width="15"/></span>
-				<span ng-if="incident.policeTasks"><img src="../../politie.gif" height="15" width="15"/></span>
-			</div>
-			<div>
-				Slachtoffers
-				<div class="row {{victim.injuryLevel}}" ng-repeat="victim in incident.medicalTasks.victims">
-					<div class="col">
-						{{victim.healCountdown}}
-					</div>
-					<div class="col">
-						{{victim.injuryLevel}}
-					</div>
-					<div class="col">
-						{{victim.transportable}}
-					</div>
-					<div class="col">
-						{{victim.trappedCountdown}}
-					</div>
-				</div>
-			</div>
+
+			<h4>Brandweer taken</h4>
 			<div class="row">
-				Brandweer
-				<div class="col">
-					{{incident.fireTasks.fireCountdown}}
+				<div class="col-1">
+					<div><span><i class="fas fa-fire"></i></span>{{incident.fireTasks.fireCountdown}}</div>
 				</div>
-				<div class="col">
-					{{incident.fireTasks.technicalCountdown}}
+				<div class="col-1">
+					<div><span><i class="fas fa-wrench"></i></span>{{incident.fireTasks.technicalCountdown}}</div>
 				</div>
 			</div>
-			<div>
-				Criminals
-				<div class="row" ng-repeat="criminal in incident.policeTasks.criminals">
-					<div class="col">
-						{{criminal.arrestCountdown}}
-					</div>
+
+			<h4>Politie taken</h4>
+			<div class="row" ng-repeat="criminal in incident.policeTasks.criminals">
+				<div class="col-1">
+					<div><span><i class="fas fa-link"></i></span>{{criminal.arrestCountdown}}</div>
 				</div>
 			</div>
 		</div>

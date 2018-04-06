@@ -14,10 +14,12 @@ angular.module('be.dispatcher.pages.incident', ['restangular'])
 	var ctrl = this;
 
 		ctrl.getAllIncidents = function() {
-			return IncidentClient.getAllIncidents();
+			const allIncidents = IncidentClient.getAllIncidents();
+			return allIncidents;
 		}
 
-		ctrl.createIncident = function () {
-			IncidentClient.createIncident();
-		};
-});
+ctrl.createIncident = function () {
+	IncidentClient.createIncident();
+};
+})
+;

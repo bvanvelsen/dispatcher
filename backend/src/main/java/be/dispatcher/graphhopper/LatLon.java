@@ -2,18 +2,19 @@ package be.dispatcher.graphhopper;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import be.dispatcher.graphhopper.reverse.geocode.Address;
 
 public class LatLon {
 
 	private final Double lat;
 	private final Double lon;
-	private String display_name;
+	private Address address;
 
-	public LatLon(Double lat, Double lon, String display_name) {
+	public LatLon(Double lat, Double lon, Address address) {
 		this.lat = lat;
 		this.lon = lon;
-		this.display_name = display_name;
+		this.address = address;
 	}
 
 	public LatLon(Double lat, Double lon) {
@@ -30,7 +31,14 @@ public class LatLon {
 	}
 
 	public String getDisplay_name() {
-		return display_name;
+		if (address != null) {
+			return address.getDisplayName();
+		}
+		return null;
+	}
+
+	public Address getAddress() {
+		return address;
 	}
 
 	@Override
@@ -46,7 +54,7 @@ public class LatLon {
 		return new EqualsBuilder()
 				.append(lat, latLon.lat)
 				.append(lon, latLon.lon)
-				.append(display_name, latLon.display_name)
+				.append(address, latLon.address)
 				.isEquals();
 	}
 
@@ -55,7 +63,7 @@ public class LatLon {
 		return new HashCodeBuilder(17, 37)
 				.append(lat)
 				.append(lon)
-				.append(display_name)
+				.append(address)
 				.toHashCode();
 	}
 
@@ -68,7 +76,7 @@ public class LatLon {
 		final StringBuffer sb = new StringBuffer("LatLon{");
 		sb.append("lat=").append(lat);
 		sb.append(", lon=").append(lon);
-		sb.append(", display_name='").append(display_name).append('\'');
+		sb.append(", address=").append(address);
 		sb.append('}');
 		return sb.toString();
 	}

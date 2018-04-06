@@ -1,7 +1,6 @@
 package be.dispatcher.graphhopper.location;
 
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,7 +28,7 @@ public class PointGenerator {
 		randomLon = Double.parseDouble(String.format("%.6f", randomLon));
 		LatLon latLon = new LatLon(randomLat, randomLon);
 		ReverseGeocode reverseGeocode = retrofitReverseGeocoderCaller.doCall(latLon);
-		return new LatLon(reverseGeocode.getLat(), reverseGeocode.getLon(), reverseGeocode.getDisplay_name());
+		return new LatLon(reverseGeocode.getLat(), reverseGeocode.getLon(), reverseGeocode.getAddress());
 	}
 
 }
