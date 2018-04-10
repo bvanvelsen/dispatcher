@@ -16,33 +16,4 @@ angular.module('be.dispatcher.pages.medical', ['restangular'])
 		ctrl.getAllMedicalVehicles = function () {
 			return VehicleClient.getAllMedicalVehicles();
 		}
-
-		ctrl.toggleRefresh = function () {
-			VehicleClient.toggleRefresh();
-		}
-
-		ctrl.getAllIncidents = function () {
-			return IncidentClient.getAllIncidents();
-		}
-
-		ctrl.createIncident = function () {
-			IncidentClient.createIncident();
-		};
-
-		ctrl.sendVehicleToIncident = function (vehicleId, incidentId) {
-			VehicleClient.sendVehicleToIncident(vehicleId, incidentId);
-		}
-
-		ctrl.goToNearestHospital = function (vehicleId) {
-			VehicleClient.goToNearestHospital(vehicleId);
-		}
-
-		ctrl.getTimes = function (n) {
-			return new Array(n);
-		};
-
-		$interval(function () {
-
-		}, 1000);
-
 	});

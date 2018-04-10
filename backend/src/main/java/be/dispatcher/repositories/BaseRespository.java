@@ -1,5 +1,6 @@
 package be.dispatcher.repositories;
 
+import static be.dispatcher.domain.location.emergencybases.BaseType.AMBULANCE_STATION;
 import static be.dispatcher.domain.location.emergencybases.BaseType.FIRE_DEPARTMENT;
 import static be.dispatcher.domain.location.emergencybases.BaseType.HOSPITAL;
 import static be.dispatcher.domain.location.emergencybases.BaseType.POLICE_STATION;
@@ -90,5 +91,11 @@ public class BaseRespository {
 			}
 		}
 		return closestPoliceStation;
+	}
+
+	public List<Base> getAllAmbulanceStations() {
+		return bases.stream()
+				.filter(base -> AMBULANCE_STATION.equals(base.getBaseType()))
+				.collect(toList());
 	}
 }

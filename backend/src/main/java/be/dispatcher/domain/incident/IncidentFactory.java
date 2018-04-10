@@ -54,7 +54,8 @@ public class IncidentFactory {
 
 	private void generateFireTaks(Incident incident) {
 		if (shouldGenerateFireTasks(100)) {
-			incident.setFireTasks(new FireTasksImpl(createRandomFireCountdown(), createRandomTechnicalCountdown()));
+			int randomFireCountdown = createRandomFireCountdown();
+			incident.setFireTasks(new FireTasksImpl(randomFireCountdown, createRandomTechnicalCountdown(), createRandomFireIncreasePerTick()));
 		}
 	}
 
@@ -117,5 +118,9 @@ public class IncidentFactory {
 
 	private int createRandomTechnicalCountdown() {
 		return new Random().ints(1, 100).findFirst().getAsInt();
+	}
+
+	private int createRandomFireIncreasePerTick() {
+		return new Random().ints(0, 500).findFirst().getAsInt();
 	}
 }

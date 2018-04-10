@@ -2,10 +2,14 @@ package be.dispatcher.world;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.google.common.base.Stopwatch;
 
 import be.dispatcher.domain.Ticks;
 import be.dispatcher.init.Parser;
@@ -22,19 +26,12 @@ public class World {
 		parser.hospitalParser();
 		parser.fireDepartmentParser();
 		parser.policeStationParser();
+		parser.ambulanceStationParser();
 		parser.medicalVehicleParser();
 		parser.fireTruckParser();
 		parser.policeVehicleParser();
-		new Thread(() -> {
-			while (true) {
-				try {
-					TimeUnit.SECONDS.sleep(1);
-					tickableObjects.forEach(Ticks::tick);
-				} catch (final Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}).start();
+		ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+		executor.scheduleAtFixedRate(helloRunnable, 0, 1, TimeUnit.SECONDS);
 	}
 
 	public void addObjectToWorld(Ticks livingObject) {
@@ -44,4 +41,19 @@ public class World {
 	public void removeObjectFromWorld(Ticks livingObject) {
 		tickableObjects.remove(livingObject);
 	}
+
+	Runnable helloRunnable = new Runnable() {
+		public void run() {
+			try {
+				Stopwatch s = Stopwatch.createStarted();
+				tickableObjects.forEach(Ticks::tick);
+				System.out.println(TimeUnit.NANOSECONDS.toMillis(s.elapsed().getNano()));
+				s.stop();
+				s = null;
+			} catch (final Exception e) {
+				e.printStackTrace();
+			}
+		}
+	};
+
 }

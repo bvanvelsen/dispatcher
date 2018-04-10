@@ -8,6 +8,13 @@ angular.module('be.dispatcher.client.images.markers', [])
 			iconAnchor: [15, 15], // point of the icon which will correspond to marker's location
 			popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
 		});
+		var ambulanceStationIcon = L.icon({
+			iconUrl: 'star_of_life.png',
+
+			iconSize: [30, 30], // size of the icon
+			iconAnchor: [15, 15], // point of the icon which will correspond to marker's location
+			popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+		});
 		var brandweerIcon = L.icon({
 			iconUrl: 'brandweer.png',
 
@@ -50,6 +57,13 @@ angular.module('be.dispatcher.client.images.markers', [])
 			iconAnchor: [15, 15], // point of the icon which will correspond to marker's location
 			popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
 		});
+		var hvIcon = L.icon({
+			iconUrl: 'hv.png',
+
+			iconSize: [30, 30], // size of the icon
+			iconAnchor: [15, 15], // point of the icon which will correspond to marker's location
+			popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+		});
 		var policeIcon = L.icon({
 			iconUrl: 'politie.gif',
 
@@ -76,6 +90,10 @@ angular.module('be.dispatcher.client.images.markers', [])
 			return ambulanceIcon;
 		}
 
+		function getAmbulanceStationIcon() {
+			return ambulanceStationIcon;
+		}
+
 		function getMugIcon() {
 			return mugIcon;
 		}
@@ -99,6 +117,9 @@ angular.module('be.dispatcher.client.images.markers', [])
 		function getTSIcon() {
 			return tsIcon;
 		}
+		function getHVIcon() {
+			return hvIcon;
+		}
 
 		function getPoliceIcon() {
 			return policeIcon;
@@ -120,8 +141,10 @@ angular.module('be.dispatcher.client.images.markers', [])
 			getMugIcon: getMugIcon,
 			getRVIcon: getRVIcon,
 			getTSIcon: getTSIcon,
+			getHVIcon: getHVIcon,
 			getPoliceIcon: getPoliceIcon,
 			getPoliceInterceptorIcon: getPoliceInterceptorIcon,
 			getPoliceCombiIcon: getPoliceCombiIcon,
+			getAmbulanceStationIcon: getAmbulanceStationIcon,
 		};
 	});

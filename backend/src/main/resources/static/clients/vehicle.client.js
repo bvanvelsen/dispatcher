@@ -51,8 +51,6 @@ angular.module('be.dispatcher.client.vehicle', [])
 		}
 
 		return {
-			// getAllAmbulances: getAllAmbulances,
-			// getAllMugs: getAllMugs,
 			getAllMedicalVehicles:getAllMedicalVehicles,
 			getAllFireTrucks:getAllFireTrucks,
 			getAllPoliceVehicles:getAllPoliceVehicles,

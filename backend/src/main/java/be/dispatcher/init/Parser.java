@@ -14,6 +14,7 @@ import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import be.dispatcher.domain.location.emergencybases.AmbulanceStation;
 import be.dispatcher.domain.location.emergencybases.Base;
 import be.dispatcher.domain.location.emergencybases.FireDepartment;
 import be.dispatcher.domain.location.emergencybases.Hospital;
@@ -90,6 +91,15 @@ public class Parser {
 		return new FireDepartment(id, name, latLon);
 	};
 
+	private Function<CSVRecord, AmbulanceStation> csvToAmbulanceStationFunction = csvRecord -> {
+		int id = Integer.parseInt(csvRecord.get(0));
+		String name = csvRecord.get(1);
+		double lat = Double.parseDouble(csvRecord.get(2));
+		double lon = Double.parseDouble(csvRecord.get(3));
+		LatLon latLon = new LatLon(lat, lon);
+		return new AmbulanceStation(id, name, latLon);
+	};
+
 	private Function<CSVRecord, PoliceStation> csvToPoliceStationFunction = csvRecord -> {
 		int id = Integer.parseInt(csvRecord.get(0));
 		String name = csvRecord.get(1);
@@ -159,6 +169,19 @@ public class Parser {
 					.map(csvToFireDepartmentFunction)
 					.collect(toList());
 			fireDepartments.forEach(fireDepartment -> baseRespository.addBaseToRepository(fireDepartment));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public void ambulanceStationParser() {
+		try {
+			Reader in = new FileReader(getClass().getClassLoader().getResource("init/ambulance_stations.csv").getFile());
+			Iterable<CSVRecord> records = CSVFormat.RFC4180.parse(in).getRecords();
+			List<AmbulanceStation> ambulanceStations = IterableUtils.toList(records).stream()
+					.map(csvToAmbulanceStationFunction)
+					.collect(toList());
+			ambulanceStations.forEach(fireDepartment -> baseRespository.addBaseToRepository(fireDepartment));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

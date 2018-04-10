@@ -5,6 +5,8 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import be.dispatcher.domain.Ticks;
 import be.dispatcher.domain.incident.Incident;
 import be.dispatcher.domain.location.emergencybases.Base;
@@ -20,15 +22,21 @@ public abstract class Vehicle implements Ticks {
 	protected int id;
 	protected String name;
 	protected VehicleType vehicleType;
-	protected Base base;
+
 	protected LatLon location;
 	protected Incident incident;
-	protected RouteInfoEnriched routeInfo;
+
 	protected VehicleStatus vehicleStatus;
 	protected boolean filled;
 	protected LocalDateTime timeUntilReadyAtDropoff;
 	protected LocalDateTime timeUntilAlarmedStateDone;
 	protected boolean volunteer;
+
+	@JsonIgnore
+	protected Base base;
+
+	@JsonIgnore
+	protected RouteInfoEnriched routeInfo;
 
 	public Vehicle(int id, String name, Base base, boolean volunteer) {
 		this.id = id;
@@ -93,6 +101,7 @@ public abstract class Vehicle implements Ticks {
 	private void checkReadyAtDropOffAndGoBackToBase() {
 		if (LocalDateTime.now().isAfter(timeUntilReadyAtDropoff)) {
 			if (location.equals(base.getLocation())) {
+				setIncident(null);
 				vehicleStatus = VehicleStatus.AT_BASE;
 			} else {
 				vehicleStatus = VehicleStatus.GO_TO_BASE;
@@ -106,6 +115,7 @@ public abstract class Vehicle implements Ticks {
 		if (LocalDateTime.now().isAfter(routeInfo.getArrivalTime())) {
 			vehicleStatus = VehicleStatus.AT_BASE;
 			location = getBase().getLocation();
+			setIncident(null);
 			routeInfo = null;
 		}
 	}

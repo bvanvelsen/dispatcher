@@ -30,6 +30,9 @@ public class Incident implements Ticks {
 
 	@Override
 	public void tick() {
+		if (fireTasks!= null) {
+			fireTasks.tick();
+		}
 		if (isCompleted()) {
 			incidentRepository.removeIncidentFromRepository(this);
 		}

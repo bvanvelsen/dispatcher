@@ -23,6 +23,9 @@ public class Address {
 	@SerializedName("town")
 	@Expose
 	private String town;
+	@SerializedName("retail")
+	@Expose
+	private String retail;
 	@SerializedName("village")
 	@Expose
 	private String village;
@@ -119,6 +122,14 @@ public class Address {
 		this.countryCode = countryCode;
 	}
 
+	public String getRetail() {
+		return retail;
+	}
+
+	public void setRetail(String retail) {
+		this.retail = retail;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
@@ -133,6 +144,7 @@ public class Address {
 				.append(busStop, address.busStop)
 				.append(road, address.road)
 				.append(cityDistrict, address.cityDistrict)
+				.append(retail, address.retail)
 				.append(town, address.town)
 				.append(county, address.county)
 				.append(state, address.state)
@@ -149,6 +161,7 @@ public class Address {
 				.append(road)
 				.append(cityDistrict)
 				.append(town)
+				.append(retail)
 				.append(county)
 				.append(state)
 				.append(postcode)
@@ -179,7 +192,10 @@ public class Address {
 			gemeente = town;
 		} else if (city != null) {
 			gemeente = city;
-		} else {
+		} else if (retail != null) {
+			gemeente = retail;
+		}
+		else {
 			gemeente = village;
 		}
 		return gemeente + ": " + road;

@@ -1,10 +1,18 @@
 1000,100,Ziekenwagen Jessa PIT,AMBULANCE,20
 1001,100,MUG Jessa,MUG,40
-1002,200,Hasselt 1,AMBULANCE,10
-1003,200,Hasselt 2,AMBULANCE,10
+1002,200,Ambulance 1 Brandweer Hasselt,AMBULANCE,10
+1003,200,Ambulance 2 brandweer Hasselt,AMBULANCE,10
+1012,200,Ambulance 3 brandweer Hasselt,AMBULANCE,10
 1004,101,Ziekenwagen ZOL PIT,AMBULANCE,20
 1005,101,MUG ZOL,MUG,40
 1006,201,Ziekenwagen Genk 1,AMBULANCE,10
 1007,201,Ziekenwagen Genk 2,AMBULANCE,10
 1008,201,Ziekenwagen Genk 3,AMBULANCE,10
-1009,202,Ziekenwagen Herk-de-stad,AMBULANCE,10
+1009,202,Ziekenwagen Herk-de-stad 1,AMBULANCE,10
+1011,202,Ziekenwagen Herk-de-stad 2,AMBULANCE,10
+1013,205,Ziekenwagen Heusden-Zolder AMBU 1,AMBULANCE,10
+1015,205,Ziekenwagen Heusden-Zolder AMBU 2,AMBULANCE,10
+1016,205,Z13 Ambulance Heusden-Zolder,AMBULANCE,10
+1010,400,Ambicare Borgloon,AMBULANCE,10
+1017,206,Ambulance Tessenderlo,AMBULANCE,10
+1018,208,Ambulance Tongeren,AMBULANCE,10

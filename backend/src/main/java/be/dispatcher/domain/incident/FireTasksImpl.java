@@ -4,10 +4,19 @@ public class FireTasksImpl implements FireTasks {
 
 	private int fireCountdown;
 	private int technicalCountdown;
+	private int fireIncreasePerTick;
 
-	public FireTasksImpl(int fireCountdown, int technicalCountdown) {
+	public FireTasksImpl(int fireCountdown, int technicalCountdown, int fireIncreasePerTick) {
 		this.fireCountdown = fireCountdown;
 		this.technicalCountdown = technicalCountdown;
+		this.fireIncreasePerTick = fireIncreasePerTick;
+	}
+
+	@Override
+	public void tick() {
+		if (fireCountdown > 0) {
+			fireCountdown += fireIncreasePerTick;
+		}
 	}
 
 	@Override
@@ -24,6 +33,9 @@ public class FireTasksImpl implements FireTasks {
 
 	@Override
 	public boolean allTasksCompleted() {
+		if (fireCountdown == 0) {
+			fireIncreasePerTick = 0;
+		}
 		return technicalCountdown == 0 && fireCountdown == 0;
 	}
 

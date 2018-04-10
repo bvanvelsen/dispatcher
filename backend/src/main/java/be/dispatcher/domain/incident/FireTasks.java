@@ -1,6 +1,8 @@
 package be.dispatcher.domain.incident;
 
-public interface FireTasks {
+import be.dispatcher.domain.Ticks;
+
+public interface FireTasks extends Ticks {
 
 	void extinguishFire(int extinguishAmount);
 

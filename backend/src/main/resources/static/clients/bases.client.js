@@ -19,6 +19,12 @@ angular.module('be.dispatcher.client.bases', [])
 			});
 		}
 
+		function getAllAmbulanceStations() {
+			return Restangular.all('bases/ambulance_stations').getList().then(function (allBases) {
+				return allBases;
+			});
+		}
+
 		function getAllPoliceStations() {
 			return Restangular.all('bases/police_stations').getList().then(function (allBases) {
 				return allBases;
@@ -30,6 +36,7 @@ angular.module('be.dispatcher.client.bases', [])
 			getAllBases: getAllBases,
 			getAllHospitals:getAllHospitals,
 			getAllFireDepartments:getAllFireDepartments,
-			getAllPoliceStations:getAllPoliceStations
+			getAllPoliceStations:getAllPoliceStations,
+			getAllAmbulanceStations:getAllAmbulanceStations,
 		};
 	});

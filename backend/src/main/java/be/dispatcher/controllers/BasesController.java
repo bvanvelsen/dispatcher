@@ -31,4 +31,9 @@ public class BasesController {
 	public List<Base> getAllPoliceStations() {
 		return baseRespository.getAllPoliceStations();
 	}
+
+	@RequestMapping(value = "ambulance_stations", method = RequestMethod.GET)
+	public List<Base> getAllAmbulanceStations() {
+		return baseRespository.getAllAmbulanceStations();
+	}
 }

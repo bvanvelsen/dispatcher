@@ -16,29 +16,4 @@ angular.module('be.dispatcher.pages.police', ['restangular'])
 		ctrl.getAllPoliceVehicles = function () {
 			return VehicleClient.getAllPoliceVehicles();
 		}
-
-		ctrl.getAllIncidents = function () {
-			return IncidentClient.getAllIncidents();
-		}
-
-		ctrl.createIncident = function () {
-			IncidentClient.createIncident();
-		};
-
-		ctrl.sendVehicleToIncident = function (vehicleId, incidentId) {
-			VehicleClient.sendVehicleToIncident(vehicleId, incidentId);
-		}
-
-		ctrl.goToNearestHospital = function (vehicleId) {
-			VehicleClient.goToNearestHospital(vehicleId);
-		}
-
-		ctrl.getTimes = function (n) {
-			return new Array(n);
-		};
-
-		$interval(function () {
-
-		}, 1000);
-
 	});

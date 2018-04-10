@@ -85,10 +85,6 @@ public class RouteInfoEnriched {
 
 	}
 
-	private LatLon createLatLanForPoint(List<Double> point) {
-		return new LatLon(point.get(1), point.get(0));
-	}
-
 	private int msAfterStart(List<LatLon> points, int travelTimeSoFarInMs, double travelTimeBetweenPointsInInstruction, LatLon point) {
 		return (int) (travelTimeSoFarInMs + (travelTimeBetweenPointsInInstruction * (points.indexOf(point) + 1)));
 	}

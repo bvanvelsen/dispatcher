@@ -18,6 +18,7 @@ angular.module('be.dispatcher.pages.vehicleshop', ['restangular'])
 		var mugIcons = new Array();
 		var rvIcons = new Array();
 		var tsIcons = new Array();
+		var hvIcons = new Array();
 		var policeCombiIcons = new Array();
 		var policeInterceptorIcons = new Array();
 		var incidentIcons = new Array();
@@ -33,6 +34,7 @@ angular.module('be.dispatcher.pages.vehicleshop', ['restangular'])
 		addHospitalsToMap();
 		addFireDepartmentsToMap();
 		addPoliceStationsToMap();
+		addAmbulanceStationsToMap();
 
 		function addHospitalsToMap() {
 			BasesClient.getAllHospitals().then(function (value) {
@@ -61,6 +63,15 @@ angular.module('be.dispatcher.pages.vehicleshop', ['restangular'])
 			});
 		}
 
+		function addAmbulanceStationsToMap() {
+			BasesClient.getAllAmbulanceStations().then(function (value) {
+				bases = value;
+				for (i = 0; i < bases.length; i++) {
+					L.marker([bases[i].location.lat, bases[i].location.lon], {icon: ImagesMarkersClient.getAmbulanceStationIcon(), zIndexOffset: 1000}).addTo(mymap);
+				}
+			});
+		}
+
 		function addVehiclesToMap() {
 			for (i = 0; i < ambulanceIcons.length; i++) {
 				mymap.removeLayer(ambulanceIcons[i]);
@@ -74,6 +85,9 @@ angular.module('be.dispatcher.pages.vehicleshop', ['restangular'])
 			for (i = 0; i < tsIcons.length; i++) {
 				mymap.removeLayer(tsIcons[i]);
 			}
+			for (i = 0; i < hvIcons.length; i++) {
+				mymap.removeLayer(hvIcons[i]);
+			}
 			for (i = 0; i < policeCombiIcons.length; i++) {
 				mymap.removeLayer(policeCombiIcons[i]);
 			}
@@ -83,6 +97,7 @@ angular.module('be.dispatcher.pages.vehicleshop', ['restangular'])
 			ambulanceIcons = [];
 			mugIcons = [];
 			rvIcons = [];
+			hvIcons = [];
 			tsIcons = [];
 			policeCombiIcons = [];
 			policeInterceptorIcons = [];
@@ -92,25 +107,29 @@ angular.module('be.dispatcher.pages.vehicleshop', ['restangular'])
 				var currentMedicalVehicle = AllMedicalVehicles[i];
 				if (currentMedicalVehicle.vehicleType === 'AMBULANCE') {
 					const marker = L.marker([currentMedicalVehicle.location.lat, currentMedicalVehicle.location.lon], {icon: ImagesMarkersClient.getAmbulanceIcon()});
-					ambulanceIcons.push(marker)
-					marker.addTo(mymap)
+					ambulanceIcons.push(marker);
+					marker.addTo(mymap);
 				} else if(currentMedicalVehicle.vehicleType === 'MUG') {
 					const marker = L.marker([currentMedicalVehicle.location.lat, currentMedicalVehicle.location.lon], {icon: ImagesMarkersClient.getMugIcon()});
-					mugIcons.push(marker)
-					marker.addTo(mymap)
+					mugIcons.push(marker);
+					marker.addTo(mymap);
 				}
 			}
 			var AllFireTrucks = VehicleClient.getAllFireTrucks();
 			for (i = 0; i < AllFireTrucks.length; i++) {
 				var currentFireTruck = AllFireTrucks[i];
-				if (currentFireTruck.vehicleType === 'TS') {
+				if (currentFireTruck.vehicleType === 'FD_AUTOPOMP') {
 					const marker = L.marker([currentFireTruck.location.lat, currentFireTruck.location.lon], {icon: ImagesMarkersClient.getTSIcon()});
-					tsIcons.push(marker)
-					marker.addTo(mymap)
+					tsIcons.push(marker);
+					marker.addTo(mymap);
 				} else if(currentFireTruck.vehicleType === 'RV') {
 					const marker = L.marker([currentFireTruck.location.lat, currentFireTruck.location.lon], {icon: ImagesMarkersClient.getRVIcon()});
-					rvIcons.push(marker)
-					marker.addTo(mymap)
+					rvIcons.push(marker);
+					marker.addTo(mymap);
+				} else if(currentFireTruck.vehicleType === 'HV') {
+					const marker = L.marker([currentFireTruck.location.lat, currentFireTruck.location.lon], {icon: ImagesMarkersClient.getHVIcon()});
+					hvIcons.push(marker);
+					marker.addTo(mymap);
 				}
 			}
 			var AllPoliceVehicles = VehicleClient.getAllPoliceVehicles();
@@ -118,12 +137,12 @@ angular.module('be.dispatcher.pages.vehicleshop', ['restangular'])
 				var currentPoliceVehicle = AllPoliceVehicles[i];
 				if (currentPoliceVehicle.vehicleType === 'COMBI') {
 					const marker = L.marker([currentPoliceVehicle.location.lat, currentPoliceVehicle.location.lon], {icon: ImagesMarkersClient.getPoliceCombiIcon()});
-					policeCombiIcons.push(marker)
-					marker.addTo(mymap)
+					policeCombiIcons.push(marker);
+					marker.addTo(mymap);
 				} else if (currentPoliceVehicle.vehicleType === 'INTERCEPTOR') {
 					const marker = L.marker([currentPoliceVehicle.location.lat, currentPoliceVehicle.location.lon], {icon: ImagesMarkersClient.getPoliceInterceptorIcon()});
-					policeInterceptorIcons.push(marker)
-					marker.addTo(mymap)
+					policeInterceptorIcons.push(marker);
+					marker.addTo(mymap);
 				}
 			}
 
@@ -157,11 +176,6 @@ angular.module('be.dispatcher.pages.vehicleshop', ['restangular'])
 			console.log('load bases');
 
 		}
-
-		ctrl.buyAmbulance = function () {
-			VehicleClient.buyAmbulance();
-			console.log('Buying ambulance');
-		};
 
 		ctrl.createIncident = function () {
 			IncidentClient.createIncident();

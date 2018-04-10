@@ -1,0 +1,39 @@
+<div class="row"  ng-class-odd="'vehicleRowOdd'" ng-class-even="'vehicleRowEven'"  ng-repeat="vehicle in ctrl.vehicles">
+	<div class="col">
+		<div class="row">
+			<div class="col-sm-6">
+				<h3>{{vehicle.name}}</h3>
+			</div>
+			<div class="col-sm-1">
+				<span ng-if="vehicle.vehicleType === 'AMBULANCE'"><i class="fas fa-ambulance"></i></span>
+				<span ng-if="vehicle.vehicleType === 'MUG'"><i class="fas fa-user-md"></i></span>
+				<span ng-if="vehicle.vehicleType === 'FD_AUTOPOMP' || vehicle.vehicleType === 'RV'"><i class="fas fa-fire"></i></span>
+			</div>
+			<div class="col-sm-1">
+				<span ng-if="vehicle.vehicleStatus === 'AT_BASE'"><i class="fas fa-home"></i></span>
+				<span ng-if="vehicle.vehicleStatus === 'ALARMED'"><i class="far fa-clock"></i></span>
+				<span ng-if="vehicle.vehicleStatus === 'AT_DROP_OFF'"><i class="fas fa-hospital"></i></span>
+				<span ng-if="vehicle.vehicleStatus === 'AT_INCIDENT'"><i class="fas fa-exclamation-circle"></i></span>
+				<span ng-if="vehicle.vehicleStatus === 'RESPONDING'"><i class="fas fa-caret-right"></i></span>
+				<span ng-if="vehicle.vehicleStatus === 'GO_TO_BASE'"><i class="fas fa-caret-left"></i></span>
+				<span ng-if="vehicle.vehicleStatus === 'GO_TO_DROPOFF'"><i class="fas fa-caret-left"></i></span>
+			</div>
+			<div>
+				<span ng-if="vehicle.incident">Gekoppeld aan: {{vehicle.incident.location.display_name}}</span>
+			</div>
+		</div>
+		<div ng-if="!ctrl.disableDispatch(vehicle)" class="row" ng-repeat="incident in ctrl.getAllIncidents()">
+			<div class="col-sm-2">
+				<button type="button" class="btn btn-warning" ng-click="ctrl.sendVehicleToIncident(vehicle.id, incident.id)" ng-disabled="ctrl.disableDispatch(vehicle)">Dispatch</button>
+			</div>
+			<div>
+				{{incident.location.display_name}}
+			</div>
+			<div class="col-sm-3">
+				<span ng-if="incident.fireTasks"><img src="../../brandweer.png" height="15" width="15"/></span>
+				<span ng-if="incident.medicalTasks"><img src="../../star_of_life.png" height="15" width="15"/></span>
+				<span ng-if="incident.policeTasks"><img src="../../politie.gif" height="15" width="15"/></span>
+			</div>
+		</div>
+	</div>
+</div>
