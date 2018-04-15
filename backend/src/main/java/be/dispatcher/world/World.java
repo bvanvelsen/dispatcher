@@ -23,13 +23,13 @@ public class World {
 	private List<Ticks> tickableObjects = new ArrayList<>();
 
 	public void startWorldTicking() {
-		parser.hospitalParser();
-		parser.fireDepartmentParser();
-		parser.policeStationParser();
-		parser.ambulanceStationParser();
-		parser.medicalVehicleParser();
-		parser.fireTruckParser();
-		parser.policeVehicleParser();
+		parser.parseBase("init/hospitals.csv", parser.csvToHospitalFunction);
+		parser.parseBase("init/fire_department.csv", parser.csvToFireDepartmentFunction);
+		parser.parseBase("init/police_stations.csv", parser.csvToPoliceStationFunction);
+		parser.parseBase("init/ambulance_stations.csv", parser.csvToAmbulanceStationFunction);
+		parser.parseVehicles("init/ambulances.csv", parser.csvToMedicalVehicleFunction);
+		parser.parseVehicles("init/fire_trucks.csv", parser.csvToFireTruckFunction);
+		parser.parseVehicles("init/police_vehicles.csv", parser.csvToPoliceVehicleFunction);
 		ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 		executor.scheduleAtFixedRate(helloRunnable, 0, 1, TimeUnit.SECONDS);
 	}

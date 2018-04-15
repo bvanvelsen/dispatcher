@@ -18,7 +18,7 @@ public class ParserHospitalTest extends DispatcherSpringJunit4Test{
 
 	@Test
 	public void expectJessaHospitalParsed() {
-		parser.hospitalParser();
+		parser.parseBase("init/hospitals.csv", parser.csvToHospitalFunction);
 
 		assertThat(baseRespository.getAllHospitals()).isNotEmpty();
 		assertThat(baseRespository.getById(100).getLocation().getLon()).isEqualTo(5.342462);

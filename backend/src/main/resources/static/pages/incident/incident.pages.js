@@ -11,15 +11,15 @@ angular.module('be.dispatcher.pages.incident', ['restangular'])
 		$stateProvider.state(incidentState);
 	})
 	.controller('IncidentController', function ($scope, IncidentClient) {
-	var ctrl = this;
+		var ctrl = this;
 
-		ctrl.getAllIncidents = function() {
+		ctrl.getAllIncidents = function () {
 			const allIncidents = IncidentClient.getAllIncidents();
 			return allIncidents;
 		}
 
-ctrl.createIncident = function () {
-	IncidentClient.createIncident();
-};
-})
+		ctrl.createIncident = function () {
+			IncidentClient.createIncident();
+		};
+	})
 ;

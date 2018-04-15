@@ -38,7 +38,7 @@ public class Parser {
 	@Autowired
 	private VehicleRepository vehicleRepository;
 
-	private Function<CSVRecord, Hospital> csvToHospitalFunction = csvRecord -> {
+	public Function<CSVRecord, Base> csvToHospitalFunction = csvRecord -> {
 		int id = Integer.parseInt(csvRecord.get(0));
 		String name = csvRecord.get(1);
 		double lat = Double.parseDouble(csvRecord.get(2));
@@ -47,7 +47,7 @@ public class Parser {
 		return new Hospital(id, name, latLon);
 	};
 
-	private Function<CSVRecord, Vehicle> csvToMedicalVehicleFunction = csvRecord -> {
+	public Function<CSVRecord, Vehicle> csvToMedicalVehicleFunction = csvRecord -> {
 		int id = Integer.parseInt(csvRecord.get(0));
 		Base base = baseRespository.getById(Integer.parseInt(csvRecord.get(1)));
 		String name = csvRecord.get(2);
@@ -62,7 +62,7 @@ public class Parser {
 		return null;
 	};
 
-	private Function<CSVRecord, Vehicle> csvToFireTruckFunction = csvRecord -> {
+	public Function<CSVRecord, Vehicle> csvToFireTruckFunction = csvRecord -> {
 		int id = Integer.parseInt(csvRecord.get(0));
 		Base base = baseRespository.getById(Integer.parseInt(csvRecord.get(1)));
 		String name = csvRecord.get(2);
@@ -73,7 +73,7 @@ public class Parser {
 		return new FireTruck(id, name, base, vehicleType, fireGainPerTick, technicalPerTick, volunteer);
 	};
 
-	private Function<CSVRecord, Vehicle> csvToPoliceVehicleFunction = csvRecord -> {
+	public Function<CSVRecord, Vehicle> csvToPoliceVehicleFunction = csvRecord -> {
 		int id = Integer.parseInt(csvRecord.get(0));
 		Base base = baseRespository.getById(Integer.parseInt(csvRecord.get(1)));
 		String name = csvRecord.get(2);
@@ -82,7 +82,7 @@ public class Parser {
 		return new PoliceVehicle(id, name, base, arrestGainPerTick, vehicleType);
 	};
 
-	private Function<CSVRecord, FireDepartment> csvToFireDepartmentFunction = csvRecord -> {
+	public Function<CSVRecord, Base> csvToFireDepartmentFunction = csvRecord -> {
 		int id = Integer.parseInt(csvRecord.get(0));
 		String name = csvRecord.get(1);
 		double lat = Double.parseDouble(csvRecord.get(2));
@@ -91,7 +91,7 @@ public class Parser {
 		return new FireDepartment(id, name, latLon);
 	};
 
-	private Function<CSVRecord, AmbulanceStation> csvToAmbulanceStationFunction = csvRecord -> {
+	public Function<CSVRecord, Base> csvToAmbulanceStationFunction = csvRecord -> {
 		int id = Integer.parseInt(csvRecord.get(0));
 		String name = csvRecord.get(1);
 		double lat = Double.parseDouble(csvRecord.get(2));
@@ -100,7 +100,7 @@ public class Parser {
 		return new AmbulanceStation(id, name, latLon);
 	};
 
-	private Function<CSVRecord, PoliceStation> csvToPoliceStationFunction = csvRecord -> {
+	public Function<CSVRecord, Base> csvToPoliceStationFunction = csvRecord -> {
 		int id = Integer.parseInt(csvRecord.get(0));
 		String name = csvRecord.get(1);
 		double lat = Double.parseDouble(csvRecord.get(2));
@@ -109,94 +109,33 @@ public class Parser {
 		return new PoliceStation(id, name, latLon);
 	};
 
-	public void hospitalParser() {
+	public void parseBase(String baseFile, Function<CSVRecord, Base> function) {
 		try {
-			Reader in = new FileReader(getClass().getClassLoader().getResource("init/hospitals.csv").getFile());
-			Iterable<CSVRecord> records = CSVFormat.RFC4180.parse(in).getRecords();
-			List<Hospital> hospitals = IterableUtils.toList(records).stream()
-					.map(csvToHospitalFunction)
+			Iterable<CSVRecord> records = getCsvRecords(baseFile);
+			List<? extends Base> bases = IterableUtils.toList(records).stream()
+					.map(function)
 					.collect(toList());
-			hospitals.forEach(hospital -> baseRespository.addBaseToRepository(hospital));
+			bases.forEach(base -> baseRespository.addBaseToRepository(base));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public void medicalVehicleParser() {
+
+	public void parseVehicles(String vehiclesFile, Function<CSVRecord, Vehicle> function) {
 		try {
-			Reader in = new FileReader(getClass().getClassLoader().getResource("init/ambulances.csv").getFile());
-			Iterable<CSVRecord> records = CSVFormat.RFC4180.parse(in).getRecords();
-			List<Vehicle> ambulances = IterableUtils.toList(records).stream()
-					.map(csvToMedicalVehicleFunction)
+			Iterable<CSVRecord> records = getCsvRecords(vehiclesFile);
+			List<Vehicle> vehicles = IterableUtils.toList(records).stream()
+					.map(function)
 					.collect(toList());
-			ambulances.forEach(ambulance -> vehicleRepository.addVehicleToRepository(ambulance));
+			vehicles.forEach(vehicle -> vehicleRepository.addVehicleToRepository(vehicle));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public void fireTruckParser() {
-		try {
-			Reader in = new FileReader(getClass().getClassLoader().getResource("init/fire_trucks.csv").getFile());
-			Iterable<CSVRecord> records = CSVFormat.RFC4180.parse(in).getRecords();
-			List<Vehicle> fireTrucks = IterableUtils.toList(records).stream()
-					.map(csvToFireTruckFunction)
-					.collect(toList());
-			fireTrucks.forEach(fireTruck -> vehicleRepository.addVehicleToRepository(fireTruck));
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	public void policeVehicleParser() {
-		try {
-			Reader in = new FileReader(getClass().getClassLoader().getResource("init/police_vehicles.csv").getFile());
-			Iterable<CSVRecord> records = CSVFormat.RFC4180.parse(in).getRecords();
-			List<Vehicle> fireTrucks = IterableUtils.toList(records).stream()
-					.map(csvToPoliceVehicleFunction)
-					.collect(toList());
-			fireTrucks.forEach(fireTruck -> vehicleRepository.addVehicleToRepository(fireTruck));
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	public void fireDepartmentParser() {
-		try {
-			Reader in = new FileReader(getClass().getClassLoader().getResource("init/fire_department.csv").getFile());
-			Iterable<CSVRecord> records = CSVFormat.RFC4180.parse(in).getRecords();
-			List<FireDepartment> fireDepartments = IterableUtils.toList(records).stream()
-					.map(csvToFireDepartmentFunction)
-					.collect(toList());
-			fireDepartments.forEach(fireDepartment -> baseRespository.addBaseToRepository(fireDepartment));
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	public void ambulanceStationParser() {
-		try {
-			Reader in = new FileReader(getClass().getClassLoader().getResource("init/ambulance_stations.csv").getFile());
-			Iterable<CSVRecord> records = CSVFormat.RFC4180.parse(in).getRecords();
-			List<AmbulanceStation> ambulanceStations = IterableUtils.toList(records).stream()
-					.map(csvToAmbulanceStationFunction)
-					.collect(toList());
-			ambulanceStations.forEach(fireDepartment -> baseRespository.addBaseToRepository(fireDepartment));
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	public void policeStationParser() {
-		try {
-			Reader in = new FileReader(getClass().getClassLoader().getResource("init/police_stations.csv").getFile());
-			Iterable<CSVRecord> records = CSVFormat.RFC4180.parse(in).getRecords();
-			List<PoliceStation> policeStations = IterableUtils.toList(records).stream()
-					.map(csvToPoliceStationFunction)
-					.collect(toList());
-			policeStations.forEach(policeStation -> baseRespository.addBaseToRepository(policeStation));
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+	private Iterable<CSVRecord> getCsvRecords(String baseFile) throws IOException {
+		Reader in = new FileReader(getClass().getClassLoader().getResource(baseFile).getFile());
+		return CSVFormat.RFC4180.withCommentMarker('#').parse(in).getRecords();
 	}
 }
