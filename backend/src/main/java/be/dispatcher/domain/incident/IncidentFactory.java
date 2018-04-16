@@ -121,6 +121,6 @@ public class IncidentFactory {
 	}
 
 	private int createRandomFireIncreasePerTick() {
-		return new Random().ints(0, 500).findFirst().getAsInt();
+		return new Random().ints(0, 50).findFirst().getAsInt();
 	}
 }

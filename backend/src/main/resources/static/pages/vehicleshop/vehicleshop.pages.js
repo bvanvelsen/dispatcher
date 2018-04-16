@@ -103,7 +103,7 @@ angular.module('be.dispatcher.pages.vehicleshop', ['restangular'])
 			policeInterceptorIcons = [];
 
 			var AllMedicalVehicles = VehicleClient.getAllMedicalVehicles();
-			for (i = 0; i < AllMedicalVehicles.length; i++) {
+			for (i in AllMedicalVehicles) {
 				var currentMedicalVehicle = AllMedicalVehicles[i];
 				if (currentMedicalVehicle.vehicleType === 'AMBULANCE') {
 					const marker = L.marker([currentMedicalVehicle.location.lat, currentMedicalVehicle.location.lon], {icon: ImagesMarkersClient.getAmbulanceIcon()});
@@ -116,7 +116,7 @@ angular.module('be.dispatcher.pages.vehicleshop', ['restangular'])
 				}
 			}
 			var AllFireTrucks = VehicleClient.getAllFireTrucks();
-			for (i = 0; i < AllFireTrucks.length; i++) {
+			for(i in AllFireTrucks) {
 				var currentFireTruck = AllFireTrucks[i];
 				if (currentFireTruck.vehicleType === 'FD_AUTOPOMP') {
 					const marker = L.marker([currentFireTruck.location.lat, currentFireTruck.location.lon], {icon: ImagesMarkersClient.getTSIcon()});
@@ -133,7 +133,7 @@ angular.module('be.dispatcher.pages.vehicleshop', ['restangular'])
 				}
 			}
 			var AllPoliceVehicles = VehicleClient.getAllPoliceVehicles();
-			for (i = 0; i < AllPoliceVehicles.length; i++) {
+			for (i in AllPoliceVehicles) {
 				var currentPoliceVehicle = AllPoliceVehicles[i];
 				if (currentPoliceVehicle.vehicleType === 'COMBI') {
 					const marker = L.marker([currentPoliceVehicle.location.lat, currentPoliceVehicle.location.lon], {icon: ImagesMarkersClient.getPoliceCombiIcon()});
@@ -157,8 +157,9 @@ angular.module('be.dispatcher.pages.vehicleshop', ['restangular'])
 
 		function addAllIncidentMarkers() {
 			var allIncidents = IncidentClient.getAllIncidents();
-			for (i = 0; i < allIncidents.length; i++) {
-				const marker = L.marker([allIncidents[i].location.lat, allIncidents[i].location.lon], {icon: ImagesMarkersClient.getIncidentIcon()});
+			for(incidentId in allIncidents) {
+				console.log(allIncidents[incidentId]);
+				const marker = L.marker([allIncidents[incidentId].location.lat, allIncidents[incidentId].location.lon], {icon: ImagesMarkersClient.getIncidentIcon()});
 				incidentIcons.push(marker);
 				marker.addTo(mymap);
 			}

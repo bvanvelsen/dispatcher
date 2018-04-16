@@ -10,7 +10,7 @@ angular.module('be.dispatcher.pages.fire', ['restangular'])
 
 		$stateProvider.state(fireState);
 	})
-	.controller('FireController', function ($scope, VehicleClient, IncidentClient, $interval) {
+	.controller('FireController', function ($scope, VehicleClient, IncidentClient) {
 		var ctrl = this;
 
 		ctrl.getAllFireTrucks = function () {
@@ -36,9 +36,5 @@ angular.module('be.dispatcher.pages.fire', ['restangular'])
 		ctrl.getTimes = function (n) {
 			return new Array(n);
 		};
-
-		$interval(function () {
-
-		}, 1000);
 
 	});

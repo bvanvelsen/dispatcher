@@ -1,8 +1,9 @@
-<div class="row"  ng-class-odd="'vehicleRowOdd'" ng-class-even="'vehicleRowEven'"  ng-repeat="vehicle in ctrl.vehicles">
+<div class="row"  ng-class-odd="'vehicleRowOdd'" ng-class-even="'vehicleRowEven'"  ng-repeat="(key, vehicle) in ctrl.vehicles">
 	<div class="col">
 		<div class="row">
 			<div class="col-sm-6">
 				<h3>{{vehicle.name}}</h3>
+				<h3>{{key}}</h3>
 			</div>
 			<div class="col-sm-1">
 				<span ng-if="vehicle.vehicleType === 'AMBULANCE'"><i class="fas fa-ambulance"></i></span>
@@ -37,3 +38,8 @@
 		</div>
 	</div>
 </div>
+<ul>
+	<li ng-repeat='(key, value) in {"First Name":"John", "Last Name":"Smith"}'>
+		<span>Key: {{key}}, value: {{value}}</span>
+	</li>
+</ul>

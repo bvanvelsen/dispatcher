@@ -9,8 +9,6 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.google.common.base.Stopwatch;
-
 import be.dispatcher.domain.Ticks;
 import be.dispatcher.init.Parser;
 
@@ -45,11 +43,7 @@ public class World {
 	Runnable helloRunnable = new Runnable() {
 		public void run() {
 			try {
-				Stopwatch s = Stopwatch.createStarted();
 				tickableObjects.forEach(Ticks::tick);
-				System.out.println(TimeUnit.NANOSECONDS.toMillis(s.elapsed().getNano()));
-				s.stop();
-				s = null;
 			} catch (final Exception e) {
 				e.printStackTrace();
 			}
