@@ -32,14 +32,12 @@ public class FireTruck extends Vehicle {
 		switch (vehicleStatus) {
 		case AT_INCIDENT:
 			FireTasks fireTasks = getIncident().getFireTasks();
-			if (incidentSceneMedicalTasksManager.hasTrappedVictims(getIncident())) {
+			if (incidentSceneMedicalTasksManager.hasTrappedVictims(getIncident()) && technicalPerTick > 0) {
 				incidentSceneMedicalTasksManager.getTrappedVictim(getIncident()).extract(technicalPerTick);
-			} else if (fireTasks != null) {
+			} else if (fireTasks != null && fireTasks.hasFire()) {
 				fireTasks.extinguishFire(fireGainPerTick);
+			} else if (fireTasks != null && fireTasks.hasTechnicalWork()) {
 				fireTasks.workOnTechnicalDetails(technicalPerTick);
-				if (fireTasks.allTasksCompleted()) {
-					vehicleManager.sendVehicleToBase(this);
-				}
 			} else {
 				vehicleManager.sendVehicleToBase(this);
 			}

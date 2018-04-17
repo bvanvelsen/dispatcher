@@ -1,78 +1,79 @@
-2000,200,11 Halfzware autopomp Hasselt,FD_AUTOPOMP,20,15,false
-2001,200,12 Halfzware autopomp Hasselt,FD_AUTOPOMP,20,15,false
-2002,200,14 Halfzware autopomp Hasselt,FD_AUTOPOMP,20,15,false
-2003,200,15 Halfzware autopomp Hasselt,FD_AUTOPOMP,20,15,false
-2004,200,A14 Halfzware autopomp Hasselt,FD_AUTOPOMP,20,15,false
-2005,200,16 Industriële autopomp Hasselt,FD_AUTOPOMP,40,20,false
-2006,200,A16 Industriële zware autopomp Hasselt,FD_AUTOPOMP,40,20,false
-2007,200,22 Ladderwagen 24 meter Hasselt,RV,10,40,false
-2008,200,23 Elevator 32 meter Hasselt,RV,10,40,false
-2009,200,E05 Elevator 32 mtr Hasselt,RV,10,40,false
-2010,200,E07 Ladderwagen 24 mtr Hasselt,RV,10,40,false
-2011,200,E08 Ladderwagen 30 mtr Hasselt,RV,10,40,false
-2012,200,31 Tankwagen Hasselt,RV,10,40,false
-2013,200,34 Tankwagen Hasselt,RV,10,40,false
-2014,200,T04 Tankwagen Hasselt,RV,10,40,false
-2015,200,T13 Tankwagen Hasselt,RV,10,40,false
-2016,200,82 Snelle hulpwagen Hasselt,RV,10,40,false
-2017,200,84 Snelle hulpwagen Hasselt,RV,10,40,false
-2018,200,R09 Snelle hulpwagen Hasselt,RV,10,40,false
-2019,200,R07 Snelle hulpwagen Hasselt,RV,10,40,false
-2020,200,83 Materiaalwagen Hasselt,RV,0,40,false
-2021,200,74 Materiaalwagen Hasselt,RV,0,20,false
-2022,200,24 Ladderwagen 30 meter Hasselt,RV,10,40,false
-2023,203,A23 Autopomp Borgloon(vrijwilligers),FD_AUTOPOMP,10,5,true
-2024,203,A20 Autopomp Borgloon(vrijwilligers),FD_AUTOPOMP,10,5,true
-2025,203,S17 Personeelswagen Borgloon(vrijwilligers),FD_PERSONEELSWAGEN,5,5,true
-2026,202,32 Tankwagen Herk-de-stad(vrijwilligers),FD_AUTOPOMP,30,15,true
-2027,202,17 lichte autopomp Herk-de-stad(vrijwilligers),FD_AUTOPOMP,15,10,true
-2028,202,R04 lichte autopomp Herk-de-stad(vrijwilligers),FD_AUTOPOMP,15,10,true
-2029,202,A15 Autopomp Herk-de-stad(vrijwilligers),FD_AUTOPOMP,20,15,true
+#comment test
+2000,200,11 Halfzware autopomp Hasselt,FD_AUTOPOMP,40,0,false
+2001,200,12 Halfzware autopomp Hasselt,FD_AUTOPOMP,40,0,false
+2002,200,14 Halfzware autopomp Hasselt,FD_AUTOPOMP,40,0,false
+2003,200,15 Halfzware autopomp Hasselt,FD_AUTOPOMP,40,0,false
+2004,200,A14 Halfzware autopomp Hasselt,FD_AUTOPOMP,40,0,false
+2005,200,16 Industriële autopomp Hasselt,FD_AUTOPOMP,80,0,false
+2006,200,A16 Industriële zware autopomp Hasselt,FD_AUTOPOMP,120,0,false
+2007,200,22 Ladderwagen 24 meter Hasselt,RV,40,0,false
+2008,200,23 Elevator 32 meter Hasselt,RV,40,0,false
+2009,200,E05 Elevator 32 mtr Hasselt,RV,40,0,false
+2010,200,E07 Ladderwagen 24 mtr Hasselt,RV,40,0,false
+2011,200,E08 Ladderwagen 30 mtr Hasselt,RV,40,0,false
+2012,200,31 Tankwagen Hasselt,FD_AUTOPOMP,40,0,false
+2013,200,34 Tankwagen Hasselt,FD_AUTOPOMP,40,0,false
+2014,200,T04 Tankwagen Hasselt,FD_AUTOPOMP,40,0,false
+2015,200,T13 Tankwagen Hasselt,FD_AUTOPOMP,40,0,false
+2016,200,82 Snelle hulpwagen Hasselt,HV,0,20,false
+2017,200,84 Snelle hulpwagen Hasselt,HV,0,20,false
+2018,200,R09 Snelle hulpwagen Hasselt,HV,0,20,false
+2019,200,R07 Snelle hulpwagen Hasselt,HV,0,20,false
+2020,200,83 Materiaalwagen Hasselt,HV,0,40,false
+2021,200,74 Materiaalwagen Hasselt,HV,0,40,false
+2022,200,24 Ladderwagen 30 meter Hasselt,RV,40,0,false
+2023,203,A23 Autopomp Borgloon(vrijwilligers),FD_AUTOPOMP,40,0,true
+2024,203,A20 Autopomp Borgloon(vrijwilligers),FD_AUTOPOMP,40,0,true
+#2025,203,S17 Personeelswagen Borgloon(vrijwilligers),FD_PERSONEELSWAGEN,5,5,true
+2026,202,32 Tankwagen Herk-de-stad(vrijwilligers),FD_AUTOPOMP,30,0,true
+2027,202,17 lichte autopomp Herk-de-stad(vrijwilligers),FD_AUTOPOMP,20,0,true
+2028,202,R04 lichte autopomp Herk-de-stad(vrijwilligers),FD_AUTOPOMP,20,0,true
+2029,202,A15 Autopomp Herk-de-stad(vrijwilligers),FD_AUTOPOMP,30,0,true
 2030,202,T11 Tankwagen Herk-de-stad(vrijwilligers),FD_AUTOPOMP,30,0,true
 2031,202,M05 Materiaalwagen Herk-de-stad(vrijwilligers),HV,0,30,true
-2032,202,A11 Autopomp Herk-de-stad(vrijwilligers),FD_AUTOPOMP,20,15,true
-2033,204,Halfzware autopomp Beringen,FD_AUTOPOMP,20,15,false
-2034,204,Halfzware autopomp Beringen(vrijwilligers),FD_AUTOPOMP,20,15,true
-2035,204,Snelle Hulpwagen Beringen(vrijwilligers),RV,0,40,true
-2036,204,Materiaalwagen Beringen(vrijwilligers),RV,0,40,true
-2037,204,Tankwagen Beringen(vrijwilligers),RV,0,20,true
-2038,204,Tankwagen Beringen(vrijwilligers),RV,0,30,true
-2044,204,T12 Tankwagen Beringen(vrijwilligers),RV,0,30,true
-2043,204,T09 Tankwagen Beringen(vrijwilligers),RV,0,30,true
-2039,204,Ladderwagen 24 mtr Beringen(vrijwilligers),RV,10,30,true
-2042,204,E13 Ladderwagen 30 mtr Beringen(vrijwilligers),RV,10,30,true
-2040,200,Signalisatievoertuig Beringen(vrijwilligers),RV,0,40,false
-2041,200,Materiaalwagen Beringen(vrijwilligers),RV,0,40,false
-2045,205,Elevator 27 mtr Heusden-Zolder,RV,10,30,false
-2046,205,Halfzware autopomp Heusden-Zolder,FD_AUTOPOMP,20,15,false
-2049,205,A22 Halfzware autopomp Heusden-Zolder(vrijwilligers),FD_AUTOPOMP,20,15,true
-2047,205,Industriële autopomp Heusden-Zolder(vrijwilligers),FD_AUTOPOMP,20,15,true
-2048,205,Snelle Hulpwagen Heusden-Zolder(vrijwilligers),RV,0,40,true
-2050,206,A6 Zware autopomp Tessenderlo(vrijwilligers),FD_AUTOPOMP,20,15,true
-2054,206,A21 Multifunctionele halfzware autopomp Tessenderlo(vrijwilligers),FD_AUTOPOMP,20,15,true
-2051,206,T8 Tankwagen Tessenderlo(vrijwilligers),RV,0,30,true
-2052,206,E10 Ladderwagen 30 mtr Tessenderlo(vrijwilligers),RV,10,30,true
-2055,206,Ladderwagen 24 mtr Tessenderlo(vrijwilligers),RV,10,30,true
-2053,206,R3 Snelle hulpwagen Tessenderlo(vrijwilligers),RV,0,40,true
-2056,207,Halfzware autopomp Sint-Truiden,FD_AUTOPOMP,20,15,false
-2058,207,Halfzware autopomp Sint-Truiden(vrijwilligers),FD_AUTOPOMP,20,15,true
-2060,207,Halfzware autopomp Sint-Truiden(vrijwilligers),FD_AUTOPOMP,20,15,true
-2065,207,A20 Halfzware autopomp Sint-Truiden(vrijwilligers),FD_AUTOPOMP,20,15,true
-2057,207,Ladderwagen 24 mtr Sint-Truiden(vrijwilligers),RV,10,30,true
-2064,207,Ladderwagen 30 mtr Sint-Truiden(vrijwilligers),RV,10,30,true
-2066,207,E06 Ladderwagen 30mtr Sint-Truiden(vrijwilligers),RV,10,30,true
-2059,207,Snelle hulpwagen Sint-Truiden(vrijwilligers),RV,0,40,true
-2061,207,Materiaalwagen Sint-Truiden(vrijwilligers),RV,0,40,true
-2063,207,Materiaalwagen Sint-Truiden(vrijwilligers),RV,0,40,true
+2032,202,A11 Autopomp Herk-de-stad(vrijwilligers),FD_AUTOPOMP,30,0,true
+2033,204,Halfzware autopomp Beringen,FD_AUTOPOMP,40,0,false
+2034,204,Halfzware autopomp Beringen(vrijwilligers),FD_AUTOPOMP,30,0,true
+2035,204,Snelle Hulpwagen Beringen(vrijwilligers),HV,0,10,true
+2036,204,Materiaalwagen Beringen(vrijwilligers),HV,0,30,true
+2037,204,Tankwagen Beringen(vrijwilligers),FD_AUTOPOMP,30,0,true
+2038,204,Tankwagen Beringen(vrijwilligers),FD_AUTOPOMP,30,0,true
+2044,204,T12 Tankwagen Beringen(vrijwilligers),FD_AUTOPOMP,30,0,true
+2043,204,T09 Tankwagen Beringen(vrijwilligers),FD_AUTOPOMP,30,0,true
+2039,204,Ladderwagen 24 mtr Beringen(vrijwilligers),RV,30,0,true
+2042,204,E13 Ladderwagen 30 mtr Beringen(vrijwilligers),RV,30,0,true
+#2040,200,Signalisatievoertuig Beringen(vrijwilligers),RV,0,40,true
+2041,200,Materiaalwagen Beringen(vrijwilligers),HV,0,30,true
+2045,205,Elevator 27 mtr Heusden-Zolder,RV,30,0,false
+2046,205,Halfzware autopomp Heusden-Zolder,FD_AUTOPOMP,40,0,false
+2049,205,A22 Halfzware autopomp Heusden-Zolder(vrijwilligers),FD_AUTOPOMP,30,0,true
+2047,205,Industriële autopomp Heusden-Zolder(vrijwilligers),FD_AUTOPOMP,30,0,true
+2048,205,Snelle Hulpwagen Heusden-Zolder(vrijwilligers),HV,0,10,true
+2050,206,A6 Zware autopomp Tessenderlo(vrijwilligers),FD_AUTOPOMP,70,0,true
+2054,206,A21 Multifunctionele halfzware autopomp Tessenderlo(vrijwilligers),FD_AUTOPOMP,30,0,true
+2051,206,T8 Tankwagen Tessenderlo(vrijwilligers),FD_AUTOPOMP,30,0,true
+2052,206,E10 Ladderwagen 30 mtr Tessenderlo(vrijwilligers),RV,30,0,true
+2055,206,Ladderwagen 24 mtr Tessenderlo(vrijwilligers),RV,30,0,true
+2053,206,R3 Snelle hulpwagen Tessenderlo(vrijwilligers),HV,0,10,true
+2056,207,Halfzware autopomp Sint-Truiden,FD_AUTOPOMP,40,0,false
+2058,207,Halfzware autopomp Sint-Truiden(vrijwilligers),FD_AUTOPOMP,30,0,true
+2060,207,Halfzware autopomp Sint-Truiden(vrijwilligers),FD_AUTOPOMP,30,0,true
+2065,207,A20 Halfzware autopomp Sint-Truiden(vrijwilligers),FD_AUTOPOMP,30,0,true
+2057,207,Ladderwagen 24 mtr Sint-Truiden(vrijwilligers),RV,30,0,true
+2064,207,Ladderwagen 30 mtr Sint-Truiden(vrijwilligers),RV,30,0,true
+2066,207,E06 Ladderwagen 30mtr Sint-Truiden(vrijwilligers),RV,30,0,true
+2059,207,Snelle hulpwagen Sint-Truiden(vrijwilligers),HV,0,10,true
+2061,207,Materiaalwagen Sint-Truiden(vrijwilligers),HV,0,30,true
+2063,207,Materiaalwagen Sint-Truiden(vrijwilligers),HV,0,30,true
 2062,207,Tankwagen Sint-Truiden(vrijwilligers),RV,0,40,true
-2067,207,T01 Tankwagen Sint-Truiden(vrijwilligers),RV,0,40,true
-2068,208,ATP3 Halfzware autopomp Tongeren(vrijwilligers),FD_AUTOPOMP,20,15,true
-2071,208,A13 Halfzware autopomp Tongeren(vrijwilligers),FD_AUTOPOMP,20,15,true
-2069,208,TAW1 Tankwagen Tongeren(vrijwilligers),RV,20,15,true
-2070,208,BUS1 Personeel-materiaalwagen Tongeren(vrijwilligers),RV,20,15,true
-2073,208,R01 Snelle Hulpwagen Tongeren(vrijwilligers),RV,20,15,true
-2072,208,E09 Ladderwagen 24 mtr Tongeren(vrijwilligers),RV,20,15,true
-2074,208,Signalisatievoertuig Tongeren(vrijwilligers),RV,20,15,true
-2075,208,T06 Tankwagen Tongeren(vrijwilligers),RV,20,15,true
-2076,208,L21 Materiaalwagen Tongeren(vrijwilligers),RV,20,15,true
-2077,209,Halfzware autopomp Bilzen(vrijwilligers),FD_AUTOPOMP,20,15,true
+2067,207,T01 Tankwagen Sint-Truiden(vrijwilligers),FD_AUTOPOMP,30,0,true
+2068,208,ATP3 Halfzware autopomp Tongeren(vrijwilligers),FD_AUTOPOMP,30,0,true
+2071,208,A13 Halfzware autopomp Tongeren(vrijwilligers),FD_AUTOPOMP,30,0,true
+2069,208,TAW1 Tankwagen Tongeren(vrijwilligers),FD_AUTOPOMP,30,0,true
+#2070,208,BUS1 Personeel-materiaalwagen Tongeren(vrijwilligers),RV,20,15,true
+2073,208,R01 Snelle Hulpwagen Tongeren(vrijwilligers),HV,0,10,true
+2072,208,E09 Ladderwagen 24 mtr Tongeren(vrijwilligers),RV,30,0,true
+#2074,208,Signalisatievoertuig Tongeren(vrijwilligers),RV,20,15,true
+2075,208,T06 Tankwagen Tongeren(vrijwilligers),FD_AUTOPOMP,30,0,true
+2076,208,L21 Materiaalwagen Tongeren(vrijwilligers),HV,0,30,true
+2077,209,Halfzware autopomp Bilzen(vrijwilligers),FD_AUTOPOMP,0,30,true

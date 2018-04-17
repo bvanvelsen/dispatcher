@@ -26,9 +26,19 @@ public class FireTasksImpl implements FireTasks {
 	}
 
 	@Override
+	public boolean hasFire() {
+		return fireCountdown > 0;
+	}
+
+	@Override
 	public void workOnTechnicalDetails(int technicalAmount) {
 		technicalCountdown -= technicalAmount;
 		technicalCountdown = technicalCountdown <= 0 ? 0 : technicalCountdown;
+	}
+
+	@Override
+	public boolean hasTechnicalWork() {
+		return technicalCountdown > 0;
 	}
 
 	@Override
