@@ -11,8 +11,8 @@ import be.dispatcher.domain.vehicle.VehicleType;
 public class Ambulance extends MedicalTransportVehicle{
 
 
-	public Ambulance(int id, String name, Base base, int healthGainPerTick) {
-		super(id, name, base, healthGainPerTick);
+	public Ambulance(int id, String name, Base base, int healthGainPerTick, String vehicleImagePath) {
+		super(id, name, base, healthGainPerTick, vehicleImagePath);
 		vehicleType = VehicleType.AMBULANCE;
 	}
 

@@ -1,6 +1,8 @@
 package be.dispatcher.controllers;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import be.dispatcher.domain.location.emergencybases.Base;
 import be.dispatcher.domain.vehicle.Vehicle;
 import be.dispatcher.domain.vehicle.VehicleType;
 import be.dispatcher.domain.vehicle.fire.FireTruck;
@@ -42,14 +45,29 @@ public class VehicleController {
 		return vehicleRepository.getAllMedicalVehicles();
 	}
 
+	@RequestMapping(value = "medical_vehicles_per_station", method = RequestMethod.GET)
+	public Map<Base, List<MedicalVehicle>> getAllMedicleVehiclesPerStation() {
+		return vehicleRepository.getAllMedicalVehicles().stream().sorted().collect(Collectors.groupingBy(MedicalVehicle::getBase));
+	}
+
 	@RequestMapping(value = "police_vehicles", method = RequestMethod.GET)
 	public List<PoliceVehicle> getAllPoliceVehicles() {
 		return vehicleRepository.getAllPoliceVehicles();
 	}
 
+	@RequestMapping(value = "police_vehicles_per_station", method = RequestMethod.GET)
+	public Map<Base, List<PoliceVehicle>> getAllPoliceVehiclesPerStation() {
+		return vehicleRepository.getAllPoliceVehicles().stream().sorted().collect(Collectors.groupingBy(PoliceVehicle::getBase));
+	}
+
 	@RequestMapping(value = "fire_trucks", method = RequestMethod.GET)
 	public List<FireTruck> getAllFireTrucks() {
 		return vehicleRepository.getAllFireTrucks();
+	}
+
+	@RequestMapping(value = "fire_trucks_per_station", method = RequestMethod.GET)
+	public Map<Base, List<FireTruck>> getAllFireTrucksPerStation() {
+		return vehicleRepository.getAllFireTrucks().stream().sorted().collect(Collectors.groupingBy(FireTruck::getBase));
 	}
 
 	@RequestMapping(value = "{vehicleId}/sendTo/{incidentId}", method = RequestMethod.POST)

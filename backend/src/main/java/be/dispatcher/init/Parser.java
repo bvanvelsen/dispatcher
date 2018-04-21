@@ -53,11 +53,17 @@ public class Parser {
 		String name = csvRecord.get(2);
 		VehicleType vehicleType = VehicleType.valueOf(csvRecord.get(3));
 		int healthGainPerTick = Integer.parseInt(csvRecord.get(4));
+		String vehicleImagePath = null;
+		try {
+			vehicleImagePath = csvRecord.get(5);
+		} catch (Exception e) {
+
+		}
 		switch (vehicleType) {
 		case AMBULANCE:
-			return new Ambulance(id, name, base, healthGainPerTick);
+			return new Ambulance(id, name, base, healthGainPerTick,vehicleImagePath);
 		case MUG:
-			return new Mug(id, name, base, healthGainPerTick);
+			return new Mug(id, name, base, healthGainPerTick,vehicleImagePath);
 		}
 		return null;
 	};
@@ -69,8 +75,13 @@ public class Parser {
 		VehicleType vehicleType = VehicleType.valueOf(csvRecord.get(3));
 		int fireGainPerTick = Integer.parseInt(csvRecord.get(4));
 		int technicalPerTick = Integer.parseInt(csvRecord.get(5));
-		boolean volunteer = Boolean.parseBoolean(csvRecord.get(6));
-		return new FireTruck(id, name, base, vehicleType, fireGainPerTick, technicalPerTick, volunteer);
+		String vehicleImagePath = null;
+		try {
+			vehicleImagePath = csvRecord.get(6);
+		} catch (Exception e) {
+
+		}
+		return new FireTruck(id, name, base, vehicleType, fireGainPerTick, technicalPerTick, vehicleImagePath);
 	};
 
 	public Function<CSVRecord, Vehicle> csvToPoliceVehicleFunction = csvRecord -> {
@@ -79,7 +90,13 @@ public class Parser {
 		String name = csvRecord.get(2);
 		VehicleType vehicleType = VehicleType.valueOf(csvRecord.get(3));
 		int arrestGainPerTick = Integer.parseInt(csvRecord.get(4));
-		return new PoliceVehicle(id, name, base, arrestGainPerTick, vehicleType);
+		String vehicleImagePath = null;
+		try {
+			vehicleImagePath = csvRecord.get(5);
+		} catch (Exception e) {
+
+		}
+		return new PoliceVehicle(id, name, base, arrestGainPerTick, vehicleType, vehicleImagePath);
 	};
 
 	public Function<CSVRecord, Base> csvToFireDepartmentFunction = csvRecord -> {
@@ -120,7 +137,6 @@ public class Parser {
 			throw new RuntimeException(e);
 		}
 	}
-
 
 	public void parseVehicles(String vehiclesFile, Function<CSVRecord, Vehicle> function) {
 		try {

@@ -1,13 +1,11 @@
 <div class="row"  ng-class-odd="'vehicleRowOdd'" ng-class-even="'vehicleRowEven'"  ng-repeat="(key, vehicle) in ctrl.vehicles">
 	<div class="col">
 		<div class="row">
-			<div class="col-sm-6">
-				<h3>{{vehicle.name}}</h3>
+			<div class="col-sm-2">
+				<img ng-src="{{vehicle.vehicleImagePath}}" class="img-rounded" alt="Cinque Terre" height="100" >
 			</div>
-			<div class="col-sm-1">
-				<span ng-if="vehicle.vehicleType === 'AMBULANCE'"><i class="fas fa-ambulance"></i></span>
-				<span ng-if="vehicle.vehicleType === 'MUG'"><i class="fas fa-user-md"></i></span>
-				<span ng-if="vehicle.vehicleType === 'FD_AUTOPOMP' || vehicle.vehicleType === 'RV'"><i class="fas fa-fire"></i></span>
+			<div class="col-sm-4">
+				<h6>{{vehicle.name}}</h6>
 			</div>
 			<div class="col-sm-1">
 				<span ng-if="vehicle.vehicleStatus === 'AT_BASE'"><i class="fas fa-home"></i></span>
@@ -24,7 +22,7 @@
 		</div>
 		<div ng-if="!ctrl.disableDispatch(vehicle)" class="row" ng-repeat="incident in ctrl.getAllIncidents()">
 			<div class="col-sm-2">
-				<button type="button" class="btn btn-warning" ng-click="ctrl.sendVehicleToIncident(vehicle.id, incident.id)" ng-disabled="ctrl.disableDispatch(vehicle)">Dispatch</button>
+				<button type="button" class="btn btn-warning btn-sm" ng-click="ctrl.sendVehicleToIncident(vehicle.id, incident.id)" ng-disabled="ctrl.disableDispatch(vehicle)">Dispatch</button>
 			</div>
 			<div>
 				{{incident.location.display_name}}

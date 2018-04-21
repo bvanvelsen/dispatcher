@@ -19,8 +19,8 @@ public class FireTruck extends Vehicle {
 	private final int fireGainPerTick;
 	private final int technicalPerTick;
 
-	public FireTruck(int id, String name, Base base, VehicleType vehicleType, int fireGainPerTick, int technicalPerTick, boolean volunteer) {
-		super(id, name, base, volunteer);
+	public FireTruck(int id, String name, Base base, VehicleType vehicleType, int fireGainPerTick, int technicalPerTick, String vehicleImagePath) {
+		super(id, name, base, vehicleImagePath);
 		this.vehicleType = vehicleType;
 		this.fireGainPerTick = fireGainPerTick;
 		this.technicalPerTick = technicalPerTick;

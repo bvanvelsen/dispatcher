@@ -33,4 +33,9 @@ public class Hospital implements Base {
 	public BaseType getBaseType() {
 		return BaseType.HOSPITAL;
 	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
 }

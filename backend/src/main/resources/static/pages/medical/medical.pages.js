@@ -14,6 +14,6 @@ angular.module('be.dispatcher.pages.medical', ['restangular'])
 		var ctrl = this;
 
 		ctrl.getAllMedicalVehicles = function () {
-			return VehicleClient.getAllMedicalVehicles();
+			return VehicleClient.getAllMedicalVehiclesMap();
 		}
 	});

@@ -1,0 +1,15 @@
+<div id="accordion">
+	<div class="card" ng-repeat="(base, vehicles) in ctrl.vehicles">
+		<div class="card-header">
+			<h5 class="card">
+				<button class="btn btn-primary" type="button" data-toggle="collapse" data-parent="#accordion" data-target="#{{base}}" aria-controls="{{base}}">
+					{{base}}</button>
+			</h5>
+		</div>
+		<div id="{{base}}" class="panel-collapse collapse in">
+			<div class="card-body">
+				<emergency-vehicle vehicles="vehicles"></emergency-vehicle>
+			</div>
+		</div>
+	</div>
+</div>

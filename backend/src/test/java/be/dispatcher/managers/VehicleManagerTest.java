@@ -49,7 +49,7 @@ public class VehicleManagerTest {
 	@Before
 	public void setup() {
 		when(base.getLocation()).thenReturn(new LatLon(2.0,2.0));
-		vehicle = new Ambulance(VEHICLE_ID,"Ambu", base, HEALTH_GAIN_PER_TICK);
+		vehicle = new Ambulance(VEHICLE_ID,"Ambu", base, HEALTH_GAIN_PER_TICK, null);
 		incident = new Incident(new LatLon(1.0,1.0));
 		when(vehicleRepository.getVehicleById(vehicle.getId())).thenReturn(vehicle);
 		when(incidentRepository.getIncidentById(anyInt())).thenReturn(incident);

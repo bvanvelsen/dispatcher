@@ -5,8 +5,8 @@ import be.dispatcher.domain.people.Victim;
 
 public abstract class MedicalTransportVehicle extends MedicalVehicle {
 
-	public MedicalTransportVehicle(int id, String name, Base base, int healthGainPerTick) {
-		super(id, name, base, healthGainPerTick);
+	public MedicalTransportVehicle(int id, String name, Base base, int healthGainPerTick, String vehicleImagePath) {
+		super(id, name, base, healthGainPerTick, vehicleImagePath);
 	}
 
 	@Override

@@ -35,4 +35,9 @@ public class PoliceStation implements Base {
 	public BaseType getBaseType() {
 		return POLICE_STATION;
 	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
 }

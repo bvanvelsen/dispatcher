@@ -35,4 +35,9 @@ public class FireDepartment implements Base {
 	public BaseType getBaseType() {
 		return FIRE_DEPARTMENT;
 	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
 }

@@ -3,7 +3,6 @@ package be.dispatcher.managers.incidentscene;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
@@ -70,40 +69,32 @@ public class IncidentSceneMedicalTasksManager {
 	}
 
 	private Victim getUntreatedVictimInWorstCondition(Incident incident) {
-		Optional<Victim> victimOptional = incident.getMedicalTasks().getVictims().stream()
+		return incident.getMedicalTasks().getVictims().stream()
 				.filter(victim -> !vehicleVictimCoupling.values().contains(victim))
-				.max(Comparator.comparing(victim -> victim.getHealCountdown()));
-		if (victimOptional.isPresent()) {
-			return victimOptional.get();
-		}
-		return null;
+				.max(Comparator.comparing(Victim::getHealCountdown))
+				.orElse(null);
 	}
 
 	private Criminal getCriminal(Incident incident) {
-		Optional<Criminal> criminalOptional = incident.getPoliceTasks().getCriminals().stream()
-				.filter(criminal -> !vehicleCriminalCoupling.values().contains(criminal)).findAny();
-		if (criminalOptional.isPresent()) {
-			return criminalOptional.get();
-		}
-		return null;
+		return incident.getPoliceTasks().getCriminals().stream()
+				.filter(criminal -> !vehicleCriminalCoupling.values().contains(criminal))
+				.findAny()
+				.orElse(null);
 	}
 
 	private Victim getVictimForDoctor(Incident incident) {
-		Optional<Victim> victimOptional = incident.getMedicalTasks().getVictims().stream()
+		return incident.getMedicalTasks().getVictims().stream()
 				.filter(victim -> InjuryLevel.SEVERE.equals(victim.getInjuryLevel()))
 				.filter(victim -> !victim.isTransportable())
-				.max(Comparator.comparing(victim -> victim.getHealCountdown()));
-		if (victimOptional.isPresent()) {
-			return victimOptional.get();
-		}
-		return null;
+				.max(Comparator.comparing(Victim::getHealCountdown))
+				.orElse(null);
 	}
 
 	public boolean hasTrappedVictims(Incident incident) {
 		MedicalTasks medicalTasks = incident.getMedicalTasks();
 		if (medicalTasks != null) {
 			return medicalTasks.getVictims().stream()
-					.filter(victim -> victim.isTrapped())
+					.filter(Victim::isTrapped)
 					.count() > 0;
 		}
 		return false;
@@ -112,7 +103,7 @@ public class IncidentSceneMedicalTasksManager {
 	public TrappedVictim getTrappedVictim(Incident incident) {
 		if (hasTrappedVictims(incident)) {
 			return incident.getMedicalTasks().getVictims().stream()
-					.filter(victim -> victim.isTrapped())
+					.filter(Victim::isTrapped)
 					.map(victim -> (TrappedVictim) victim)
 					.findFirst().get();
 		}

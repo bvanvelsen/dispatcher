@@ -14,7 +14,7 @@ angular.module('be.dispatcher.pages.fire', ['restangular'])
 		var ctrl = this;
 
 		ctrl.getAllFireTrucks = function () {
-			return VehicleClient.getAllFireTrucks();
+			return VehicleClient.getAllFireTrucksMap();
 		}
 
 		ctrl.getAllIncidents = function () {

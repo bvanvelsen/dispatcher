@@ -20,6 +20,7 @@ angular.module('be.dispatcher.application', [
 	'be.dispatcher.client.bases',
 	'be.dispatcher.client.images.markers',
 	'be.dispatcher.directive.vehicle',
+	'be.dispatcher.directive.vehicle.map',
 ])
 	.controller('ApplicationCtrl', function($scope, $interval) {
 		var tick = function() {

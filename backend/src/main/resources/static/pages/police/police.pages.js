@@ -14,6 +14,6 @@ angular.module('be.dispatcher.pages.police', ['restangular'])
 		var ctrl = this;
 
 		ctrl.getAllPoliceVehicles = function () {
-			return VehicleClient.getAllPoliceVehicles();
+			return VehicleClient.getAllPoliceVehiclesMap();
 		}
 	});

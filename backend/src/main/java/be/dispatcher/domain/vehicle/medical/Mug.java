@@ -11,8 +11,8 @@ import be.dispatcher.domain.vehicle.VehicleType;
 @Configurable(preConstruction = true, autowire = Autowire.BY_TYPE)
 public class Mug extends MedicalVehicle {
 
-	public Mug(int id, String name, Base base, int healthGainPerTick) {
-		super(id, name, base, healthGainPerTick);
+	public Mug(int id, String name, Base base, int healthGainPerTick, String vehicleImagePath) {
+		super(id, name, base, healthGainPerTick, vehicleImagePath);
 		vehicleType = VehicleType.MUG;
 	}
 

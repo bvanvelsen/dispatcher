@@ -25,9 +25,6 @@ import be.dispatcher.repositories.VehicleRepository;
 @Component
 public class VehicleManager {
 
-	//	@Autowired
-	//	private VehicleFactory vehicleFactory;
-
 	@Autowired
 	private VehicleRepository vehicleRepository;
 
@@ -53,7 +50,7 @@ public class VehicleManager {
 		vehicle.setIncident(incident);
 		if (VehicleStatus.AT_BASE.equals(vehicle.getVehicleStatus())) {
 			vehicle.setVehicleStatus(VehicleStatus.ALARMED);
-			int alarmTime = getAlarmTime(vehicle.isVolunteer());
+			int alarmTime = getAlarmTime();
 			vehicle.setTimeUntilAlarmedStateDone(LocalDateTime.now().plusSeconds(alarmTime));
 		} else {
 			RouteInfoEnriched routeInfo = retrofitRouteCaller.doCall(new RouteInput(vehicle.getVehicleType().getSpeedProfilePrioriy(), vehicle.getLocation(), incident.getLocation()));
@@ -63,12 +60,8 @@ public class VehicleManager {
 		return vehicle;
 	}
 
-	private int getAlarmTime(boolean volunteer) {
-		if (volunteer) {
-			return new Random().ints(90, 10 * 60).findFirst().getAsInt();
-		} else {
-			return new Random().ints(90, 2 * 60).findFirst().getAsInt();
-		}
+	private int getAlarmTime() {
+			return new Random().ints(90, 3 * 60).findFirst().getAsInt();
 	}
 
 	public void sendVehicleToNearestHospital(Vehicle vehicle) {

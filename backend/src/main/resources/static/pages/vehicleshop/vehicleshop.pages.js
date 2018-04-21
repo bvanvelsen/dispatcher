@@ -58,7 +58,8 @@ angular.module('be.dispatcher.pages.vehicleshop', ['restangular'])
 			BasesClient.getAllPoliceStations().then(function (value) {
 				bases = value;
 				for (i = 0; i < bases.length; i++) {
-					L.marker([bases[i].location.lat, bases[i].location.lon], {icon: ImagesMarkersClient.getPoliceIcon(), zIndexOffset: 1000}).addTo(mymap);
+					const marker = L.marker([bases[i].location.lat, bases[i].location.lon], {icon: ImagesMarkersClient.getPoliceIcon(), zIndexOffset: 1000});
+					marker.addTo(mymap);
 				}
 			});
 		}
@@ -109,24 +110,24 @@ angular.module('be.dispatcher.pages.vehicleshop', ['restangular'])
 					const marker = L.marker([currentMedicalVehicle.location.lat, currentMedicalVehicle.location.lon], {icon: ImagesMarkersClient.getAmbulanceIcon()});
 					ambulanceIcons.push(marker);
 					marker.addTo(mymap);
-				} else if(currentMedicalVehicle.vehicleType === 'MUG') {
+				} else if (currentMedicalVehicle.vehicleType === 'MUG') {
 					const marker = L.marker([currentMedicalVehicle.location.lat, currentMedicalVehicle.location.lon], {icon: ImagesMarkersClient.getMugIcon()});
 					mugIcons.push(marker);
 					marker.addTo(mymap);
 				}
 			}
 			var AllFireTrucks = VehicleClient.getAllFireTrucks();
-			for(i in AllFireTrucks) {
+			for (i in AllFireTrucks) {
 				var currentFireTruck = AllFireTrucks[i];
 				if (currentFireTruck.vehicleType === 'FD_AUTOPOMP') {
 					const marker = L.marker([currentFireTruck.location.lat, currentFireTruck.location.lon], {icon: ImagesMarkersClient.getTSIcon()});
 					tsIcons.push(marker);
 					marker.addTo(mymap);
-				} else if(currentFireTruck.vehicleType === 'RV') {
+				} else if (currentFireTruck.vehicleType === 'RV') {
 					const marker = L.marker([currentFireTruck.location.lat, currentFireTruck.location.lon], {icon: ImagesMarkersClient.getRVIcon()});
 					rvIcons.push(marker);
 					marker.addTo(mymap);
-				} else if(currentFireTruck.vehicleType === 'HV') {
+				} else if (currentFireTruck.vehicleType === 'HV') {
 					const marker = L.marker([currentFireTruck.location.lat, currentFireTruck.location.lon], {icon: ImagesMarkersClient.getHVIcon()});
 					hvIcons.push(marker);
 					marker.addTo(mymap);
@@ -157,7 +158,7 @@ angular.module('be.dispatcher.pages.vehicleshop', ['restangular'])
 
 		function addAllIncidentMarkers() {
 			var allIncidents = IncidentClient.getAllIncidents();
-			for(incidentId in allIncidents) {
+			for (incidentId in allIncidents) {
 				console.log(allIncidents[incidentId]);
 				const marker = L.marker([allIncidents[incidentId].location.lat, allIncidents[incidentId].location.lon], {icon: ImagesMarkersClient.getIncidentIcon()});
 				incidentIcons.push(marker);

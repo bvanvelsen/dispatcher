@@ -18,8 +18,8 @@ public class PoliceVehicle extends Vehicle {
 	@Autowired
 	protected IncidentSceneMedicalTasksManager incidentSceneMedicalTasksManager;
 
-	public PoliceVehicle(int id, String name, Base base, int arrestGainPerTick, VehicleType vehicleType) {
-		super(id, name, base, false);
+	public PoliceVehicle(int id, String name, Base base, int arrestGainPerTick, VehicleType vehicleType, String vehicleImagePath) {
+		super(id, name, base, vehicleImagePath);
 		this.arrestGainPerTick = arrestGainPerTick;
 		this.vehicleType = vehicleType;
 	}

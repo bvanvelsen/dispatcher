@@ -35,4 +35,9 @@ public class AmbulanceStation implements Base {
 	public BaseType getBaseType() {
 		return AMBULANCE_STATION;
 	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
 }

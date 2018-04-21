@@ -3,6 +3,7 @@ package be.dispatcher.domain.vehicle;
 import java.time.LocalDateTime;
 import java.util.Random;
 
+import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -14,7 +15,7 @@ import be.dispatcher.graphhopper.LatLon;
 import be.dispatcher.graphhopper.external_router.RouteInfoEnriched;
 import be.dispatcher.managers.VehicleManager;
 
-public abstract class Vehicle implements Ticks {
+public abstract class Vehicle implements Ticks, Comparable {
 
 	@Autowired
 	protected VehicleManager vehicleManager;
@@ -24,13 +25,13 @@ public abstract class Vehicle implements Ticks {
 	protected VehicleType vehicleType;
 
 	protected LatLon location;
+	protected String vehicleImagePath;
 	protected Incident incident;
 
 	protected VehicleStatus vehicleStatus;
 	protected boolean filled;
 	protected LocalDateTime timeUntilReadyAtDropoff;
 	protected LocalDateTime timeUntilAlarmedStateDone;
-	protected boolean volunteer;
 
 	@JsonIgnore
 	protected Base base;
@@ -38,11 +39,12 @@ public abstract class Vehicle implements Ticks {
 	@JsonIgnore
 	protected RouteInfoEnriched routeInfo;
 
-	public Vehicle(int id, String name, Base base, boolean volunteer) {
+	public Vehicle(int id, String name, Base base, String vehicleImagePath) {
 		this.id = id;
 		this.name = name;
 		this.base = base;
 		location = base.getLocation();
+		this.vehicleImagePath = vehicleImagePath;
 		this.vehicleStatus = VehicleStatus.AT_BASE;
 		filled = false;
 	}
@@ -176,11 +178,24 @@ public abstract class Vehicle implements Ticks {
 		return filled;
 	}
 
-	public boolean isVolunteer() {
-		return volunteer;
+	public String getVehicleImagePath() {
+		return vehicleImagePath;
+	}
+
+	public void setVehicleImagePath(String vehicleImagePath) {
+		this.vehicleImagePath = vehicleImagePath;
 	}
 
 	public void setTimeUntilAlarmedStateDone(LocalDateTime timeUntilAlarmedStateDone) {
 		this.timeUntilAlarmedStateDone = timeUntilAlarmedStateDone;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		Vehicle v = (Vehicle)o;
+		return new CompareToBuilder()
+				.append(this.vehicleType, v.vehicleType)
+				.append(this.name,v.name)
+				.toComparison();
 	}
 }

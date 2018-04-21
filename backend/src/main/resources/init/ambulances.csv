@@ -1,18 +1,22 @@
-1000,100,Ziekenwagen Jessa PIT,AMBULANCE,20
-1001,100,MUG Jessa,MUG,40
-1002,200,Ambulance 1 Brandweer Hasselt,AMBULANCE,10
-1003,200,Ambulance 2 brandweer Hasselt,AMBULANCE,10
-1012,200,Ambulance 3 brandweer Hasselt,AMBULANCE,10
-1004,101,Ziekenwagen ZOL PIT,AMBULANCE,20
-1005,101,MUG ZOL,MUG,40
-1006,201,Ziekenwagen Genk 1,AMBULANCE,10
-1007,201,Ziekenwagen Genk 2,AMBULANCE,10
-1008,201,Ziekenwagen Genk 3,AMBULANCE,10
-1009,202,Ziekenwagen Herk-de-stad 1,AMBULANCE,10
-1011,202,Ziekenwagen Herk-de-stad 2,AMBULANCE,10
-1013,205,Ziekenwagen Heusden-Zolder AMBU 1,AMBULANCE,10
-1015,205,Ziekenwagen Heusden-Zolder AMBU 2,AMBULANCE,10
-1016,205,Z13 Ambulance Heusden-Zolder,AMBULANCE,10
-1010,400,Ambicare Borgloon,AMBULANCE,10
-1017,206,Ambulance Tessenderlo,AMBULANCE,10
-1018,208,Ambulance Tongeren,AMBULANCE,10
+1000,100,Ziekenwagen Jessa PIT,AMBULANCE,20,images/vehicles/medical/hasselt/jessa.jpg
+1001,100,MUG Jessa,MUG,40,images/vehicles/medical/hasselt/mug.jpg
+1002,200,Brandweer Hasselt 1,AMBULANCE,10,images/vehicles/medical/hasselt/1.jpg
+1003,200,Brandweer Hasselt 2,AMBULANCE,10,images/vehicles/medical/hasselt/3.jpg
+1004,200,Brandweer Hasselt ZM01,AMBULANCE,10,images/vehicles/medical/hasselt/ZW01.jpg
+1005,200,Brandweer Hasselt ZM03,AMBULANCE,10,images/vehicles/medical/hasselt/ZW03.jpg
+1006,205,Brandweer Heusden-zolder 1,AMBULANCE,10,images/vehicles/medical/heusden-zolder/1.jpg
+1007,205,Brandweer Heusden-zolder 2,AMBULANCE,10,images/vehicles/medical/heusden-zolder/2.jpg
+#1006,205,Brandweer Leopoldsburg 1,AMBULANCE,10,images/vehicles/medical/leopoldsburg/1.jpg
+#1007,205,Brandweer Leopoldsburg 2,AMBULANCE,10,images/vehicles/medical/leopoldsburg/2.jpg
+1008,102,Ziekenwagen St-trudo ziekenhuis,AMBULANCE,10,images/vehicles/medical/sint-truiden/1.jpg
+1009,206,Brandweer Tessederlo 1,AMBULANCE,10,images/vehicles/medical/tessenderlo/1.jpg
+1010,206,Brandweer Tessederlo 2,AMBULANCE,10,images/vehicles/medical/tessenderlo/2.jpg
+1011,208,Brandweer Tongeren 1,AMBULANCE,10,images/vehicles/medical/tongeren/1.jpg
+1012,400,Ambi-Care Borgloon,AMBULANCE,10,images/vehicles/medical/borgloon/1.jpg
+1013,202,Brandweer Herk-de-stad 1,AMBULANCE,10,images/vehicles/medical/herk-de-stad/1.jpg
+1014,202,Brandweer Herk-de-stad ZM02,AMBULANCE,10,images/vehicles/medical/herk-de-stad/ZW02.jpg
+1015,103,MUG Heusden-zolder,MUG,40,images/vehicles/medical/heusden-zolder/mug.jpg
+1016,102,MUG St-trudo,MUG,40,images/vehicles/medical/sint-truiden/mug.jpg
+1017,104,MUG AZ-Vesalius,MUG,40,images/vehicles/medical/tongeren/mug.jpg
+1018,105,MUG AZ-Diest,MUG,40,images/vehicles/medical/diest/mug.jpg
+1019,105,Ziekenwagen AZ-Diest,AMBULANCE,10,images/vehicles/medical/diest/1.jpg
