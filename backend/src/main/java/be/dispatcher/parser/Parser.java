@@ -1,4 +1,4 @@
-package be.dispatcher.init;
+package be.dispatcher.parser;
 
 import static java.util.stream.Collectors.toList;
 

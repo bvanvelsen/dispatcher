@@ -1,4 +1,4 @@
-package be.dispatcher.init;
+package be.dispatcher.parser;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

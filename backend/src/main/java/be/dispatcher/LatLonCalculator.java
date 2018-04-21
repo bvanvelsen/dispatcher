@@ -5,42 +5,19 @@ import java.util.List;
 
 import be.dispatcher.graphhopper.LatLon;
 
-public class LatLonMapper {
-
-	public static void main(String[] args) {
-		//		#point interval in meters
-		double interval = 10;
-		//    #direction of line in degrees
-		//    #start point
-		double lat1 = 50.985827;
-		double lng1 = 5.402027;
-		//    #end point
-		double lat2 = 50.983901;
-		double lng2 = 5.398778;
-
-		double azimuth = calculateBearing(lat1, lng1, lat2, lng2);
-//		System.out.println(azimuth);
-
-		List<LatLon> coords = main(interval, azimuth, lat1, lng1, lat2, lng2);
-		coords.stream().forEach(latLon -> System.out.println(latLon));
-//		System.out.println(coords.size());
-		//		coords = main(interval,azimuth,lat1,lng1,lat2,lng2)
-		//		print coords
-	}
+public class LatLonCalculator {
 
 	public static List<LatLon> calculateLatLonsInBetween(LatLon start, LatLon destnation, int timeForInstructionInMs) {
-//		int distanceInMeter = distanceForInstructionInMeter(start, destnation);
 		double interval = 10.0;
 		Double lat1 = start.getLat();
 		Double lng1 = start.getLon();
 		Double lat2 = destnation.getLat();
 		Double lng2 = destnation.getLon();
 		double azimuth = calculateBearing(lat1, lng1, lat2, lng2);
-		List<LatLon> main = main(interval, azimuth, lat1, lng1, lat2, lng2);
-		return main;
+		return main(interval, azimuth, lat1, lng1, lat2, lng2);
 	}
 
-	public static int distanceForInstructionInMeter(LatLon start, LatLon destnation) {
+	private static int distanceForInstructionInMeter(LatLon start, LatLon destnation) {
 		double interval = 1.0;
 		Double lat1 = start.getLat();
 		Double lng1 = start.getLon();
@@ -49,7 +26,6 @@ public class LatLonMapper {
 		double azimuth = calculateBearing(lat1, lng1, lat2, lng2);
 		double d = getPathLength(lat1, lng1, lat2, lng2);
 		double[] doubles = myModf(d / interval);
-//		System.out.println("distance:" + doubles[0]);
 		return new Double(doubles[0]).intValue();
 	}
 
@@ -60,9 +36,7 @@ public class LatLonMapper {
 		double[] doubles = myModf(d / interval);
 		List<LatLon> coords = new ArrayList<>();
 		coords.add(new LatLon(lat1, lng1));
-//		System.out.println(doubles[0]);
 		double distance = doubles[0] * 10;
-//		System.out.println("distance: " + distance);
 		for (int x = 0; x < distance; x += interval) {
 			LatLon coord = getDestinationLatLong(lat1, lng1, azimuth, x);
 			coords.add(coord);
@@ -86,14 +60,13 @@ public class LatLonMapper {
 		return new LatLon(lat2, lon2);
 	}
 
-	public static double[] myModf(double fullDouble) {
+	private static double[] myModf(double fullDouble) {
 		int intVal = (int) fullDouble;
 		double remainder = fullDouble - intVal;
 
 		double[] retVal = new double[2];
 		retVal[0] = intVal;
 		retVal[1] = remainder;
-
 		return retVal;
 	}
 
@@ -106,8 +79,7 @@ public class LatLonMapper {
 		double deltaLng = Math.toRadians((lng2 - lng1));
 		double a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) + Math.cos(lat1rads) * Math.cos(lat2rads) * Math.sin(deltaLng / 2) * Math.sin(deltaLng / 2);
 		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-		double d = R * c;
-		return d;
+		return R * c;
 	}
 
 	//calculates the azimuth in degrees from start point to end point
@@ -125,7 +97,6 @@ public class LatLonMapper {
 				dLong = (2.0 * Math.PI + dLong);
 			}
 		}
-		double bearing = (Math.toDegrees(Math.atan2(dLong, dPhi)) + 360.0) % 360.0;
-		return bearing;
+		return (Math.toDegrees(Math.atan2(dLong, dPhi)) + 360.0) % 360.0;
 	}
 }

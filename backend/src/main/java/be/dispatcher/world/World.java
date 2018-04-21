@@ -10,15 +10,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import be.dispatcher.domain.Ticks;
-import be.dispatcher.init.Parser;
+import be.dispatcher.parser.Parser;
 
 @Component
 public class World {
 
-	@Autowired
-	private Parser parser;
+	private final Parser parser;
 
 	private List<Ticks> tickableObjects = new ArrayList<>();
+
+	@Autowired
+	public World(Parser parser) {
+		this.parser = parser;
+	}
 
 	public void startWorldTicking() {
 		parser.parseBase("init/hospitals.csv", parser.csvToHospitalFunction);
@@ -40,13 +44,11 @@ public class World {
 		tickableObjects.remove(livingObject);
 	}
 
-	Runnable helloRunnable = new Runnable() {
-		public void run() {
-			try {
-				tickableObjects.forEach(Ticks::tick);
-			} catch (final Exception e) {
-				e.printStackTrace();
-			}
+	private Runnable helloRunnable = () -> {
+		try {
+			tickableObjects.forEach(Ticks::tick);
+		} catch (final Exception e) {
+			e.printStackTrace();
 		}
 	};
 

@@ -9,7 +9,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import be.dispatcher.LatLonMapper;
+import be.dispatcher.LatLonCalculator;
 import be.dispatcher.graphhopper.LatLon;
 import be.dispatcher.graphhopper.LatLonAtTime;
 
@@ -74,7 +74,8 @@ public class RouteInfoEnriched {
 		if (!points.isEmpty()) {
 			List<LatLon> latLons = points.stream().map(point -> new LatLon(point.get(1), point.get(0))).collect(Collectors.toList());
 
-			List<LatLon> latLonsWith10MetersInBetween = LatLonMapper.calculateLatLonsInBetween(latLons.stream().findFirst().get(), latLons.stream().reduce((first, second) -> second).get(), timeForInstructionInMs);
+			List<LatLon> latLonsWith10MetersInBetween = LatLonCalculator
+					.calculateLatLonsInBetween(latLons.stream().findFirst().get(), latLons.stream().reduce((first, second) -> second).get(), timeForInstructionInMs);
 			double travelTimeBetweenPointsInInstruction = timeForInstructionInMs / latLonsWith10MetersInBetween.size();
 			for (LatLon latLon : latLonsWith10MetersInBetween) {
 				long timeAtPoint = (startTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() + msAfterStart(latLonsWith10MetersInBetween, travelTimeSoFarInMs, travelTimeBetweenPointsInInstruction, latLon));
