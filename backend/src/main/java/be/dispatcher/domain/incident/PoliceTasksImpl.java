@@ -8,6 +8,7 @@ public class PoliceTasksImpl implements PoliceTasks {
 
 	private List<Criminal> criminals;
 
+
 	public PoliceTasksImpl(List<Criminal> criminals) {
 		this.criminals = criminals;
 	}

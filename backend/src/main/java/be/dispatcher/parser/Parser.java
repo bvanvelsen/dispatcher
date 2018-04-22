@@ -8,6 +8,8 @@ import java.io.Reader;
 import java.util.List;
 import java.util.function.Function;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.collections4.IterableUtils;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
@@ -28,6 +30,7 @@ import be.dispatcher.domain.vehicle.police.PoliceVehicle;
 import be.dispatcher.graphhopper.LatLon;
 import be.dispatcher.repositories.BaseRespository;
 import be.dispatcher.repositories.VehicleRepository;
+import be.dispatcher.world.World;
 
 @Component
 public class Parser {
@@ -37,6 +40,20 @@ public class Parser {
 
 	@Autowired
 	private VehicleRepository vehicleRepository;
+
+	@Autowired
+	private World world;
+
+	@PostConstruct
+	public void initObjects() {
+		parseBase("init/hospitals.csv", csvToHospitalFunction);
+		parseBase("init/fire_department.csv", csvToFireDepartmentFunction);
+		parseBase("init/police_stations.csv", csvToPoliceStationFunction);
+		parseBase("init/ambulance_stations.csv", csvToAmbulanceStationFunction);
+		parseVehicles("init/ambulances.csv", csvToMedicalVehicleFunction);
+		parseVehicles("init/fire_trucks.csv", csvToFireTruckFunction);
+		parseVehicles("init/police_vehicles.csv", csvToPoliceVehicleFunction);
+	}
 
 	public Function<CSVRecord, Base> csvToHospitalFunction = csvRecord -> {
 		int id = Integer.parseInt(csvRecord.get(0));
@@ -61,9 +78,9 @@ public class Parser {
 		}
 		switch (vehicleType) {
 		case AMBULANCE:
-			return new Ambulance(id, name, base, healthGainPerTick,vehicleImagePath);
+			return new Ambulance(id, name, base, healthGainPerTick, vehicleImagePath);
 		case MUG:
-			return new Mug(id, name, base, healthGainPerTick,vehicleImagePath);
+			return new Mug(id, name, base, healthGainPerTick, vehicleImagePath);
 		}
 		return null;
 	};

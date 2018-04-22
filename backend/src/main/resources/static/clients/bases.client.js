@@ -8,29 +8,28 @@ angular.module('be.dispatcher.client.bases', [])
 		}
 
 		function getAllHospitals() {
-			return Restangular.all('bases/hospitals').getList().then(function (allBases) {
+			return Restangular.all('bases/HOSPITAL').getList().then(function (allBases) {
 				return allBases;
 			});
 		}
 
 		function getAllFireDepartments() {
-			return Restangular.all('bases/fire_departments').getList().then(function (allBases) {
+			return Restangular.all('bases/FIRE_DEPARTMENT').getList().then(function (allBases) {
 				return allBases;
 			});
 		}
 
 		function getAllAmbulanceStations() {
-			return Restangular.all('bases/ambulance_stations').getList().then(function (allBases) {
+			return Restangular.all('bases/AMBULANCE_STATION').getList().then(function (allBases) {
 				return allBases;
 			});
 		}
 
 		function getAllPoliceStations() {
-			return Restangular.all('bases/police_stations').getList().then(function (allBases) {
+			return Restangular.all('bases/POLICE_STATION').getList().then(function (allBases) {
 				return allBases;
 			});
 		}
-
 
 		return {
 			getAllBases: getAllBases,

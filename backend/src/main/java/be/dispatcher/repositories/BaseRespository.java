@@ -1,9 +1,5 @@
 package be.dispatcher.repositories;
 
-import static be.dispatcher.domain.location.emergencybases.BaseType.AMBULANCE_STATION;
-import static be.dispatcher.domain.location.emergencybases.BaseType.FIRE_DEPARTMENT;
-import static be.dispatcher.domain.location.emergencybases.BaseType.HOSPITAL;
-import static be.dispatcher.domain.location.emergencybases.BaseType.POLICE_STATION;
 import static java.util.stream.Collectors.toList;
 
 import java.util.ArrayList;
@@ -14,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import be.dispatcher.domain.location.emergencybases.Base;
+import be.dispatcher.domain.location.emergencybases.BaseType;
 import be.dispatcher.domain.location.emergencybases.Hospital;
 import be.dispatcher.domain.location.emergencybases.PoliceStation;
 import be.dispatcher.graphhopper.LatLon;
@@ -39,12 +36,6 @@ public class BaseRespository {
 				.findFirst().get();
 	}
 
-	public List<Base> getAllHospitals() {
-		return bases.stream()
-				.filter(base -> HOSPITAL.equals(base.getBaseType()))
-				.collect(toList());
-	}
-
 	public Base getClosestHospital(double speedProfile, LatLon vehicleLocation) {
 		List<Base> hospitals = bases.stream()
 				.filter(base -> base instanceof Hospital)
@@ -61,18 +52,6 @@ public class BaseRespository {
 			}
 		}
 		return closestHospital;
-	}
-
-	public List<Base> getAllFireDepartments() {
-		return bases.stream()
-				.filter(base -> FIRE_DEPARTMENT.equals(base.getBaseType()))
-				.collect(toList());
-	}
-
-	public List<Base> getAllPoliceStations() {
-		return bases.stream()
-				.filter(base -> POLICE_STATION.equals(base.getBaseType()))
-				.collect(toList());
 	}
 
 	public Base getClosestPolicestation(double speedProfile, LatLon vehicleLocation) {
@@ -93,9 +72,9 @@ public class BaseRespository {
 		return closestPoliceStation;
 	}
 
-	public List<Base> getAllAmbulanceStations() {
+	public List<Base> getAll(BaseType baseType) {
 		return bases.stream()
-				.filter(base -> AMBULANCE_STATION.equals(base.getBaseType()))
+				.filter(base -> baseType.equals(base.getBaseType()))
 				.collect(toList());
 	}
 }

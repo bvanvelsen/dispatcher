@@ -46,7 +46,6 @@ angular.module('be.dispatcher.client.vehicle', [])
 				refresh = !refresh;
 			}
 
-
 			$interval(function () {
 				if (refresh) {
 					getAllVehiclesFromBackend();
