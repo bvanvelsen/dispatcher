@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import be.dispatcher.DistributedRandomNumberGenerator;
+import be.dispatcher.domain.incident.police.TrafficDuty;
 import be.dispatcher.domain.people.Criminal;
 import be.dispatcher.domain.people.InjuryLevel;
-import be.dispatcher.domain.people.TrappedVictim;
 import be.dispatcher.domain.people.Victim;
 import be.dispatcher.graphhopper.LatLon;
 import be.dispatcher.graphhopper.location.PointGenerator;
@@ -46,7 +46,7 @@ public class IncidentFactory {
 					int arrestCountdown = getRandomArrestCountdown();
 					criminals.add(new Criminal(arrestCountdown));
 				}
-				PoliceTasksImpl policeTasks = new PoliceTasksImpl(criminals);
+				PoliceTasksImpl policeTasks = new PoliceTasksImpl(criminals, new TrafficDuty(2));
 				incident.setPoliceTasks(policeTasks);
 			}
 		}
@@ -74,7 +74,7 @@ public class IncidentFactory {
 			for (int i = 0; i < victimCount; i++) {
 				InjuryLevel randomInjuryLevel = getRandomInjuryLevel();
 				int healCountdown = getRandomHealCountdown(randomInjuryLevel);
-				victims.add(new TrappedVictim(randomInjuryLevel, healCountdown, 250));
+				victims.add(new Victim(randomInjuryLevel, healCountdown));
 			}
 			incident.setMedicalTasks(new MedicalTasksImpl(victims));
 		}

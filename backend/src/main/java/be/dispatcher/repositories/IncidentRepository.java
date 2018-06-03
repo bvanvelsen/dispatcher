@@ -18,12 +18,12 @@ public class IncidentRepository {
 	private List<Incident> incidents = new ArrayList<>();
 
 	public void addIncidentToRepository(Incident incident) {
-		world.addObjectToWorld(incident);
+		world.addIncidentToWorld(incident);
 		incidents.add(incident);
 	}
 
 	public void removeIncidentFromRepository(Incident incident) {
-		world.removeObjectFromWorld(incident);
+		world.removeIncidentFromWorld(incident);
 		incidents.remove(incident);
 	}
 

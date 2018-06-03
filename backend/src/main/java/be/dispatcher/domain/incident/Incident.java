@@ -33,6 +33,10 @@ public class Incident implements Ticks {
 		if (fireTasks!= null) {
 			fireTasks.tick();
 		}
+
+		if (medicalTasks.allTasksCompleted() && fireTasks.allTasksCompleted()) {
+			policeTasks.informNoTrafficDutyRequiredAnymore();
+		}
 		if (isCompleted()) {
 			incidentRepository.removeIncidentFromRepository(this);
 		}

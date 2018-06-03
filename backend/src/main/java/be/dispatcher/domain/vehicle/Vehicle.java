@@ -4,7 +4,9 @@ import java.time.LocalDateTime;
 import java.util.Random;
 
 import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -15,6 +17,7 @@ import be.dispatcher.graphhopper.LatLon;
 import be.dispatcher.graphhopper.external_router.RouteInfoEnriched;
 import be.dispatcher.managers.VehicleManager;
 
+@Configurable(preConstruction = true, autowire = Autowire.BY_TYPE)
 public abstract class Vehicle implements Ticks, Comparable {
 
 	@Autowired

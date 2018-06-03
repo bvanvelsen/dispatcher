@@ -14,6 +14,7 @@ import be.dispatcher.managers.incidentscene.IncidentSceneMedicalTasksManager;
 public class PoliceVehicle extends Vehicle {
 
 	private final int arrestGainPerTick;
+	private boolean performTrafficDuty;
 
 	@Autowired
 	protected IncidentSceneMedicalTasksManager incidentSceneMedicalTasksManager;
@@ -29,17 +30,34 @@ public class PoliceVehicle extends Vehicle {
 		super.tick();
 		switch (vehicleStatus) {
 		case AT_INCIDENT:
-			Criminal criminal = incidentSceneMedicalTasksManager.getCriminalFor(this);
-			if (criminal != null) {
-				if (criminal.arrest(arrestGainPerTick)) {
-					if (criminal.isTransportable()) {
-						vehicleManager.sendVehicleToNearestPoliceStation(this);
-					}
-				}
+			if (performTrafficDuty) {
+				performTrafficDutyOrGoBackToBase();
 			} else {
-				vehicleManager.sendVehicleToBase(this);
+				arrestCriminalOrGoBackToBase();
 			}
 			break;
 		}
+	}
+
+	private void performTrafficDutyOrGoBackToBase() {
+		if (incident.getPoliceTasks().isTrafficDutyStillRequired()) {
+			incident.getPoliceTasks().performTrafficDuty(this);
+		} else {
+			vehicleManager.sendVehicleToBase(this);
+		}
+	}
+
+	private void arrestCriminalOrGoBackToBase() {
+		Criminal criminal = incidentSceneMedicalTasksManager.getCriminalFor(this);
+		if (criminal != null) {
+			if (criminal.arrest(arrestGainPerTick)) {
+				if (criminal.isTransportable()) {
+					vehicleManager.sendVehicleToNearestPoliceStation(this);
+				}
+			}
+		} else {
+			vehicleManager.sendVehicleToBase(this);
+		}
+		return;
 	}
 }
