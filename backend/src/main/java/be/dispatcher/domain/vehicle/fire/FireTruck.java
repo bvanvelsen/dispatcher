@@ -27,10 +27,7 @@ public class FireTruck extends Vehicle {
 	}
 
 	@Override
-	public void tick() {
-		super.tick();
-		switch (vehicleStatus) {
-		case AT_INCIDENT:
+	protected void handleIncident() {
 			FireTasks fireTasks = getIncident().getFireTasks();
 			if (incidentSceneMedicalTasksManager.hasTrappedVictims(getIncident()) && technicalPerTick > 0) {
 				incidentSceneMedicalTasksManager.getTrappedVictim(getIncident()).extract(technicalPerTick);
@@ -41,7 +38,5 @@ public class FireTruck extends Vehicle {
 			} else {
 				vehicleManager.sendVehicleToBase(this);
 			}
-			break;
-		}
 	}
 }

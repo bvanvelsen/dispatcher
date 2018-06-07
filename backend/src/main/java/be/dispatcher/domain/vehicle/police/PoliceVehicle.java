@@ -26,17 +26,12 @@ public class PoliceVehicle extends Vehicle {
 	}
 
 	@Override
-	public void tick() {
-		super.tick();
-		switch (vehicleStatus) {
-		case AT_INCIDENT:
+	protected void handleIncident() {
 			if (performTrafficDuty) {
 				performTrafficDutyOrGoBackToBase();
 			} else {
 				arrestCriminalOrGoBackToBase();
 			}
-			break;
-		}
 	}
 
 	private void performTrafficDutyOrGoBackToBase() {

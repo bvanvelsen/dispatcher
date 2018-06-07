@@ -20,7 +20,7 @@ public class BasesController {
 	private BaseRespository baseRespository;
 
 	@RequestMapping(value = "{type}", method = RequestMethod.GET)
-	public List<Base> getAllFireDepartments(@PathVariable("type") BaseType baseType) {
+	public List<Base> getAllBasesOfType(@PathVariable("type") BaseType baseType) {
 		return baseRespository.getAll(baseType);
 	}
 }

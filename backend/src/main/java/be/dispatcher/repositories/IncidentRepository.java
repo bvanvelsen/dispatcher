@@ -27,7 +27,7 @@ public class IncidentRepository {
 		incidents.remove(incident);
 	}
 
-	public List<Incident> getIncidents() {
+	public List<Incident> getAllIncidents() {
 		return incidents;
 	}
 

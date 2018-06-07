@@ -17,10 +17,7 @@ public class Mug extends MedicalVehicle {
 	}
 
 	@Override
-	public void tick() {
-		super.tick();
-		switch (vehicleStatus) {
-		case AT_INCIDENT:
+	protected void handleIncident() {
 			Victim victim = incidentSceneMedicalTasksManager.getDoctorVictimFor(this);
 			if (victim != null) {
 				if (victim.heal(healthGainPerTick)) {
@@ -31,8 +28,6 @@ public class Mug extends MedicalVehicle {
 			} else {
 				vehicleManager.sendVehicleToBase(this);
 			}
-			break;
-		}
 	}
 
 	@Override

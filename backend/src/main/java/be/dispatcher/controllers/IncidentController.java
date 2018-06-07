@@ -23,13 +23,13 @@ public class IncidentController {
 	private IncidentRepository incidentRepository;
 
 	@RequestMapping(value = "allIncidents", method = RequestMethod.GET)
-	public List<Incident> getAllVehicles() {
-		return incidentRepository.getIncidents();
+	public List<Incident> getAllIncidents() {
+		return incidentRepository.getAllIncidents();
 	}
 
 	@RequestMapping(value = "create", method = RequestMethod.POST)
 	@ResponseBody
-	Incident createIncident() {
+	public Incident createIncident() {
 		return incidentFactory.createIncident();
 	}
 }

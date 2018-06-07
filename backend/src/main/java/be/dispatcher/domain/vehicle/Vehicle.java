@@ -64,6 +64,9 @@ public abstract class Vehicle implements Ticks, Comparable {
 			setLocation(routeInfo.getLocationForCurrentTime(LocalDateTime.now()));
 			checkAndSetArrivalForArrivalAtIncident();
 			break;
+		case AT_INCIDENT:
+			handleIncident();
+			break;
 		case GO_TO_DROPOFF:
 			setLocation(routeInfo.getLocationForCurrentTime(LocalDateTime.now()));
 			checkAndSetArrivalForArrivalAtDropOff();
@@ -77,6 +80,8 @@ public abstract class Vehicle implements Ticks, Comparable {
 			break;
 		}
 	}
+
+	protected abstract void handleIncident();
 
 	private void checkAlarmedStateAndReadyToGoToResponding() {
 		if (LocalDateTime.now().isAfter(timeUntilAlarmedStateDone)) {

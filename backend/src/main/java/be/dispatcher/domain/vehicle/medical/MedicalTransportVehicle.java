@@ -9,22 +9,25 @@ public abstract class MedicalTransportVehicle extends MedicalVehicle {
 		super(id, name, base, healthGainPerTick, vehicleImagePath);
 	}
 
+
 	@Override
-	public void tick() {
-		super.tick();
-		switch (vehicleStatus) {
-		case AT_INCIDENT:
+	protected void handleIncident() {
 			Victim victim = incidentSceneMedicalTasksManager.getVictimFor(this);
-			if (victim != null) {
-				if (victim.heal(healthGainPerTick)) {
-					if (victim.isTransportable()) {
-						vehicleManager.sendVehicleToNearestHospital(this);
-					}
-				}
+			if (hasVictimToHeal(victim)) {
+				healVictim(victim);
 			} else {
 				vehicleManager.sendVehicleToBase(this);
 			}
-			break;
+	}
+
+	private void healVictim(Victim victim) {
+		victim.heal(healthGainPerTick);
+		if (victim.isTransportable()) {
+			vehicleManager.sendVehicleToNearestHospital(this);
 		}
+	}
+
+	private boolean hasVictimToHeal(Victim victim) {
+		return victim != null;
 	}
 }
