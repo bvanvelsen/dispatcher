@@ -29,7 +29,7 @@ public abstract class Vehicle implements Ticks, Comparable {
 
 	protected LatLon location;
 	protected String vehicleImagePath;
-	protected Incident incident;
+	private Incident incident;
 
 	protected VehicleStatus vehicleStatus;
 	protected boolean filled;

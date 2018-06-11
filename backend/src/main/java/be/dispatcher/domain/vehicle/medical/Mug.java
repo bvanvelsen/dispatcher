@@ -20,7 +20,7 @@ public class Mug extends MedicalVehicle {
 	protected void handleIncident() {
 			Victim victim = incidentSceneMedicalTasksManager.getDoctorVictimFor(this);
 			if (victim != null) {
-				if (victim.heal(healthGainPerTick)) {
+				if (victim.heal(getHealthGainPerTick())) {
 					if (victim.isTransportable()) {
 						incidentSceneMedicalTasksManager.notifyVictimStabilizedByDoctor(this);
 					}

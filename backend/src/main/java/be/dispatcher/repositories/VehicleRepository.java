@@ -38,6 +38,13 @@ public class VehicleRepository {
 				.get();
 	}
 
+	public <T extends Vehicle> T getVehicleById(int id, Class<T> vehicleClass) {
+		return vehicleClass.cast(vehicles.stream()
+				.filter(vehicle -> vehicle.getId() == id)
+				.findFirst()
+				.get());
+	}
+
 	public List<? extends MedicalVehicle> getAllMedicalVehicles() {
 		return vehicles.stream ()
 				.filter(vehicle -> vehicle instanceof MedicalVehicle)

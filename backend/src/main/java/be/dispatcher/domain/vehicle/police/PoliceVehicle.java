@@ -35,8 +35,8 @@ public class PoliceVehicle extends Vehicle {
 	}
 
 	private void performTrafficDutyOrGoBackToBase() {
-		if (incident.getPoliceTasks().isTrafficDutyStillRequired()) {
-			incident.getPoliceTasks().performTrafficDuty(this);
+		if (getIncident().getPoliceTasks().isTrafficDutyStillRequired()) {
+			getIncident().getPoliceTasks().performTrafficDuty(this);
 		} else {
 			vehicleManager.sendVehicleToBase(this);
 		}
@@ -53,6 +53,9 @@ public class PoliceVehicle extends Vehicle {
 		} else {
 			vehicleManager.sendVehicleToBase(this);
 		}
-		return;
+	}
+
+	public int getArrestGainPerTick() {
+		return arrestGainPerTick;
 	}
 }

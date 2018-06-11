@@ -8,12 +8,12 @@ import be.dispatcher.managers.incidentscene.IncidentSceneMedicalTasksManager;
 
 public abstract class MedicalVehicle extends Vehicle {
 
-	protected final int healthGainPerTick;
+	private final int healthGainPerTick;
 
 	@Autowired
 	protected IncidentSceneMedicalTasksManager incidentSceneMedicalTasksManager;
 
-	public MedicalVehicle(int id, String name, Base base, int healthGainPerTick, String vehicleImagePath) {
+	MedicalVehicle(int id, String name, Base base, int healthGainPerTick, String vehicleImagePath) {
 		super(id, name, base, vehicleImagePath);
 		this.healthGainPerTick = healthGainPerTick;
 	}
@@ -21,5 +21,9 @@ public abstract class MedicalVehicle extends Vehicle {
 	@Override
 	public void tick() {
 		super.tick();
+	}
+
+	public int getHealthGainPerTick() {
+		return healthGainPerTick;
 	}
 }

@@ -12,7 +12,7 @@ public class DispatcherPropertiesTest extends DispatcherSpringJunit4Test{
 
 	@Test
 	public void expectValuesInjectedFromPropertiesFile() {
-		assertThat(dispatcherProperties.getWorldBoundingboxMinLat()).isEqualTo(50.8683593937);
+		assertThat(dispatcherProperties.getWorldBoundingboxMinLat()).isEqualTo(50.9120410783);
 		assertThat(dispatcherProperties.getWorldBoundingboxMaxLat()).isEqualTo(51.0024728092);
 		assertThat(dispatcherProperties.getWorldBoundingboxMinLon()).isEqualTo(5.1794953728);
 		assertThat(dispatcherProperties.getWorldBoundingboxMaxLon()).isEqualTo(5.4558704844);

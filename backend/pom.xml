@@ -23,6 +23,10 @@
 		<logging-interceptor.version>3.9.0</logging-interceptor.version>
 		<okio.version>1.13.0</okio.version>
 		<guava.version>24.1-jre</guava.version>
+		<aspectj.version>1.8.10</aspectj.version>
+		<sonar.host.url>http://localhost:9000/</sonar.host.url>
+		<sonar.login>admin</sonar.login>
+		<sonar.password>admin</sonar.password>
 	</properties>
 
 	<parent>
@@ -97,6 +101,11 @@
 			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>${commons-lang3.version}</version>
@@ -165,6 +174,58 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.2</version>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.7.4.201502262128</version>
+				<configuration>
+					<outputDirectory>${project.build.directory}/coverage-reports/</outputDirectory>
+					<propertyName>surefireArgLine</propertyName>
+				</configuration>
+				<executions>
+					<execution>
+						<id>prepare-jacoco-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>generate-coverage-reports</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.19.1</version>
+				<configuration>
+					<forkMode>once</forkMode>
+					<argLine>${surefireArgLine}</argLine>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.pitest</groupId>
+				<artifactId>pitest-maven</artifactId>
+				<version>1.4.0</version>
+				<configuration>
+					<!--<mutators>-->
+					<!--<mutator>DEFAULTS</mutator>-->
+					<!--<mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>-->
+					<!--</mutators>-->
+					<!--<outputFormats>-->
+					<!--<outputFormat>XML</outputFormat>-->
+					<!--</outputFormats>-->
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.5.1</version>
@@ -193,8 +254,6 @@
 					<complianceLevel>${maven-compiler-plugin.target}</complianceLevel>
 					<encoding>UTF-8</encoding>
 					<verbose>true</verbose>
-					<!--<proc>none</proc>-->
-					<!--<complianceLevel>1.9</complianceLevel>-->
 					<aspectLibraries>
 						<aspectLibrary>
 							<groupId>org.springframework</groupId>
