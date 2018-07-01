@@ -9,9 +9,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import be.dispatcher.LatLonCalculator;
 import be.dispatcher.graphhopper.LatLon;
 import be.dispatcher.graphhopper.LatLonAtTime;
+import be.dispatcher.graphhopper.LatLonCalculator;
 
 public class RouteInfoEnriched {
 
@@ -61,9 +61,8 @@ public class RouteInfoEnriched {
 		return new LatLon(routeInfo.getDestination().get(1), routeInfo.getDestination().get(0));
 	}
 
-
 	private List<List<Double>> getCoordinateListFor(List<Double> intervals) {
-		List<List<Double>> subList = routeInfo.getCoordinates().subList(intervals.get(0).intValue(), intervals.get(1).intValue()+1);
+		List<List<Double>> subList = routeInfo.getCoordinates().subList(intervals.get(0).intValue(), intervals.get(1).intValue() + 1);
 		if (subList.isEmpty()) {//last item
 			subList = Collections.singletonList(routeInfo.getCoordinates().get(intervals.get(0).intValue()));
 		}
@@ -78,7 +77,8 @@ public class RouteInfoEnriched {
 					.calculateLatLonsInBetween(latLons.stream().findFirst().get(), latLons.stream().reduce((first, second) -> second).get(), timeForInstructionInMs);
 			double travelTimeBetweenPointsInInstruction = timeForInstructionInMs / latLonsWith10MetersInBetween.size();
 			for (LatLon latLon : latLonsWith10MetersInBetween) {
-				long timeAtPoint = (startTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() + msAfterStart(latLonsWith10MetersInBetween, travelTimeSoFarInMs, travelTimeBetweenPointsInInstruction, latLon));
+				long timeAtPoint = (startTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() + msAfterStart(latLonsWith10MetersInBetween, travelTimeSoFarInMs,
+						travelTimeBetweenPointsInInstruction, latLon));
 				LocalDateTime date = LocalDateTime.ofInstant(Instant.ofEpochMilli(timeAtPoint), ZoneId.systemDefault());
 				addLatLonAtTime(new LatLonAtTime(latLon, date));
 			}

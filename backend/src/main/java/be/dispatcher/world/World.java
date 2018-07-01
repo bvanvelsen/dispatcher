@@ -17,6 +17,8 @@ import be.dispatcher.parser.Parser;
 @Component
 public class World {
 
+	private static final int CORE_POOL_SIZE = 1;
+	private static final int TICK_TIME = 1;
 	private final Parser parser;
 
 	private List<Ticks> tickableObjects = new ArrayList<>();
@@ -38,12 +40,8 @@ public class World {
 		medicalVehicles.forEach(this::addVehicleToWorld);
 		fireTrucks.forEach(this::addVehicleToWorld);
 		policeVehicles.forEach(this::addVehicleToWorld);
-		ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-		executor.scheduleAtFixedRate(helloRunnable, 0, 1, TimeUnit.SECONDS);
-	}
-
-	private void addVehicleToWorld(Vehicle vehicle) {
-		tickableObjects.add(vehicle);
+		ScheduledExecutorService executorService = Executors.newScheduledThreadPool(CORE_POOL_SIZE);
+		executorService.scheduleAtFixedRate(worldRunnable, 0, TICK_TIME, TimeUnit.SECONDS);
 	}
 
 	public void addIncidentToWorld(Incident incident) {
@@ -54,12 +52,14 @@ public class World {
 		tickableObjects.remove(livingObject);
 	}
 
-	private Runnable helloRunnable = () -> {
-		try {
-			tickableObjects.forEach(Ticks::tick);
-		} catch (final Exception e) {
-			e.printStackTrace();
-		}
-	};
+	List<Ticks> getTickableObjects() {
+		return tickableObjects;
+	}
+
+	private void addVehicleToWorld(Vehicle vehicle) {
+		tickableObjects.add(vehicle);
+	}
+
+	private Runnable worldRunnable = () -> tickableObjects.forEach(Ticks::tick);
 
 }

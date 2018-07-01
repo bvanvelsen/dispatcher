@@ -5,7 +5,6 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import be.dispatcher.DispatcherProperties;
 import be.dispatcher.graphhopper.LatLon;
 import be.dispatcher.graphhopper.reverse.geocode.RetrofitReverseGeocoderCaller;
 import be.dispatcher.graphhopper.reverse.geocode.ReverseGeocode;
@@ -14,16 +13,13 @@ import be.dispatcher.graphhopper.reverse.geocode.ReverseGeocode;
 public class PointGenerator {
 
 	@Autowired
-	private DispatcherProperties dispatcherProperties;
-
-	@Autowired
 	private RetrofitReverseGeocoderCaller retrofitReverseGeocoderCaller;
 
-	public LatLon generateRandomIncidentLocationSnappedToNearestLocation() {
+	public LatLon generateRandomIncidentLocationSnappedToNearestLocation(double minLat, double maxLat, double minLon, double maxLon) {
 		Random latRandom = new Random();
 		Random lonRandom = new Random();
-		double randomLat = latRandom.doubles(dispatcherProperties.getWorldBoundingboxMinLat(), dispatcherProperties.getWorldBoundingboxMaxLat()).findFirst().getAsDouble();
-		double randomLon = lonRandom.doubles(dispatcherProperties.getWorldBoundingboxMinLon(), dispatcherProperties.getWorldBoundingboxMaxLon()).findFirst().getAsDouble();
+		double randomLat = latRandom.doubles(minLat, maxLat).findFirst().getAsDouble();
+		double randomLon = lonRandom.doubles(minLat, maxLon).findFirst().getAsDouble();
 		randomLat = Double.parseDouble(String.format("%.6f", randomLat));
 		randomLon = Double.parseDouble(String.format("%.6f", randomLon));
 		LatLon latLon = new LatLon(randomLat, randomLon);

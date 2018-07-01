@@ -7,6 +7,7 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import be.dispatcher.DispatcherProperties;
 import be.dispatcher.DistributedRandomNumberGenerator;
 import be.dispatcher.domain.incident.police.TrafficDuty;
 import be.dispatcher.domain.people.Criminal;
@@ -25,8 +26,12 @@ public class IncidentFactory {
 	@Autowired
 	private PointGenerator pointGenerator;
 
+	@Autowired
+	private DispatcherProperties dispatcherProperties;
+
 	public Incident createIncident() {
-		LatLon latLon = pointGenerator.generateRandomIncidentLocationSnappedToNearestLocation();
+		LatLon latLon = pointGenerator.generateRandomIncidentLocationSnappedToNearestLocation(dispatcherProperties.getWorldBoundingboxMinLat(), dispatcherProperties.getWorldBoundingboxMaxLat(),
+				dispatcherProperties.getWorldBoundingboxMinLon(), dispatcherProperties.getWorldBoundingboxMaxLon());
 
 		Incident incident = new Incident(latLon);
 		generateMedicalTasks(incident);

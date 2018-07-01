@@ -46,8 +46,6 @@ public class Parser {
 	@Autowired
 	private BaseFactory baseFactory;
 
-
-
 	public Function<CSVRecord, Vehicle> csvToMedicalVehicleFunction = csvRecord -> {
 		int id = Integer.parseInt(csvRecord.get(0));
 		Base base = baseRespository.getById(Integer.parseInt(csvRecord.get(1)));
@@ -58,12 +56,11 @@ public class Parser {
 		try {
 			vehicleImagePath = csvRecord.get(5);
 		} catch (Exception exception) {
-			LOGGER.error(String.format("Geen image kunnen laden voor medical vehicle met id: %s", id), exception);
+			LOGGER.warn(String.format("Geen image kunnen laden voor medical vehicle met id: %s", id), exception);
 		}
-		switch (vehicleType) {
-		case AMBULANCE:
+		if (VehicleType.AMBULANCE.equals(vehicleType)) {
 			return new Ambulance(id, name, base, healthGainPerTick, vehicleImagePath);
-		case MUG:
+		} else if (VehicleType.MUG.equals(vehicleType)) {
 			return new Mug(id, name, base, healthGainPerTick, vehicleImagePath);
 		}
 		return null;
@@ -80,7 +77,7 @@ public class Parser {
 		try {
 			vehicleImagePath = csvRecord.get(6);
 		} catch (Exception exception) {
-			LOGGER.error(String.format("Geen image kunnen laden voor fire truck met id: %s", id), exception);
+			LOGGER.warn(String.format("Geen image kunnen laden voor fire truck met id: %s", id), exception);
 		}
 		return new FireTruck(id, name, base, vehicleType, fireGainPerTick, technicalPerTick, vehicleImagePath);
 	};
@@ -95,7 +92,7 @@ public class Parser {
 		try {
 			vehicleImagePath = csvRecord.get(5);
 		} catch (Exception exception) {
-			LOGGER.error(String.format("Geen image kunnen laden voor police vehicle met id: %s", id), exception);
+			LOGGER.warn(String.format("Geen image kunnen laden voor police vehicle met id: %s", id), exception);
 		}
 		return new PoliceVehicle(id, name, base, arrestGainPerTick, vehicleType, vehicleImagePath);
 	};

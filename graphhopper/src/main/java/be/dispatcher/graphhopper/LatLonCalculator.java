@@ -1,9 +1,7 @@
-package be.dispatcher;
+package be.dispatcher.graphhopper;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import be.dispatcher.graphhopper.LatLon;
 
 public class LatLonCalculator {
 

@@ -13,12 +13,12 @@ public class DistributedRandomNumberGenerator {
         distribution = new HashMap<>();
     }
 
-    public void addNumber(int value, double distribution) {
+    public void addNumber(int value, double percentageForThisValue) {
         if (this.distribution.get(value) != null) {
             distSum -= this.distribution.get(value);
         }
-        this.distribution.put(value, distribution);
-        distSum += distribution;
+        this.distribution.put(value, percentageForThisValue);
+        distSum += percentageForThisValue;
     }
 
     public int getDistributedRandomNumber() {
