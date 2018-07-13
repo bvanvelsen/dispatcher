@@ -7,6 +7,7 @@ public enum VehicleType {
 	FD_AUTOPOMP(0.4, 0),
 	RV(0.4, 0),
 	HV(0.5, 0),
+	SIGNALISATIEWAGEN(0.4, 0),
 	FD_PERSONEELSWAGEN(0.5, 0),
 	COMBI(0.4, 0),
 	INTERCEPTOR(0.4, 0);

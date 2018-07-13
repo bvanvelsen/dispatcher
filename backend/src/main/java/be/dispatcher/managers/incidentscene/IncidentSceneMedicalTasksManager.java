@@ -94,8 +94,7 @@ public class IncidentSceneMedicalTasksManager {
 		MedicalTasks medicalTasks = incident.getMedicalTasks();
 		if (medicalTasks != null) {
 			return medicalTasks.getVictims().stream()
-					.filter(Victim::isTrapped)
-					.count() > 0;
+					.anyMatch(Victim::isTrapped);
 		}
 		return false;
 	}

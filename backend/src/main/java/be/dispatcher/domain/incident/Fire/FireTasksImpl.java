@@ -1,33 +1,35 @@
-package be.dispatcher.domain.incident;
+package be.dispatcher.domain.incident.Fire;
 
 public class FireTasksImpl implements FireTasks {
 
-	private int fireCountdown;
 	private int technicalCountdown;
-	private int fireIncreasePerTick;
+	private Fire fire;
 
 	public FireTasksImpl(int fireCountdown, int technicalCountdown, int fireIncreasePerTick) {
-		this.fireCountdown = fireCountdown;
+		fire = new Fire(fireCountdown, fireIncreasePerTick);
 		this.technicalCountdown = technicalCountdown;
-		this.fireIncreasePerTick = fireIncreasePerTick;
 	}
 
 	@Override
 	public void tick() {
-		if (fireCountdown > 0) {
-			fireCountdown += fireIncreasePerTick;
+		if (hasFire()) {
+			fire.burn();
 		}
 	}
 
 	@Override
 	public void extinguishFire(int extinguishAmount) {
-		fireCountdown -= extinguishAmount;
-		fireCountdown = fireCountdown <= 0 ? 0 : fireCountdown;
+		if (hasFire()) {
+			fire.extinguish(extinguishAmount);
+			if (!fire.isBurning()) {
+				fire = null;
+			}
+		}
 	}
 
 	@Override
 	public boolean hasFire() {
-		return fireCountdown > 0;
+		return fire != null;
 	}
 
 	@Override
@@ -43,14 +45,7 @@ public class FireTasksImpl implements FireTasks {
 
 	@Override
 	public boolean allTasksCompleted() {
-		if (fireCountdown == 0) {
-			fireIncreasePerTick = 0;
-		}
-		return technicalCountdown == 0 && fireCountdown == 0;
-	}
-
-	public int getFireCountdown() {
-		return fireCountdown;
+		return technicalCountdown == 0 && fire == null;
 	}
 
 	public int getTechnicalCountdown() {

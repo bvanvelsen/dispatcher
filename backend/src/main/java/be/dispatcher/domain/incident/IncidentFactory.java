@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import be.dispatcher.DispatcherProperties;
 import be.dispatcher.DistributedRandomNumberGenerator;
+import be.dispatcher.domain.incident.Fire.FireTasksImpl;
 import be.dispatcher.domain.incident.police.TrafficDuty;
 import be.dispatcher.domain.people.Criminal;
 import be.dispatcher.domain.people.InjuryLevel;

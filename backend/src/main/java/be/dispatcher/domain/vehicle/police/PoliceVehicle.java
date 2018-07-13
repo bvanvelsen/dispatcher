@@ -6,15 +6,15 @@ import org.springframework.beans.factory.annotation.Configurable;
 
 import be.dispatcher.domain.location.emergencybases.Base;
 import be.dispatcher.domain.people.Criminal;
+import be.dispatcher.domain.vehicle.TrafficDutyVehicle;
 import be.dispatcher.domain.vehicle.Vehicle;
 import be.dispatcher.domain.vehicle.VehicleType;
 import be.dispatcher.managers.incidentscene.IncidentSceneMedicalTasksManager;
 
 @Configurable(preConstruction = true, autowire = Autowire.BY_TYPE)
-public class PoliceVehicle extends Vehicle {
+public class PoliceVehicle extends Vehicle implements TrafficDutyVehicle {
 
 	private final int arrestGainPerTick;
-	private boolean performTrafficDuty;
 
 	@Autowired
 	protected IncidentSceneMedicalTasksManager incidentSceneMedicalTasksManager;
@@ -27,7 +27,7 @@ public class PoliceVehicle extends Vehicle {
 
 	@Override
 	protected void handleIncident() {
-			if (performTrafficDuty) {
+			if (getIncident().isTrafficDutyStillRequired()) {
 				performTrafficDutyOrGoBackToBase();
 			} else {
 				arrestCriminalOrGoBackToBase();
@@ -35,8 +35,8 @@ public class PoliceVehicle extends Vehicle {
 	}
 
 	private void performTrafficDutyOrGoBackToBase() {
-		if (getIncident().getPoliceTasks().isTrafficDutyStillRequired()) {
-			getIncident().getPoliceTasks().performTrafficDuty(this);
+		if (getIncident().isTrafficDutyStillRequired()) {
+			getIncident().performTrafficDuty(this);
 		} else {
 			vehicleManager.sendVehicleToBase(this);
 		}

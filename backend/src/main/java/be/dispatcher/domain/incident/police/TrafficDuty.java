@@ -3,12 +3,12 @@ package be.dispatcher.domain.incident.police;
 import java.util.HashSet;
 import java.util.Set;
 
-import be.dispatcher.domain.vehicle.police.PoliceVehicle;
+import be.dispatcher.domain.vehicle.TrafficDutyVehicle;
 
 public class TrafficDuty {
 
 	private Integer requiredUnits;
-	private Set<PoliceVehicle> coupledPoliceVehicles = new HashSet<>();
+	private Set<TrafficDutyVehicle> trafficDutyVehicles = new HashSet<>();
 	private boolean stillNeeded;
 
 	public TrafficDuty(Integer requiredUnits) {
@@ -21,18 +21,20 @@ public class TrafficDuty {
 	}
 
 	public Integer getAmountOfUnitsPerformingTrafficDuty() {
-		return coupledPoliceVehicles.size();
+		return trafficDutyVehicles.size();
 	}
 
 	public void informNoTrafficDutyRequiredAnymore() {
 		stillNeeded = false;
+		trafficDutyVehicles.clear();
+		requiredUnits = 0;
 	}
 
 	public boolean isStillNeeded() {
 		return stillNeeded;
 	}
 
-	public void performTrafficDuty(PoliceVehicle policeVehicle) {
-		coupledPoliceVehicles.add(policeVehicle);
+	public void performTrafficDuty(TrafficDutyVehicle trafficDutyVehicle) {
+		trafficDutyVehicles.add(trafficDutyVehicle);
 	}
 }

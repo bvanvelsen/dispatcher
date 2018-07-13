@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
-import be.dispatcher.domain.incident.FireTasks;
+import be.dispatcher.domain.incident.Fire.FireTasks;
 import be.dispatcher.domain.incident.Incident;
 import be.dispatcher.domain.location.emergencybases.Base;
 import be.dispatcher.domain.vehicle.Vehicle;

@@ -26,6 +26,7 @@ import be.dispatcher.domain.location.emergencybases.PoliceStation;
 import be.dispatcher.domain.vehicle.Vehicle;
 import be.dispatcher.domain.vehicle.VehicleType;
 import be.dispatcher.domain.vehicle.fire.FireTruck;
+import be.dispatcher.domain.vehicle.fire.FireTruckTrafficDutyVehicle;
 import be.dispatcher.domain.vehicle.medical.Ambulance;
 import be.dispatcher.domain.vehicle.medical.Mug;
 import be.dispatcher.domain.vehicle.police.PoliceVehicle;
@@ -79,7 +80,14 @@ public class Parser {
 		} catch (Exception exception) {
 			LOGGER.warn(String.format("Geen image kunnen laden voor fire truck met id: %s", id), exception);
 		}
-		return new FireTruck(id, name, base, vehicleType, fireGainPerTick, technicalPerTick, vehicleImagePath);
+
+		switch (vehicleType) {
+		case SIGNALISATIEWAGEN:
+			return new FireTruckTrafficDutyVehicle(id, name, base, vehicleType, fireGainPerTick, technicalPerTick, vehicleImagePath);
+		default:
+			return new FireTruck(id, name, base, vehicleType, fireGainPerTick, technicalPerTick, vehicleImagePath);
+
+		}
 	};
 
 	public Function<CSVRecord, Vehicle> csvToPoliceVehicleFunction = csvRecord -> {

@@ -1,4 +1,4 @@
-package be.dispatcher.domain.incident;
+package be.dispatcher.domain.incident.Fire;
 
 import be.dispatcher.domain.Ticks;
 

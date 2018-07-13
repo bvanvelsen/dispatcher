@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
 import be.dispatcher.domain.Ticks;
+import be.dispatcher.domain.incident.Fire.FireTasks;
+import be.dispatcher.domain.incident.police.TrafficDuty;
+import be.dispatcher.domain.vehicle.TrafficDutyVehicle;
 import be.dispatcher.graphhopper.LatLon;
 import be.dispatcher.repositories.IncidentRepository;
 
@@ -22,6 +25,7 @@ public class Incident implements Ticks {
 	private MedicalTasks medicalTasks;
 	private FireTasks fireTasks;
 	private PoliceTasks policeTasks;
+	private TrafficDuty trafficDuty;
 
 	public Incident(LatLon location) {
 		this.id = incidentCounter++;
@@ -35,11 +39,19 @@ public class Incident implements Ticks {
 		}
 
 		if (medicalTasks.allTasksCompleted() && fireTasks.allTasksCompleted()) {
-			policeTasks.informNoTrafficDutyRequiredAnymore();
+			trafficDuty.informNoTrafficDutyRequiredAnymore();
 		}
 		if (isCompleted()) {
 			incidentRepository.removeIncidentFromRepository(this);
 		}
+	}
+
+	public boolean isTrafficDutyStillRequired() {
+		return trafficDuty != null && trafficDuty.isStillNeeded();
+	}
+
+	public void performTrafficDuty(TrafficDutyVehicle trafficDutyVehicle) {
+		trafficDuty.performTrafficDuty(trafficDutyVehicle);
 	}
 
 	public int getId() {
