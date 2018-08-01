@@ -10,7 +10,6 @@ import be.dispatcher.domain.incident.Incident;
 import be.dispatcher.domain.incident.MedicalTasks;
 import be.dispatcher.domain.people.Criminal;
 import be.dispatcher.domain.people.InjuryLevel;
-import be.dispatcher.domain.people.TrappedVictim;
 import be.dispatcher.domain.people.Victim;
 import be.dispatcher.domain.vehicle.Vehicle;
 import be.dispatcher.domain.vehicle.medical.Mug;
@@ -99,11 +98,10 @@ public class IncidentSceneMedicalTasksManager {
 		return false;
 	}
 
-	public TrappedVictim getTrappedVictim(Incident incident) {
+	public Victim getTrappedVictim(Incident incident) {
 		if (hasTrappedVictims(incident)) {
 			return incident.getMedicalTasks().getVictims().stream()
 					.filter(Victim::isTrapped)
-					.map(victim -> (TrappedVictim) victim)
 					.findFirst().get();
 		}
 		return null;

@@ -2,7 +2,6 @@ package be.dispatcher.managers;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,6 +20,7 @@ import be.dispatcher.managers.incidentscene.IncidentSceneMedicalTasksManager;
 import be.dispatcher.repositories.BaseRespository;
 import be.dispatcher.repositories.IncidentRepository;
 import be.dispatcher.repositories.VehicleRepository;
+import be.dispatcher.utils.TimeUtil;
 
 @Component
 public class VehicleManager {
@@ -40,6 +40,9 @@ public class VehicleManager {
 	@Autowired
 	private IncidentSceneMedicalTasksManager incidentSceneMedicalTasksManager;
 
+	@Autowired
+	private TimeUtil timeUtil;
+
 	public List<Vehicle> getAllVehicles() {
 		return vehicleRepository.getVehicles();
 	}
@@ -49,19 +52,15 @@ public class VehicleManager {
 		Incident incident = incidentRepository.getIncidentById(incidentId);
 		vehicle.setIncident(incident);
 		if (VehicleStatus.AT_BASE.equals(vehicle.getVehicleStatus())) {
-			vehicle.setVehicleStatus(VehicleStatus.ALARMED);
-			int alarmTime = getAlarmTime();
+			int alarmTime = timeUtil.randomlyGenerateSecondsInAlarmedStatus();
 			vehicle.setTimeUntilAlarmedStateDone(LocalDateTime.now().plusSeconds(alarmTime));
+			vehicle.setVehicleStatus(VehicleStatus.ALARMED);
 		} else {
 			RouteInfoEnriched routeInfo = retrofitRouteCaller.doCall(new RouteInput(vehicle.getVehicleType().getSpeedProfilePrioriy(), vehicle.getLocation(), incident.getLocation()));
 			vehicle.setRouteInfo(routeInfo);
 			vehicle.setVehicleStatus(VehicleStatus.RESPONDING);
 		}
 		return vehicle;
-	}
-
-	private int getAlarmTime() {
-			return new Random().ints(90, 3 * 60).findFirst().getAsInt();
 	}
 
 	public void sendVehicleToNearestHospital(Vehicle vehicle) {

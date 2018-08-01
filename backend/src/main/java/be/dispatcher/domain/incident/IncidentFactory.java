@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import be.dispatcher.DispatcherProperties;
 import be.dispatcher.DistributedRandomNumberGenerator;
 import be.dispatcher.domain.incident.Fire.FireTasksImpl;
-import be.dispatcher.domain.incident.police.TrafficDuty;
 import be.dispatcher.domain.people.Criminal;
 import be.dispatcher.domain.people.InjuryLevel;
 import be.dispatcher.domain.people.Victim;
@@ -52,7 +51,7 @@ public class IncidentFactory {
 					int arrestCountdown = getRandomArrestCountdown();
 					criminals.add(new Criminal(arrestCountdown));
 				}
-				PoliceTasksImpl policeTasks = new PoliceTasksImpl(criminals, new TrafficDuty(2));
+				PoliceTasksImpl policeTasks = new PoliceTasksImpl(criminals);
 				incident.setPoliceTasks(policeTasks);
 			}
 		}
