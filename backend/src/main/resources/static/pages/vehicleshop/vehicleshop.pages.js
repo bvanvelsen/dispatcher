@@ -58,7 +58,7 @@ angular.module('be.dispatcher.pages.vehicleshop', ['restangular'])
 			BasesClient.getAllPoliceStations().then(function (value) {
 				bases = value;
 				for (i = 0; i < bases.length; i++) {
-					const marker = L.marker([bases[i].location.lat, bases[i].location.lon], {icon: ImagesMarkersClient.getPoliceIcon(), zIndexOffset: 1000});
+					var marker = L.marker([bases[i].location.lat, bases[i].location.lon], {icon: ImagesMarkersClient.getPoliceIcon(), zIndexOffset: 1000});
 					marker.addTo(mymap);
 				}
 			});
@@ -107,11 +107,11 @@ angular.module('be.dispatcher.pages.vehicleshop', ['restangular'])
 			for (i in AllMedicalVehicles) {
 				var currentMedicalVehicle = AllMedicalVehicles[i];
 				if (currentMedicalVehicle.vehicleType === 'AMBULANCE') {
-					const marker = L.marker([currentMedicalVehicle.location.lat, currentMedicalVehicle.location.lon], {icon: ImagesMarkersClient.getAmbulanceIcon()});
+					var marker = L.marker([currentMedicalVehicle.location.lat, currentMedicalVehicle.location.lon], {icon: ImagesMarkersClient.getAmbulanceIcon()});
 					ambulanceIcons.push(marker);
 					marker.addTo(mymap);
 				} else if (currentMedicalVehicle.vehicleType === 'MUG') {
-					const marker = L.marker([currentMedicalVehicle.location.lat, currentMedicalVehicle.location.lon], {icon: ImagesMarkersClient.getMugIcon()});
+					var marker = L.marker([currentMedicalVehicle.location.lat, currentMedicalVehicle.location.lon], {icon: ImagesMarkersClient.getMugIcon()});
 					mugIcons.push(marker);
 					marker.addTo(mymap);
 				}
@@ -120,15 +120,15 @@ angular.module('be.dispatcher.pages.vehicleshop', ['restangular'])
 			for (i in AllFireTrucks) {
 				var currentFireTruck = AllFireTrucks[i];
 				if (currentFireTruck.vehicleType === 'FD_AUTOPOMP') {
-					const marker = L.marker([currentFireTruck.location.lat, currentFireTruck.location.lon], {icon: ImagesMarkersClient.getTSIcon()});
+					var marker = L.marker([currentFireTruck.location.lat, currentFireTruck.location.lon], {icon: ImagesMarkersClient.getTSIcon()});
 					tsIcons.push(marker);
 					marker.addTo(mymap);
 				} else if (currentFireTruck.vehicleType === 'RV') {
-					const marker = L.marker([currentFireTruck.location.lat, currentFireTruck.location.lon], {icon: ImagesMarkersClient.getRVIcon()});
+					var marker = L.marker([currentFireTruck.location.lat, currentFireTruck.location.lon], {icon: ImagesMarkersClient.getRVIcon()});
 					rvIcons.push(marker);
 					marker.addTo(mymap);
 				} else if (currentFireTruck.vehicleType === 'HV') {
-					const marker = L.marker([currentFireTruck.location.lat, currentFireTruck.location.lon], {icon: ImagesMarkersClient.getHVIcon()});
+					var marker = L.marker([currentFireTruck.location.lat, currentFireTruck.location.lon], {icon: ImagesMarkersClient.getHVIcon()});
 					hvIcons.push(marker);
 					marker.addTo(mymap);
 				}
@@ -137,11 +137,11 @@ angular.module('be.dispatcher.pages.vehicleshop', ['restangular'])
 			for (i in AllPoliceVehicles) {
 				var currentPoliceVehicle = AllPoliceVehicles[i];
 				if (currentPoliceVehicle.vehicleType === 'COMBI') {
-					const marker = L.marker([currentPoliceVehicle.location.lat, currentPoliceVehicle.location.lon], {icon: ImagesMarkersClient.getPoliceCombiIcon()});
+					var marker = L.marker([currentPoliceVehicle.location.lat, currentPoliceVehicle.location.lon], {icon: ImagesMarkersClient.getPoliceCombiIcon()});
 					policeCombiIcons.push(marker);
 					marker.addTo(mymap);
 				} else if (currentPoliceVehicle.vehicleType === 'INTERCEPTOR') {
-					const marker = L.marker([currentPoliceVehicle.location.lat, currentPoliceVehicle.location.lon], {icon: ImagesMarkersClient.getPoliceInterceptorIcon()});
+					var marker = L.marker([currentPoliceVehicle.location.lat, currentPoliceVehicle.location.lon], {icon: ImagesMarkersClient.getPoliceInterceptorIcon()});
 					policeInterceptorIcons.push(marker);
 					marker.addTo(mymap);
 				}
@@ -160,7 +160,7 @@ angular.module('be.dispatcher.pages.vehicleshop', ['restangular'])
 			var allIncidents = IncidentClient.getAllIncidents();
 			for (incidentId in allIncidents) {
 				console.log(allIncidents[incidentId]);
-				const marker = L.marker([allIncidents[incidentId].location.lat, allIncidents[incidentId].location.lon], {icon: ImagesMarkersClient.getIncidentIcon()});
+				var marker = L.marker([allIncidents[incidentId].location.lat, allIncidents[incidentId].location.lon], {icon: ImagesMarkersClient.getIncidentIcon()});
 				incidentIcons.push(marker);
 				marker.addTo(mymap);
 			}
@@ -177,7 +177,7 @@ angular.module('be.dispatcher.pages.vehicleshop', ['restangular'])
 			});
 			console.log('load bases');
 
-		}
+		};
 
 		ctrl.createIncident = function () {
 			IncidentClient.createIncident();

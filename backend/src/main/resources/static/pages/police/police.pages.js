@@ -10,7 +10,7 @@ angular.module('be.dispatcher.pages.police', ['restangular'])
 
 		$stateProvider.state(policeState);
 	})
-	.controller('PoliceController', function ($scope, VehicleClient, IncidentClient, $interval) {
+	.controller('PoliceController', function ($scope, VehicleClient) {
 		var ctrl = this;
 
 		ctrl.getAllPoliceVehicles = function () {

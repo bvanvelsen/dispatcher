@@ -6,11 +6,11 @@ angular.module('be.dispatcher.pages.medical', ['restangular'])
 			templateUrl: 'pages/medical/medical.pages.html',
 			controller: 'MedicalController',
 			controllerAs: 'ctrl'
-		}
+		};
 
 		$stateProvider.state(medicalState);
 	})
-	.controller('MedicalController', function ($scope, VehicleClient, IncidentClient, $interval) {
+	.controller('MedicalController', function ($scope, VehicleClient) {
 		var ctrl = this;
 
 		ctrl.getAllMedicalVehicles = function () {

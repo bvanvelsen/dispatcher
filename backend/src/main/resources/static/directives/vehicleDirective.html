@@ -1,10 +1,10 @@
-<div class="row"  ng-class-odd="'vehicleRowOdd'" ng-class-even="'vehicleRowEven'"  ng-repeat="(key, vehicle) in ctrl.vehicles">
-	<div class="col">
+<div class="row" ng-class-odd="'vehicleRowOdd'" ng-class-even="'vehicleRowEven'" ng-repeat="(key, vehicle) in ctrl.vehicles">
+	<div class="col-sm-2">
+		<img ng-src="{{vehicle.vehicleImagePath}}" class="img-rounded" height="100">
+	</div>
+	<div class="col-sm-10">
 		<div class="row">
-			<div class="col-sm-2">
-				<img ng-src="{{vehicle.vehicleImagePath}}" class="img-rounded" height="100" >
-			</div>
-			<div class="col-sm-4">
+			<div class="col-sm-6">
 				<h6>{{vehicle.name}}</h6>
 			</div>
 			<div class="col-sm-1">

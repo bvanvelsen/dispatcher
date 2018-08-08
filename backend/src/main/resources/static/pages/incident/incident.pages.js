@@ -6,7 +6,7 @@ angular.module('be.dispatcher.pages.incident', ['restangular'])
 			templateUrl: 'pages/incident/incident.pages.html',
 			controller: 'IncidentController',
 			controllerAs: 'ctrl'
-		}
+		};
 
 		$stateProvider.state(incidentState);
 	})
@@ -14,9 +14,8 @@ angular.module('be.dispatcher.pages.incident', ['restangular'])
 		var ctrl = this;
 
 		ctrl.getAllIncidents = function () {
-			const allIncidents = IncidentClient.getAllIncidents();
-			return allIncidents;
-		}
+			return allIncidents = IncidentClient.getAllIncidents();
+		};
 
 		ctrl.createIncident = function () {
 			IncidentClient.createIncident();
