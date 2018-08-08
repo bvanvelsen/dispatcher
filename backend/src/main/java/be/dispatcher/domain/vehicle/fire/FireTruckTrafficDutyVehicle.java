@@ -6,18 +6,16 @@ import be.dispatcher.domain.vehicle.VehicleType;
 
 public class FireTruckTrafficDutyVehicle extends FireTruck implements TrafficDutyVehicle {
 
+
 	public FireTruckTrafficDutyVehicle(int id, String name, Base base, VehicleType vehicleType, int extinguishRatePerTick,
 			int technicalWorkPerTick,
 			String vehicleImagePath) {
 		super(id, name, base, vehicleType, extinguishRatePerTick, technicalWorkPerTick, vehicleImagePath);
 	}
 
-
 	@Override
 	protected void handleIncident() {
-		if (getIncident().isTrafficDutyStillRequired()) {
-			performTrafficDutyOrGoBackToBase();
-		}
+		performTrafficDutyOrGoBackToBase();
 	}
 
 	private void performTrafficDutyOrGoBackToBase() {
@@ -26,5 +24,15 @@ public class FireTruckTrafficDutyVehicle extends FireTruck implements TrafficDut
 		} else {
 			vehicleManager.sendVehicleToBase(this);
 		}
+	}
+
+	@Override
+	public boolean isScheduledToPerformTrafficDuty() {
+		return true;
+	}
+
+	@Override
+	public void setScheduledToPerformTrafficDuty(boolean scheduledToPerformTrafficDuty) {
+		throw new IllegalStateException("Cannot change state");
 	}
 }

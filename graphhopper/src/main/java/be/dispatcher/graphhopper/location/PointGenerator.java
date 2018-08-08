@@ -19,7 +19,7 @@ public class PointGenerator {
 		Random latRandom = new Random();
 		Random lonRandom = new Random();
 		double randomLat = latRandom.doubles(minLat, maxLat).findFirst().getAsDouble();
-		double randomLon = lonRandom.doubles(minLat, maxLon).findFirst().getAsDouble();
+		double randomLon = lonRandom.doubles(minLon, maxLon).findFirst().getAsDouble();
 		randomLat = Double.parseDouble(String.format("%.6f", randomLat));
 		randomLon = Double.parseDouble(String.format("%.6f", randomLon));
 		LatLon latLon = new LatLon(randomLat, randomLon);

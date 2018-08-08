@@ -6,12 +6,14 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import be.dispatcher.domain.location.emergencybases.Base;
+import be.dispatcher.domain.vehicle.TrafficDutyVehicle;
 import be.dispatcher.domain.vehicle.Vehicle;
 import be.dispatcher.domain.vehicle.VehicleType;
 import be.dispatcher.domain.vehicle.fire.FireTruck;
@@ -76,4 +78,9 @@ public class VehicleController {
 		return vehicleManager.sendVehicleToIncident(vehicleId, incidentId);
 	}
 
+	@RequestMapping(value = "{vehicleId}/performTrafficDuty", method = RequestMethod.POST)
+	@ResponseBody
+	public void performTrafficDuty(@RequestBody boolean performTrafficDuty, @PathVariable("vehicleId") int vehicleId) {
+		vehicleManager.getAllVehicles().stream().filter(vehicle -> vehicle.getId() == vehicleId).findFirst().map(vehicle -> (TrafficDutyVehicle)vehicle).get().setScheduledToPerformTrafficDuty(performTrafficDuty);
+	}
 }

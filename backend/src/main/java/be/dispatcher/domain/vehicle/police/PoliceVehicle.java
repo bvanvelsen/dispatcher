@@ -16,6 +16,8 @@ public class PoliceVehicle extends Vehicle implements TrafficDutyVehicle {
 
 	private final int arrestGainPerTick;
 
+	private boolean scheduledToPerformTrafficDuty;
+
 	@Autowired
 	protected IncidentSceneMedicalTasksManager incidentSceneMedicalTasksManager;
 
@@ -23,23 +25,20 @@ public class PoliceVehicle extends Vehicle implements TrafficDutyVehicle {
 		super(id, name, base, vehicleImagePath);
 		this.arrestGainPerTick = arrestGainPerTick;
 		this.vehicleType = vehicleType;
+		this.scheduledToPerformTrafficDuty = false;
 	}
 
 	@Override
 	protected void handleIncident() {
-			if (getIncident().isTrafficDutyStillRequired()) {
-				performTrafficDutyOrGoBackToBase();
-			} else {
-				arrestCriminalOrGoBackToBase();
-			}
+		if (getIncident().isTrafficDutyStillRequired()) {
+			performTrafficDutyOrGoBackToBase();
+		} else {
+			arrestCriminalOrGoBackToBase();
+		}
 	}
 
 	private void performTrafficDutyOrGoBackToBase() {
-		if (getIncident().isTrafficDutyStillRequired()) {
-			getIncident().performTrafficDuty(this);
-		} else {
-			vehicleManager.sendVehicleToBase(this);
-		}
+		getIncident().performTrafficDuty(this);
 	}
 
 	private void arrestCriminalOrGoBackToBase() {
@@ -57,5 +56,15 @@ public class PoliceVehicle extends Vehicle implements TrafficDutyVehicle {
 
 	public int getArrestGainPerTick() {
 		return arrestGainPerTick;
+	}
+
+	@Override
+	public boolean isScheduledToPerformTrafficDuty() {
+		return scheduledToPerformTrafficDuty;
+	}
+
+	@Override
+	public void setScheduledToPerformTrafficDuty(boolean scheduledToPerformTrafficDuty) {
+		this.scheduledToPerformTrafficDuty = scheduledToPerformTrafficDuty;
 	}
 }
