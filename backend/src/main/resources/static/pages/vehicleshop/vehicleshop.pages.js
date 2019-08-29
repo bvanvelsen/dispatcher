@@ -127,7 +127,7 @@ angular.module('be.dispatcher.pages.vehicleshop', ['restangular'])
 					var marker = L.marker([currentFireTruck.location.lat, currentFireTruck.location.lon], {icon: ImagesMarkersClient.getRVIcon()});
 					rvIcons.push(marker);
 					marker.addTo(mymap);
-				} else if (currentFireTruck.vehicleType === 'HV') {
+				} else if (currentFireTruck.vehicleType === 'HV' || currentFireTruck.vehicleType === 'SIGNALISATIEWAGEN') {
 					var marker = L.marker([currentFireTruck.location.lat, currentFireTruck.location.lon], {icon: ImagesMarkersClient.getHVIcon()});
 					hvIcons.push(marker);
 					marker.addTo(mymap);

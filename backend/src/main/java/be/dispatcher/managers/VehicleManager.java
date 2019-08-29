@@ -89,4 +89,8 @@ public class VehicleManager {
 		policeVehicle.setRouteInfo(routeInfoEnriched);
 		policeVehicle.setVehicleStatus(VehicleStatus.GO_TO_DROPOFF);
 	}
+
+	public void setScheduledToPerformTrafficDuty(int vehicleId, boolean scheduledToPerformTrafficDuty) {
+		vehicleRepository.getTrafficDutyVehicleById(vehicleId).setScheduledToPerformTrafficDuty(scheduledToPerformTrafficDuty);
+	}
 }

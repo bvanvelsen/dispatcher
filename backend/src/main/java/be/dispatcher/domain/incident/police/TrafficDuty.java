@@ -1,7 +1,13 @@
 package be.dispatcher.domain.incident.police;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.threeten.extra.Interval;
 
 import be.dispatcher.domain.vehicle.TrafficDutyVehicle;
 
@@ -37,4 +43,5 @@ public class TrafficDuty {
 	public void performTrafficDuty(TrafficDutyVehicle trafficDutyVehicle) {
 		trafficDutyVehicles.add(trafficDutyVehicle);
 	}
+
 }

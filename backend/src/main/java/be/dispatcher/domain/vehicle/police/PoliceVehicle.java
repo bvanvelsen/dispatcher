@@ -30,7 +30,7 @@ public class PoliceVehicle extends Vehicle implements TrafficDutyVehicle {
 
 	@Override
 	protected void handleIncident() {
-		if (getIncident().isTrafficDutyStillRequired()) {
+		if (getIncident().isTrafficDutyStillRequired(this)) {
 			performTrafficDutyOrGoBackToBase();
 		} else {
 			arrestCriminalOrGoBackToBase();

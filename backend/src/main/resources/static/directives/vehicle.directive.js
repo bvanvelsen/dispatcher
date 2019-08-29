@@ -18,7 +18,11 @@ angular.module('be.dispatcher.directive.vehicle', [])
 
 				ctrl.disableDispatch = function(vehicle) {
 					return vehicle.vehicleStatus !== 'AT_BASE'
-				}
+				};
+
+				ctrl.saveTrafficDutyToBackend = function(vehicle) {
+					VehicleClient.saveTrafficDutyToBackend(vehicle.id, vehicle.scheduledToPerformTrafficDuty);
+				};
 			},
 			templateUrl: 'directives/vehicleDirective.html',
 			controllerAs: 'ctrl',

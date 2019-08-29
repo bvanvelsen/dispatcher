@@ -78,6 +78,12 @@ public class VehicleController {
 		return vehicleManager.sendVehicleToIncident(vehicleId, incidentId);
 	}
 
+	@RequestMapping(value = "{vehicleId}/scheduledToPerformTrafficDuty/{scheduledToPerformTrafficDuty}", method = RequestMethod.POST)
+	@ResponseBody
+	public void setScheduledToPerformTrafficDuty(@PathVariable("vehicleId") int vehicleId, @PathVariable("scheduledToPerformTrafficDuty") boolean scheduledToPerformTrafficDuty) {
+		vehicleManager.setScheduledToPerformTrafficDuty(vehicleId, scheduledToPerformTrafficDuty);
+	}
+
 	@RequestMapping(value = "{vehicleId}/performTrafficDuty", method = RequestMethod.POST)
 	@ResponseBody
 	public void performTrafficDuty(@RequestBody boolean performTrafficDuty, @PathVariable("vehicleId") int vehicleId) {

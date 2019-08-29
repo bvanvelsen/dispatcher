@@ -20,6 +20,12 @@
 				<span ng-if="vehicle.incident">Gekoppeld aan: {{vehicle.incident.location.display_name}}</span>
 			</div>
 		</div>
+		<div class="row">
+			<div ng-if="vehicle.scheduledToPerformTrafficDuty !== undefined" class="coll-sm-12 form-check">
+				<input type="checkbox" class="form-check-input" id="scheduleForTrafficDuty" ng-model="vehicle.scheduledToPerformTrafficDuty" ng-change="ctrl.saveTrafficDutyToBackend(vehicle)">
+				<label class="form-check-label" for="scheduleForTrafficDuty">TD</label>
+			</div>
+		</div>
 		<div ng-if="!ctrl.disableDispatch(vehicle)" class="row" ng-repeat="incident in ctrl.getAllIncidents()">
 			<div class="col-sm-2">
 				<button type="button" class="btn btn-warning btn-sm" ng-click="ctrl.sendVehicleToIncident(vehicle.id, incident.id)" ng-disabled="ctrl.disableDispatch(vehicle)">Dispatch</button>

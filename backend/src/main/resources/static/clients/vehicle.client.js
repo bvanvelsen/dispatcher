@@ -42,6 +42,10 @@ angular.module('be.dispatcher.client.vehicle', [])
 				return Restangular.one('vehicles', vehicleId).one('goToHospital').put();
 			}
 
+			function saveTrafficDutyToBackend(vehicleId, scheduledToPerformTrafficDuty) {
+				return Restangular.one('vehicles', vehicleId).one('scheduledToPerformTrafficDuty', scheduledToPerformTrafficDuty).post();
+			}
+
 			function toggleRefresh() {
 				refresh = !refresh;
 			}
@@ -87,7 +91,7 @@ angular.module('be.dispatcher.client.vehicle', [])
 			}
 
 			function syncVehicles(vehicles, localObject) {
-				for (i = 0; i < vehicles.length; i++) {
+				for (var i = 0; i < vehicles.length; i++) {
 					if (!localObject[i]) {
 						localObject[i] = vehicles[i];
 					} else {
@@ -95,6 +99,9 @@ angular.module('be.dispatcher.client.vehicle', [])
 						localObject[i].vehicleStatus = vehicles[i].vehicleStatus;
 						localObject[i].filled = vehicles[i].filled;
 						localObject[i].incident = vehicles[i].incident;
+						if (vehicles[i].scheduledToPerformTrafficDuty) {
+							localObject[i].scheduledToPerformTrafficDuty = vehicles[i].scheduledToPerformTrafficDuty;
+						}
 					}
 				}
 			}
@@ -108,7 +115,8 @@ angular.module('be.dispatcher.client.vehicle', [])
 				getAllPoliceVehiclesMap: getAllPoliceVehiclesMap,
 				sendVehicleToIncident: sendVehicleToIncident,
 				goToNearestHospital: goToNearestHospital,
-				toggleRefresh: toggleRefresh
+				toggleRefresh: toggleRefresh,
+				saveTrafficDutyToBackend: saveTrafficDutyToBackend
 			};
 		}
 	);

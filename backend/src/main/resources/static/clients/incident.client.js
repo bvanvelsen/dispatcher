@@ -26,6 +26,7 @@ angular.module('be.dispatcher.client.incident', [])
 						allIncidents[incidents[i].id].fireTasks = incidents[i].fireTasks;
 						allIncidents[incidents[i].id].medicalTasks = incidents[i].medicalTasks;
 						allIncidents[incidents[i].id].policeTasks = incidents[i].policeTasks;
+						allIncidents[incidents[i].id].trafficDuty = incidents[i].trafficDuty;
 					}
 
 				}

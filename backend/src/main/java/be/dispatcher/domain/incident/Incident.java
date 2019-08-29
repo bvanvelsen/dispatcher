@@ -37,17 +37,14 @@ public class Incident implements Ticks {
 		if (fireTasks!= null) {
 			fireTasks.tick();
 		}
-
-		if (medicalTasks.allTasksCompleted() && fireTasks.allTasksCompleted()) {
-			trafficDuty.informNoTrafficDutyRequiredAnymore();
-		}
 		if (isCompleted()) {
+			trafficDuty.informNoTrafficDutyRequiredAnymore();
 			incidentRepository.removeIncidentFromRepository(this);
 		}
 	}
 
-	public boolean isTrafficDutyStillRequired() {
-		return trafficDuty != null && trafficDuty.isStillNeeded();
+	public boolean isTrafficDutyStillRequired(TrafficDutyVehicle trafficDutyVehicle) {
+		return trafficDuty != null && trafficDutyVehicle.isScheduledToPerformTrafficDuty() && trafficDuty.isStillNeeded();
 	}
 
 	public void performTrafficDuty(TrafficDutyVehicle trafficDutyVehicle) {
@@ -72,6 +69,10 @@ public class Incident implements Ticks {
 
 	public PoliceTasks getPoliceTasks() {
 		return policeTasks;
+	}
+
+	public TrafficDuty getTrafficDuty() {
+		return trafficDuty;
 	}
 
 	private boolean isCompleted() {
@@ -106,5 +107,9 @@ public class Incident implements Ticks {
 
 	public void setPoliceTasks(PoliceTasks policeTasks) {
 		this.policeTasks = policeTasks;
+	}
+
+	public void setTrafficDuty(TrafficDuty trafficDuty) {
+		this.trafficDuty = trafficDuty;
 	}
 }

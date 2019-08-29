@@ -19,7 +19,7 @@ public class FireTruckTrafficDutyVehicle extends FireTruck implements TrafficDut
 	}
 
 	private void performTrafficDutyOrGoBackToBase() {
-		if (getIncident().isTrafficDutyStillRequired()) {
+		if (getIncident().isTrafficDutyStillRequired(this)) {
 			getIncident().performTrafficDuty(this);
 		} else {
 			vehicleManager.sendVehicleToBase(this);

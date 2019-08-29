@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
+import be.dispatcher.domain.vehicle.TrafficDutyVehicle;
 import be.dispatcher.domain.vehicle.Vehicle;
 import be.dispatcher.domain.vehicle.VehicleType;
 import be.dispatcher.domain.vehicle.fire.FireTruck;
@@ -50,6 +51,22 @@ public class VehicleRepository {
 				.filter(vehicle -> vehicle instanceof MedicalVehicle)
 				.map(vehicle -> (MedicalVehicle)vehicle)
 				.collect(Collectors.toList());
+	}
+
+	public List<? extends TrafficDutyVehicle> getAllTrafficDutyVehicles() {
+		return vehicles.stream ()
+				.filter(vehicle -> vehicle instanceof TrafficDutyVehicle)
+				.map(vehicle -> (TrafficDutyVehicle)vehicle)
+				.collect(Collectors.toList());
+	}
+
+	public TrafficDutyVehicle getTrafficDutyVehicleById(Integer id) {
+		return vehicles.stream ()
+				.filter(vehicle -> vehicle instanceof TrafficDutyVehicle)
+				.filter(vehicle -> vehicle.getId() == id)
+				.map(vehicle -> (TrafficDutyVehicle)vehicle)
+				.findFirst()
+				.orElseThrow(() -> new IllegalArgumentException(String.format("No vehicle with id: %d found", id)));
 	}
 
 	public List<FireTruck> getAllFireTrucks() {
