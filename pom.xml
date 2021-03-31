@@ -34,7 +34,7 @@
 		<retrofit.version>2.3.0</retrofit.version>
 		<logging-interceptor.version>3.9.0</logging-interceptor.version>
 		<okio.version>1.13.0</okio.version>
-		<guava.version>24.1-jre</guava.version>
+		<guava.version>29.0-jre</guava.version>
 		<aspectj.version>1.8.10</aspectj.version>
 		<sonar.host.url>http://localhost:9000/</sonar.host.url>
 		<sonar.login>admin</sonar.login>
